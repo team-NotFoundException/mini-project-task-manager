@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
 
+import com.example.mini_project_task_manager.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,5 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/notifications")
 @RequiredArgsConstructor
 public class NotificationController {
-    private final  NotificationService notificationService;
+    private final NotificationService notificationService;
 }
