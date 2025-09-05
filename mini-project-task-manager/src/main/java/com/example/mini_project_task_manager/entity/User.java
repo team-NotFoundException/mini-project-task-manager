@@ -1,0 +1,52 @@
+package com.example.mini_project_task_manager.entity;
+
+import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "users")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class User extends BaseTimeEntity {
+
+    /** PK: 고유 번호 */
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
+    private Long id;
+
+    /** 로그인 아이디 (유니크) */
+    @Column(name = "username", updatable = false, nullable = false, length = 50)
+    private String username;
+
+    /** 로그인 비밀번호 (해시 저장 권장 - 암호화) */
+    @Column(name = "password", nullable = false, length = 255)
+    private String password;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    /** 이메일 (유니크) */
+    @Column(name = "email", nullable = false, length = 255)
+    private String email;
+
+    /** 닉네임 (유니크) */
+    @Column(name = "nickname", nullable = false, length = 50)
+    private String nickname;
+
+
+    // ===== Enum 작성 ==== //
+    // 태경님이 Enum 만드시면 import 할 것
+
+    /** 성별 (선택, NULL 허용) */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 20)
+    private Gender gender;
+
+    private Set<RoleType> roles = new HashSet<>();
+}
