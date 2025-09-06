@@ -34,9 +34,13 @@ public class Task extends BaseTimeEntity {
     // 태경님이 Enum 만드시면 import 할 것
 
     /** 상태 */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 50)
     private Status status;
 
     /** 우선 순위 */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority", nullable = false, length = 50)
     private Priority priority;
 
 }
