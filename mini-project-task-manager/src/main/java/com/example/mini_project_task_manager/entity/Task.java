@@ -1,5 +1,8 @@
 package com.example.mini_project_task_manager.entity;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -22,12 +25,14 @@ public class Task extends BaseTimeEntity {
     private String title;
 
     /** 내용 */
-    @Column(name = "content", nullable = false, length = 50)
+    @Lob
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR) // MySql LONGTEXT와 호환
+    @Column(name = "content", nullable = false)
     private String content;
 
     /** 담당자 */
+    @Column(name = "author", nullable = false, length = 100)
     private String author;
-
 
 
     // ===== Enum 작성 ==== //
