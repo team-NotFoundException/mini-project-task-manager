@@ -1,7 +1,8 @@
 
 CREATE TABLE IF NOT EXISTS `tag`(
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tag_name VARCHAR(100) NOT NULL
+    tag_name VARCHAR(100) NOT NULL,
+    CONSTRAINT `uq_tag_name` UNIQUE (tag_name)
 )
 
 
