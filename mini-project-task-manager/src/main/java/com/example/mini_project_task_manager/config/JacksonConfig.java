@@ -6,13 +6,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/*
-*
-* */
-@Configuration
+
+@Configuration 
 public class JacksonConfig {
     @Bean
-    public ObjectMapper objectMapper() {
+    publi1c ObjectMapper objectMapper() {
         ObjectMapper om= new ObjectMapper();
         om.registerModule(new JavaTimeModule());
 

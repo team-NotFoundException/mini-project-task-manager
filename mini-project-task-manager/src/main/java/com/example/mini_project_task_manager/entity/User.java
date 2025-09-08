@@ -49,4 +49,5 @@ public class User extends BaseTimeEntity {
     private Gender gender;
 
     private Set<RoleType> roles = new HashSet<>();
+    
 }

@@ -16,3 +16,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '사용자';
+
+  CREATE TABLE IF NOT EXISTS `user_roles` (
+    user_id VARCHAR(255) NOT NULL,
+    role VARCHAR(30) NOT NULL,
+
+    CONSTRAINT fk_user_roles_user_id
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+
+    CONSTRAINT uk_user_roles UNIQUE (user_id, role),
+
+    CONSTRAINT chk_user_roles_role CHECK (role IN ('USER', 'AUTHOR','OWNER','ADMIN'))
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = '사용자 권한';
