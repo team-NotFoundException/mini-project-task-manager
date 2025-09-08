@@ -2,11 +2,11 @@ CREATE DATABASE `mini-project-task-manager`;
 
 CREATE TABLE `tasks`(
 	id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-	author_id		BIGINT NOT NULL,
+	author_id	BIGINT NOT NULL,
 	project_id  BIGINT NOT NULL,
 	title       VARCHAR(200) NOT NULL,
-	content			LONGTEXT NOT NULL,
-	author			VARCHAR(100) NOT NULL,
+	content		LONGTEXT NOT NULL,
+	author		VARCHAR(100) NOT NULL,
 	status      VARCHAR(50) NOT NULL DEFAULT 'TODO',
 	priority    VARCHAR(50) NOT NULL DEFAULT 'MEDIUM',
 	due_date    DATE NOT NULL,
