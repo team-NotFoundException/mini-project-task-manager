@@ -3,8 +3,8 @@ CREATE DATABASE `mini-project-task-manager`;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-                                       id			BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                       username 	VARCHAR(50) NOT NULL,
+    id			BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username 	VARCHAR(50) NOT NULL,
     password 	VARCHAR(255) NOT NULL,
     nickname 	VARCHAR(50) NOT NULL,
     email 		VARCHAR(255) NOT NULL,
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
-                                            id			BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                            user_id 	VARCHAR(255) NOT NULL,
+    id			BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id 	VARCHAR(255) NOT NULL,
     role	 	VARCHAR(30) NOT NULL,
 
     CONSTRAINT `fk_user_roles_user_id`
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
 
 DROP TABLE IF EXISTS `projects`;
 CREATE TABLE IF NOT EXISTS `projects`(
-                                         id 				BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                         project_title	VARCHAR(200) NOT NULL,
+    id 				BIGINT AUTO_INCREMENT PRIMARY KEY,
+    project_title	VARCHAR(200) NOT NULL,
     project_content	VARCHAR(255),
     user_id 		BIGINT NOT NULL,
     created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -56,10 +56,10 @@ CREATE TABLE IF NOT EXISTS `projects`(
 
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks`(
-                                      id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                      author_id	BIGINT NOT NULL,
-                                      project_id  BIGINT NOT NULL,
-                                      title       VARCHAR(200) NOT NULL,
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    author_id	BIGINT NOT NULL,
+    project_id  BIGINT NOT NULL,
+    title       VARCHAR(200) NOT NULL,
     content		LONGTEXT NOT NULL,
     author		VARCHAR(100) NOT NULL,
     status      VARCHAR(50) NOT NULL DEFAULT 'TODO',
@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS `tasks`(
 
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
-                                     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                     tag_name VARCHAR(100) NOT NULL,
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    tag_name    VARCHAR(100) NOT NULL,
     CONSTRAINT `uq_tag_name` UNIQUE (tag_name)
 
     ) ENGINE=InnoDB
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS `tags`(
 
 DROP TABLE IF EXISTS `task_tags`;
 CREATE TABLE IF NOT EXISTS `task_tags` (
-                                           id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                           task_id BIGINT NOT NULL,
-                                           tag_id BIGINT NOT NULL,
-                                           CONSTRAINT `fk_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    task_id     BIGINT NOT NULL,
+    tag_id      BIGINT NOT NULL,
+    CONSTRAINT `fk_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_tag_id` FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 
     )	ENGINE=InnoDB
@@ -107,11 +107,11 @@ CREATE TABLE IF NOT EXISTS `task_tags` (
 
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
-                                          id 			BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                          task_id		BIGINT NOT NULL,
-                                          author_id 	BIGINT NOT NULL,
-                                          content		TEXT NOT NULL,
-                                          create_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id 			BIGINT PRIMARY KEY AUTO_INCREMENT,
+    task_id		BIGINT NOT NULL,
+    author_id 	BIGINT NOT NULL,
+    content		TEXT NOT NULL,
+    create_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_comment_task` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_comment_author` FOREIGN KEY (author_id) REFERENCES users(id)
 
@@ -122,10 +122,10 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
-                                               id 			BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                               project_id 	BIGINT NOT NULL,
-                                               author_id 	BIGINT NOT NULL,
-                                               title		VARCHAR(300) NOT NULL,
+    id 			BIGINT PRIMARY KEY AUTO_INCREMENT,
+    project_id 	BIGINT NOT NULL,
+    author_id 	BIGINT NOT NULL,
+    title		VARCHAR(300) NOT NULL,
     content 	TEXT NOT NULL,
     created_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_noti_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
