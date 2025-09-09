@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
 	id			BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id 	VARCHAR(255) NOT NULL,
+    user_id 	BIGINT NOT NULL,
     role	 	VARCHAR(30) NOT NULL,
 
     CONSTRAINT `fk_user_roles_user_id`
@@ -59,20 +59,19 @@ CREATE TABLE IF NOT EXISTS `tasks`(
 	project_id  BIGINT NOT NULL,
 	title       VARCHAR(200) NOT NULL,
 	content		LONGTEXT NOT NULL,
-	author		VARCHAR(100) NOT NULL,
 	status      VARCHAR(50) NOT NULL DEFAULT 'TODO',
 	priority    VARCHAR(50) NOT NULL DEFAULT 'MEDIUM',
 	due_date    DATE NOT NULL,
-	created_at  DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updated_at  DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    created_at  DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at  DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     
-	CONSTRAINT `chk_task_status` CHECK(status IN('TODO','IN_PROGRESS','DONE')),
-	CONSTRAINT `chk_task_priority` CHECK(priority IN('LOW','MEDIUM','HIGH')),
-	CONSTRAINT `fk_task_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-	CONSTRAINT `fk_task_user` FOREIGN KEY (author_id) REFERENCES users(id),
+	CONSTRAINT `chk_tasks_status` CHECK(status IN('TODO','IN_PROGRESS','DONE')),
+	CONSTRAINT `chk_tasks_priority` CHECK(priority IN('LOW','MEDIUM','HIGH')),
+	CONSTRAINT `fk_tasks_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+	CONSTRAINT `fk_tasks_user` FOREIGN KEY (author_id) REFERENCES users(id),
 
-	INDEX idx_task_project_status (project_id, status),
-	INDEX idx_task_author_due (author_id, due_date)	
+	INDEX idx_tasks_project_status (project_id, status),
+	INDEX idx_tasks_author_due (author_id, due_date)	
 
 ) ENGINE=InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -112,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     task_id		BIGINT NOT NULL,
     author_id 	BIGINT NOT NULL,
     content		TEXT NOT NULL,
-    create_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    create_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT `fk_comment_task` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_comment_author` FOREIGN KEY (author_id) REFERENCES users(id)
     
@@ -128,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     author_id 	BIGINT NOT NULL,
     title		VARCHAR(300) NOT NULL,
     content 	TEXT NOT NULL,
-    created_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at 	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT `fk_noti_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     CONSTRAINT `fk_noti_author` FOREIGN KEY (author_id) REFERENCES users(id) 
     
