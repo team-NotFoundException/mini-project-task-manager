@@ -9,12 +9,15 @@ CREATE TABLE IF NOT EXISTS `tag`(
 -- NOT NULL에 중복불가면 자연스럽게 PRIMARY KEY가 된다.
 
 CREATE TABLE IF NOT EXISTS `tasktag` (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     task_id BIGINT NOT NULL,
     tag_id BIGINT NOT NULL,
-    PRIMARY KEY (task_id, tag_id),
     CONSTRAINT fk_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-    CONSTRAINT fk_tag FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE,
-);
+    CONSTRAINT fk_tag FOREIGN KEY (tag_id) REFERENCES tag(id) ON DELETE CASCADE
+    ) engine=InnoDB
+	  default charset = utf8mb4
+      collate = utf8mb4_unicode_ci
+      comment ='테스크테그';
 
 
 
