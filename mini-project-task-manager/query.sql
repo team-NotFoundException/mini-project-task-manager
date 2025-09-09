@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
+
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id    BIGINT NOT NULL,
     role       VARCHAR(30) NOT NULL,
@@ -49,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `projects`(
     created_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     CONSTRAINT `fk_projects_user` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT `uq_projects_project_title` UNIQUE (project_title)
+    CONSTRAINT `uq_projects_project_title` UNIQUE (title)
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -77,10 +78,10 @@ CREATE TABLE IF NOT EXISTS `tasks`(
    INDEX idx_tasks_project_status (project_id, status),
    INDEX idx_tasks_author_due (author_id, due_date)   
 
-) 	ENGINE=InnoDB
-	DEFAULT CHARSET = utf8mb4
-	COLLATE = utf8mb4_unicode_ci
-	COMMENT = '할일';
+) ENGINE=InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci
+    COMMENT = '할일';
 
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
@@ -132,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     CONSTRAINT `fk_notis_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     CONSTRAINT `fk_notis_author` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
-) 	ENGINE=InnoDB
+) ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '공지';
