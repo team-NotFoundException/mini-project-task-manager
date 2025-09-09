@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS `projects`(
     project_title	VARCHAR(200) NOT NULL,
     project_content	VARCHAR(255),
     user_id 		BIGINT NOT NULL,
-
+    created_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at		DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
     CONSTRAINT `fk_project_user` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     
 ) ENGINE=InnoDB
@@ -89,9 +91,6 @@ CREATE TABLE IF NOT EXISTS `tags`(
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '태그';
-
--- 프라이머리 키 : 테이블에서 각 행을 유일하게 식별하는 컬럼
--- NOT NULL에 중복불가면 자연스럽게 PRIMARY KEY가 된다.
 
 DROP TABLE IF EXISTS `task_tags`;
 CREATE TABLE IF NOT EXISTS `task_tags` (
