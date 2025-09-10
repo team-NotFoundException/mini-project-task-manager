@@ -44,6 +44,7 @@ public class JwtProvider {
     }
 
     public String generateJwtToken(String username, Set<String> roles) {
+
     return Jwts.builder()
             .setSubject(username)           // 유저 이름
             .claim("roles", roles)          // 권한도 토큰 안에 같이 저장
@@ -52,12 +53,6 @@ public class JwtProvider {
             .signWith(key)
             .compact();
 
-
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(key)
-                .compact();
     }
 
     public String removeBearer(String bearerToken) {
