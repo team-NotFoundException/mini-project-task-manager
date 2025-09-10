@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `projects`(
     created_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     
-    CONSTRAINT `fk_projects_user_id` FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT `fk_projects_owner_id` FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT `uq_projects_title` UNIQUE (title)
 
 ) 	ENGINE=InnoDB
