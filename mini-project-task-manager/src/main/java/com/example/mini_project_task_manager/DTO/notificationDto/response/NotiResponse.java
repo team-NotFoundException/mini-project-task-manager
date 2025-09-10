@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class NotiResponse {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public record NotiCreateResponse(
             Long id,
             Long projectId,
@@ -17,10 +16,22 @@ public class NotiResponse {
             String content,
             String author,
             LocalDateTime createdAt
-    ) {}
+    ) {
+        public static NotiCreateResponse from(Notification notification) {
+            if (notification == null) return null;
+
+            return new NotiCreateResponse(
+                    notification.getId(),
+                    notification.getProject() != null ? notification.getProject().getId() : null,
+                    notification.getTitle(),
+                    notification.getContent(),
+                    notification.getUser() != null ? notification.getUser().getNickname() : null,
+                    notification.getCreatedAt()
+            );
+        }
+    }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public record NotiUpdateResponse(
             Long id,
             Long projectId,
