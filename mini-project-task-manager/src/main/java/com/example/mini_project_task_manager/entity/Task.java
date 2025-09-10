@@ -65,7 +65,7 @@ public class Task extends BaseTimeEntity {
     private Set<Tag> tags = new HashSet<>(); // 중복 제거위해 Set 사용
 
 
-    // ===== Enum 작성 ==== //
+    // ===== Enum 작성 ==== // )) Enum 작성완료`
     // 태경님이 Enum 만드시면 import 할 것
 
     /** 상태 */
