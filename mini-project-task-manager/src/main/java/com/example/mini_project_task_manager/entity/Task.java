@@ -1,7 +1,8 @@
 package com.example.mini_project_task_manager.entity;
 
+import com.example.mini_project_task_manager.common.enums.Priority;
+import com.example.mini_project_task_manager.common.enums.Status;
 import jakarta.validation.constraints.NotNull;
-import jdk.jshell.Snippet;
 import lombok.Builder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
