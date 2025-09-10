@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS `mini-project-task-manager`;
 CREATE DATABASE `mini-project-task-manager`;
 
-use `mini-project-task-manager`;
+USE `mini-project-task-manager`;
 
 DROP TABLE IF EXISTS `users`; 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS `users` (
     created_at    	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at    	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
 
-    CONSTRAINT `uq_username` UNIQUE (username),
+    CONSTRAINT `uq_users_username` UNIQUE (username),
     CONSTRAINT `uq_users_email` UNIQUE (email),
     CONSTRAINT `uq_users_nickname` UNIQUE (nickname),
-    CONSTRAINT `chk_users_gender` CHECK(gender IN ('MALE','FEMALE'))
+    CONSTRAINT `chk_users_gender` CHECK (gender IN ('MALE','FEMALE'))
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
     role       VARCHAR(30) NOT NULL,
     
     CONSTRAINT `fk_user_roles_user_id`
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT `uq_user_roles` UNIQUE (user_id, role),
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT `uq_user_roles_user_id_role` UNIQUE (user_id, role),
     CONSTRAINT `chk_user_roles_role` CHECK (role IN ('USER','AUTHOR','OWNER','ADMIN'))
 
 ) 	ENGINE=InnoDB
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `projects`(
     user_id         BIGINT NOT NULL,
     created_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-    CONSTRAINT `fk_projects_user` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT `uq_projects_project_title` UNIQUE (title)
+    CONSTRAINT `fk_projects_user_id` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT `uq_projects_title` UNIQUE (title)
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS `tasks`(
     
 	CONSTRAINT `chk_tasks_status` CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
 	CONSTRAINT `chk_tasks_priority` CHECK (priority IN ('LOW','MEDIUM','HIGH')),
-	CONSTRAINT `fk_tasks_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-	CONSTRAINT `fk_tasks_user` FOREIGN KEY (author_id) REFERENCES users(id),
+	CONSTRAINT `fk_tasks_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+	CONSTRAINT `fk_tasks_author_id` FOREIGN KEY (author_id) REFERENCES users(id),
 
-	INDEX idx_tasks_project_status (project_id, status),
-	INDEX idx_tasks_author_due (author_id, due_date)   
+	INDEX idx_tasks_project_id_status (project_id, status),
+	INDEX idx_tasks_author_id_due_date (author_id, due_date)   
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     tag_name    VARCHAR(100) NOT NULL,
-    CONSTRAINT `uq_tag_name` UNIQUE (tag_name)
+    CONSTRAINT `uq_tags_tag_name` UNIQUE (tag_name)
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -98,8 +98,9 @@ CREATE TABLE IF NOT EXISTS `task_tags` (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     task_id     BIGINT NOT NULL,
     tag_id      BIGINT NOT NULL,
-    CONSTRAINT `fk_tasks_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_tags_id` FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+    CONSTRAINT `fk_task_tags_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT `fk_task_tags_tag_id` FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+    CONSTRAINT `uq_task_tags_task_id_tag_id` UNIQUE(task_id, tag_id)
 
 )   ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -113,8 +114,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
     author_id    	BIGINT NOT NULL,
     content      	TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    CONSTRAINT `fk_comments_task` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_comments_author` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT `fk_comments_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+    CONSTRAINT `fk_comments_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -129,8 +130,8 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    CONSTRAINT `fk_notis_project` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_notis_author` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT `fk_notifications_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    CONSTRAINT `fk_notifications_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
