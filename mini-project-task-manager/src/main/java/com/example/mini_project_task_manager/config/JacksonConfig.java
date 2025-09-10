@@ -3,20 +3,21 @@ package com.example.mini_project_task_manager.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-@Configuration 
+
+@Configuration
 public class JacksonConfig {
+
     @Bean
-    publi1c ObjectMapper objectMapper() {
-        ObjectMapper om= new ObjectMapper();
+    public ObjectMapper objectMapper() {
+        ObjectMapper om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
-
         om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
         return om;
-    }
+}
 
 }
