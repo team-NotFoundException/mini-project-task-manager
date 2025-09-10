@@ -10,7 +10,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+            @UniqueConstraint(name = "uk_user_logint_id", columnNames = "login_id"),
+            @UniqueConstraint(name = "uk_users_email", columnNames = "email"),
+            @UniqueConstraint(name = "uk_users_nickname", columnNames = "nickname")
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
