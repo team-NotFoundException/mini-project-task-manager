@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     gender       	VARCHAR(10),
     created_at    	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at    	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-
+    
     CONSTRAINT `uq_users_username` UNIQUE (username),
     CONSTRAINT `uq_users_email` UNIQUE (email),
     CONSTRAINT `uq_users_nickname` UNIQUE (nickname),
@@ -30,8 +30,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
     user_id    BIGINT NOT NULL,
     role       VARCHAR(30) NOT NULL,
     
-    CONSTRAINT `fk_user_roles_user_id`
-		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT `fk_user_roles_user_id` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT `uq_user_roles_user_id_role` UNIQUE (user_id, role),
     CONSTRAINT `chk_user_roles_role` CHECK (role IN ('USER','AUTHOR','OWNER','ADMIN'))
 
@@ -99,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `task_tags` (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     task_id     BIGINT NOT NULL,
     tag_id      BIGINT NOT NULL,
+    
     CONSTRAINT `fk_task_tags_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_task_tags_tag_id` FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE,
     CONSTRAINT `uq_task_tags_task_id_tag_id` UNIQUE(task_id, tag_id)
@@ -116,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     content      	TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 	updated_at  	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),    
+    
     CONSTRAINT `fk_comments_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_comments_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
@@ -131,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `notifications` (
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    
     CONSTRAINT `fk_notifications_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
