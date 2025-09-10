@@ -43,12 +43,13 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
 DROP TABLE IF EXISTS `projects`;
 CREATE TABLE IF NOT EXISTS `projects`(
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
+    owner_id        BIGINT NOT NULL,    
     title   		VARCHAR(200) NOT NULL,
     content 		VARCHAR(255),
-    user_id         BIGINT NOT NULL,
     created_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-    CONSTRAINT `fk_projects_user_id` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    
+    CONSTRAINT `fk_projects_user_id` FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT `uq_projects_title` UNIQUE (title)
 
 ) 	ENGINE=InnoDB
@@ -59,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `projects`(
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks`(
 	id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
+    project_id  	BIGINT NOT NULL,
 	author_id   	BIGINT NOT NULL,
-	project_id  	BIGINT NOT NULL,
 	title       	VARCHAR(200) NOT NULL,
 	content      	LONGTEXT NOT NULL,
 	status      	VARCHAR(50) NOT NULL DEFAULT 'TODO',
@@ -114,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     author_id    	BIGINT NOT NULL,
     content      	TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+	updated_at  	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),    
     CONSTRAINT `fk_comments_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_comments_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
@@ -126,12 +128,10 @@ DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
     id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
     project_id    	BIGINT NOT NULL,
-    author_id    	BIGINT NOT NULL,
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    CONSTRAINT `fk_notifications_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_notifications_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT `fk_notifications_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
