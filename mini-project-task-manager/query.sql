@@ -30,17 +30,15 @@ CREATE TABLE IF NOT EXISTS `roles` (
     role_name	VARCHAR(30) NOT NULL
     
     );
-    
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
-    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id    BIGINT NOT NULL,
-    role       VARCHAR(30) NOT NULL,
+    role_name  VARCHAR(50) NOT NULL,
+    PRIMARY KEY (user_id, role_name),
     
-    CONSTRAINT `fk_user_roles_user_id` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT `uq_user_roles_user_id_role` UNIQUE (user_id, role),
-    CONSTRAINT `chk_user_roles_role` CHECK (role IN ('USER','AUTHOR','OWNER','ADMIN'))
+    CONSTRAINT `fk_user_roles_user` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT `fK_user_roles_role` FOREIGN KEY (role_name) REFERENCES roles (role_name) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
