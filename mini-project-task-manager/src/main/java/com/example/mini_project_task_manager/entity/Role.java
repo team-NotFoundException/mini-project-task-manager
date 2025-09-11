@@ -6,15 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "rolse")
+@Table(name = "role")
 @Getter
 @NoArgsConstructor
-public class Roles {
+public class Role {
     @Id @Enumerated(EnumType.STRING)
-    @Column(name = "role_name", length = 30, nullable = false)
+    @Column(name = "roles_name", length = 30, nullable = false)
     private RoleType name;
 
-    public Roles(RoleType name) {
+    public Role(RoleType name) {
         this.name = name;
     }
 }

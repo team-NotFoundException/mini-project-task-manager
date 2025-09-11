@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.management.relation.Role;
-
 @Entity
 @Table(name = "user_roles")
 @Getter
@@ -22,7 +20,7 @@ public class UserRole {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_user_roles_user")
     )
-    private user user;
+    private User user;
 
     @MapsId("roleName")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -40,7 +38,7 @@ public class UserRole {
         this.role = role;
 
         Long userId = user.getId();
-        RoleType roleName = role.getRoleName();
+        RoleType roleName = role.getName();
         this.id = new UserRoleId(userId, roleName);
     }
 
