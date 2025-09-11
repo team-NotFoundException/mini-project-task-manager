@@ -24,6 +24,14 @@ CREATE TABLE IF NOT EXISTS `users` (
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자';
 
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+	id			BIGINT AUTO_INCREMENT PRIMARY KEY,
+    role_name	VARCHAR(30) NOT NULL
+    
+    );
+    
+
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY,
