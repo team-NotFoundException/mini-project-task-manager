@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_roles")
 @Getter
 @NoArgsConstructor
-public class UserRole {
+public class UserRole  {
     @EmbeddedId
     private UserRoleId id;
 
