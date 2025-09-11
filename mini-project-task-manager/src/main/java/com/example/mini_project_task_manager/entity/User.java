@@ -1,8 +1,11 @@
 package com.example.mini_project_task_manager.entity;
 
+import com.example.mini_project_task_manager.common.enums.Gender;
+import com.example.mini_project_task_manager.common.enums.RoleType;
 import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-            @UniqueConstraint(name = "uk_user_logint_id", columnNames = "login_id"),
+            @UniqueConstraint(name = "uk_user_login_id", columnNames = "login_id"),
             @UniqueConstraint(name = "uk_users_email", columnNames = "email"),
             @UniqueConstraint(name = "uk_users_nickname", columnNames = "nickname")
         }
@@ -52,5 +55,18 @@ public class User extends BaseTimeEntity {
     private Gender gender;
 
     private Set<RoleType> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<User> userRoles = new HashSet<>();
+
+    /** 생성 편의 메서드 */
+    @Builder
+    private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType>roles){
+        this.loginId = loginId;
+        this.password = password;
+        this.email = email;
+        this.nickname = nickname;
+        this.gender = gender;
+    }
     
 }
