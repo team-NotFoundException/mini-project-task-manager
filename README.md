@@ -69,10 +69,10 @@ erDiagram
 
     USERS {
         bigint id PK
-        varchar username UNIQUE
-        varchar email UNIQUE
-        varchar nickname UNIQUE
-        varchar gender CHECK(MALE,FEMALE)
+        varchar username
+        varchar email
+        varchar nickname
+        varchar gender
     }
 
     ROLES {
@@ -82,13 +82,13 @@ erDiagram
     USER_ROLES {
         bigint id PK
         bigint user_id FK
-        varchar role CHECK(USER,AUTHOR,OWNER,ADMIN)
+        varchar role
     }
 
     PROJECTS {
         bigint id PK
         bigint owner_id FK
-        varchar title UNIQUE
+        varchar title
         varchar content
     }
 
@@ -98,8 +98,8 @@ erDiagram
         bigint author_id FK
         varchar title
         text content
-        varchar status CHECK(TODO,IN_PROGRESS,DONE)
-        varchar priority CHECK(LOW,MEDIUM,HIGH)
+        varchar status
+        varchar priority
         date due_date
     }
 
@@ -119,13 +119,13 @@ erDiagram
 
     TAGS {
         bigint id PK
-        varchar tag_name UNIQUE
+        varchar tag_name
     }
 
     TASK_TAGS {
         bigint id PK
         bigint task_id FK
         bigint tag_id FK
-        UNIQUE(task_id, tag_id)
     }
+
 
