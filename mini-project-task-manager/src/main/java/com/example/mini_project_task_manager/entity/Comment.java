@@ -18,15 +18,15 @@ public class Comment extends BaseTimeEntity {
     private Long id;
 
 
-    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_comments_task_id"))
     private Task task;
 
-    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_comments_author_id"))
     private User user;
 
-    @NotNull @NotBlank
+    @NotNull
     @Column(name = "content")
     private String content;
 
