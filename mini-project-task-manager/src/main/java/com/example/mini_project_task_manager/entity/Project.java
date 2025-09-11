@@ -32,10 +32,10 @@ public class Project extends BaseTimeEntity {
     @Column(name = "content", length = 255)
     private String content;
 
-    /** user_id 외래키 설정 */
+    /** owner_id(users 테이블의 id) 외래키 설정 */
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_project_user"))
+    @JoinColumn(name = "owner_id", nullable = false, foreignKey = @ForeignKey(name = "fk_projects_owner_id"))
     private User user;
 
     @Builder
