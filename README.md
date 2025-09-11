@@ -1,58 +1,55 @@
 # mini-project-task-manager
 
-## 🔑 권한(Role) 체계
+# 📌 Mini Project Task Manager
 
-### 1. ADMIN
-- **user_roles.role = 'ADMIN'**
-- 모든 프로젝트(`projects`), 테스크(`tasks`), 댓글(`comments`), 공지(`notifications`)에 대해 **CRUD 가능**
-- 시스템 전체를 관리하는 최고 권한
-
----
-
-### 2. OWNER
-- **user_roles.role = 'OWNER'**  
-- 자신이 **생성한 프로젝트(`projects`)**와 그 안의 **테스크(`tasks`), 댓글(`comments`), 공지(`notifications`)**를 **CRUD 가능**
-- 판별 기준:  
-  - `projects.owner_id = users.id`  
-  - 해당 `users.id`는 반드시 OWNER 권한을 가지고 있어야 함
-- ✅ 따라서 OWNER는 자신의 프로젝트에는 모든 권한이 있지만, 다른 프로젝트에는 간섭 불가
+팀 프로젝트 협업을 위한 **웹 기반 프로젝트 & 태스크 관리 시스템**입니다.  
+사용자는 프로젝트를 생성하고, 태스크를 등록/관리하며, 댓글과 공지를 통해 소통할 수 있습니다.  
+또한 **권한(Role)** 기반 접근 제어를 통해 안전하고 체계적인 협업 환경을 제공합니다.  
 
 ---
 
-### 3. AUTHOR
-- **user_roles.role = 'AUTHOR'**  
-- 자신이 **생성한 테스크(`tasks`)**와 그 안의 **댓글(`comments`)**을 **CRUD 가능**
-- 판별 기준:  
-  - `tasks.author_id = users.id`  
-  - 해당 `users.id`는 반드시 AUTHOR 권한을 가지고 있어야 함
-- ✅ 따라서 AUTHOR는 자신의 task만 수정/삭제 가능, 다른 사람 task에는 접근 불가
+## 🚀 주요 기능
+
+- 회원가입 및 로그인 (JWT 기반 인증)
+- 프로젝트 생성 및 관리
+- 태스크(Task) 등록, 수정, 삭제
+- 댓글 및 공지 작성
+- 태그(Tag) 기반 태스크 분류
+- 권한(Role) 기반 접근 제어 (USER / AUTHOR / OWNER / ADMIN)
 
 ---
 
-### 4. USER
-- **user_roles.role = 'USER'**  
-- **댓글(`comments`) CRUD**만 가능
-- 판별 기준:  
-  - `comments.author_id = users.id`
+## 🛠 기술 스택
+
+### Backend
+- **Java 17**
+- **Spring Boot**
+- **Spring Security + JWT**
+- **JPA (Hibernate)**
+- **MySQL**
+
 
 ---
 
-## 📌 추가 규칙
-1. **OWNER → 본인 프로젝트의 모든 task 관리 가능**
-   - 조건:  
-     - `tasks.project_id = projects.id`  
-     - `projects.owner_id = users.id`  
 
-2. **AUTHOR → 본인 task만 관리 가능**
-   - 조건:  
-     - `tasks.author_id = users.id`
+## 🗄 데이터베이스 구조
 
-3. **댓글(Comment)은 USER 이상이면 작성 가능**  
-   - 단, `comments.author_id = users.id`일 경우에만 수정/삭제 가능
+본 프로젝트는 **MySQL**을 기반으로 하며, 총 **9개 주요 테이블**로 구성되어 있습니다.  
+
+### 📌 테이블 목록
+1. **users** – 사용자 계정 정보  
+2. **roles** – 권한 코드 (USER, AUTHOR, OWNER, ADMIN 등)  
+3. **user_roles** – 사용자와 권한 매핑  
+4. **projects** – 프로젝트 정보  
+5. **tasks** – 프로젝트 내 할일(Task)  
+6. **tags** – 태그  
+7. **task_tags** – 태스크-태그 매핑 (N:M 관계)  
+8. **comments** – 댓글  
+9. **notifications** – 프로젝트 공지  
 
 ---
 
-## 📊 ERD 구조 (간단화)
+### 📊 ERD 다이어그램
 
 ```mermaid
 erDiagram
@@ -61,6 +58,8 @@ erDiagram
     USERS ||--o{ TASKS : "authors"
     USERS ||--o{ COMMENTS : "writes"
 
+    ROLES ||--o{ USER_ROLES : "maps"
+    
     PROJECTS ||--o{ TASKS : "contains"
     PROJECTS ||--o{ NOTIFICATIONS : "announces"
 
@@ -70,22 +69,26 @@ erDiagram
 
     USERS {
         bigint id PK
-        varchar username
-        varchar email
-        varchar nickname
-        varchar gender
+        varchar username UNIQUE
+        varchar email UNIQUE
+        varchar nickname UNIQUE
+        varchar gender CHECK(MALE,FEMALE)
+    }
+
+    ROLES {
+        varchar role_name PK
     }
 
     USER_ROLES {
         bigint id PK
         bigint user_id FK
-        varchar role
+        varchar role CHECK(USER,AUTHOR,OWNER,ADMIN)
     }
 
     PROJECTS {
         bigint id PK
         bigint owner_id FK
-        varchar title
+        varchar title UNIQUE
         varchar content
     }
 
@@ -94,8 +97,9 @@ erDiagram
         bigint project_id FK
         bigint author_id FK
         varchar title
-        varchar status
-        varchar priority
+        text content
+        varchar status CHECK(TODO,IN_PROGRESS,DONE)
+        varchar priority CHECK(LOW,MEDIUM,HIGH)
         date due_date
     }
 
@@ -115,11 +119,13 @@ erDiagram
 
     TAGS {
         bigint id PK
-        varchar tag_name
+        varchar tag_name UNIQUE
     }
 
     TASK_TAGS {
         bigint id PK
         bigint task_id FK
         bigint tag_id FK
+        UNIQUE(task_id, tag_id)
     }
+
