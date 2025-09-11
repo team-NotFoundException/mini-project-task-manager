@@ -22,7 +22,9 @@ public class Notification extends BaseTimeEntity {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_noti_project"))
+    @JoinColumn(
+            name = "project_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_noti_project"))
     private Project project;
 
     @NotNull
