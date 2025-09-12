@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+// 엔티티 설계 완료
 @Entity
 @Table(
         name = "projects",

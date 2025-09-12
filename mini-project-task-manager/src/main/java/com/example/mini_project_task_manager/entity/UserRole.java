@@ -4,7 +4,7 @@ import com.example.mini_project_task_manager.common.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+// 엔티티 설계 완료
 @Entity
 @Table(name = "user_roles")
 @Getter

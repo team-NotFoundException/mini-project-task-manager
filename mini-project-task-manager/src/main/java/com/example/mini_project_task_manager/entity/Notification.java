@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
-
+// 엔티티 설계 완료
 @Entity
 @Table(name = "notifications")
 @Getter

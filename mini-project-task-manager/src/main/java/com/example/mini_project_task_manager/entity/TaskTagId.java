@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-// 테스트용
+// 엔티티 설계 완료
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

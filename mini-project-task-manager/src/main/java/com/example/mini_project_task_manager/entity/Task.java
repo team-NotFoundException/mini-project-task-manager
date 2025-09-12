@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
+// 엔티티 설계 완료
 @Entity
 @Table(name = "tasks")
 @Getter

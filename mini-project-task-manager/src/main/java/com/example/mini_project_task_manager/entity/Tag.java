@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
+// 엔티티 설계 완료
 @Entity
 @Table(
         name = "tags")

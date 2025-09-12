@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-// 테스트용
+// 엔티티 설계 완료
 @Entity
 @Table(name="task_tags")
 @Getter
