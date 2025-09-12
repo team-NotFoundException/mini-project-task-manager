@@ -28,7 +28,7 @@ public class Tag {
     private String tag_name;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tags_project_id"))
     private Project project;
 
