@@ -54,7 +54,6 @@ public class User extends BaseTimeEntity {
     @Column(name = "gender", length = 20)
     private Gender gender;
 
-    private Set<RoleType> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles = new HashSet<>();
@@ -68,5 +67,6 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.gender = gender;
     }
+
     
 }
