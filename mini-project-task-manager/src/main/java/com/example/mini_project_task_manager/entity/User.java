@@ -57,11 +57,11 @@ public class User extends BaseTimeEntity {
     private Set<RoleType> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> userRoles = new HashSet<>();
+    private Set<UserRole> userRoles = new HashSet<>();
 
     /** 생성 편의 메서드 */
     @Builder
-    private User(String username, String password, String email, String nickname, Gender gender, Set<RoleType>roles){
+    private User(String username, String password, String email, String nickname, Gender gender, Set<RoleType> roles){
         this.username = username;
         this.password = password;
         this.email = email;
