@@ -20,7 +20,7 @@ public class CommentController {
 
 
     // 댓글 생성
-    @PostMapping
+    @PostMapping("/api/v1/tasks/{taskId}/comments")
     public ResponseEntity<ResponseDto<CommentResponse>> createComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
             @Valid @RequestBody CommentRequest.CommentCreateRequest dto

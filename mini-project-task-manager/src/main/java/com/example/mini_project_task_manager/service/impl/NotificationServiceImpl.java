@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class NotificationServiceImpl implements NotificationService {
     @Override
-    public ResponseDto<NotiResponse.NotiCreateResponse> createNotification(Long projId, NotiRequest.@Valid NotiCreateRequest dto) {
+    public ResponseDto<NotiResponse.NotiCreateResponse> createNotification(NotiRequest.@Valid NotiCreateRequest dto) {
         return null;
     }
 
     @Override
-    public ResponseDto<NotiResponse> deleteNotification(Long projId, Long notiId) {
+    public ResponseDto<NotiResponse> deleteNotification(Long notiId) {
         return null;
     }
 }

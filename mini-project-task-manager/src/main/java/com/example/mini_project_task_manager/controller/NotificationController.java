@@ -22,21 +22,19 @@ public class NotificationController {
     // 공지 생성
     @PostMapping
     public ResponseEntity<ResponseDto<NotiResponse.NotiCreateResponse>> createNotification(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야합니다.") Long projId,
             @Valid @RequestBody NotiRequest.NotiCreateRequest dto
     ) {
-        ResponseDto<NotiResponse.NotiCreateResponse> response = notificationService.createNotification(projId, dto);
+        ResponseDto<NotiResponse.NotiCreateResponse> response = notificationService.createNotification(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 
     // 공지 삭제
-    @DeleteMapping("/api/v1/pojets/{projId}/notification/{notiId}")
+    @DeleteMapping("/api/v1/notification/{notiId}")
     public ResponseEntity<ResponseDto<NotiResponse>> deleteNotification(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야합니다.") Long projId,
             @PathVariable("notiId") @Positive(message = "notiId는 1 이상이어야합니다.") Long notiId
             ) {
-        ResponseDto<NotiResponse> response = notificationService.deleteNotification(projId, notiId);
+        ResponseDto<NotiResponse> response = notificationService.deleteNotification(notiId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
