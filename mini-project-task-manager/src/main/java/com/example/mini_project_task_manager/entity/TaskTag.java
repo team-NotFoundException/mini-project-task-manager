@@ -43,7 +43,6 @@ public class TaskTag{
     )
     private Tag tag;
 
-
     public TaskTag(Task task, Tag tag){
         this.task = task;
         this.tag = tag;
@@ -52,21 +51,4 @@ public class TaskTag{
         String tagName = tag.getTag_name();
         this.id = new TaskTagId(taskId, tagName);
     }
-
-//    @Column(name = "task_id", nullable = false)
-//    private Long taskId;
-//
-//    @Column(name = "tag_name", length = 30, nullable = false)
-//    private String tagName;
-
-
-//    /** FK tasks에서 가져온 id tags에서 가져온 id를 가져와야한다*/
-//    @NotNull @ManyToMany
-//    @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_id"))
-//    private List<Task> tasks;
-//
-//    @NotNull @ManyToMany
-//    @JoinColumn(name = "tag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tags_id"))
-//    private List<Tag> tags;
-
 }
