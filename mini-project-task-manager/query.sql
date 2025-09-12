@@ -1,9 +1,23 @@
 DROP DATABASE IF EXISTS `mini-project-task-manager`;
-CREATE DATABASE `mini-project-task-manager`;
 
+CREATE DATABASE `mini-project-task-manager`
+       CHARACTER SET utf8mb4
+       COLLATE utf8mb4_unicode_ci;
 USE `mini-project-task-manager`;
 
+DROP TABLE IF EXISTS `task_tags`;
+DROP TABLE IF EXISTS `comments`;
+DROP TABLE IF EXISTS `tasks`;
+DROP TABLE IF EXISTS `notifications`;
+DROP TABLE IF EXISTS `projects`;
+DROP TABLE IF EXISTS `user_roles`;
+DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `tags`;
 DROP TABLE IF EXISTS `users`;
+
+-- 생성 순서 (부모 -> 자식)
+-- users -> roles -> user_roles -> projects -> tasks -> tags -> task_tags -> comments -> notifications
+
 CREATE TABLE IF NOT EXISTS `users` (
     id         		BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username    	VARCHAR(50) NOT NULL,
