@@ -23,14 +23,10 @@ public class Notification extends BaseTimeEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(
-            name = "project_id", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_noti_project"))
-    private Project project;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_noti_author"))
+            name = "author_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_notifications_author_id"))
     private User user;
+
 
     /** 제목 */
     @Column(name = "title")
