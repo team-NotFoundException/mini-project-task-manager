@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.User.request;
+package com.example.mini_project_task_manager.dto.User.request;
 
 import com.example.mini_project_task_manager.common.enums.Gender;
 import jakarta.validation.constraints.Email;
@@ -11,6 +11,9 @@ public record UserSignUpRequest (
 
         @NotBlank @Size(min = 8, max = 100)
         String password,
+
+        @NotBlank @Size(min = 8, max = 100)
+        String email,
 
         @NotBlank @Email @Size(max = 50)
         String nickname,

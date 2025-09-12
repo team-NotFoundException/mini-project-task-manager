@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.User.request;
+package com.example.mini_project_task_manager.dto.User.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
