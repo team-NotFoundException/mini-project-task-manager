@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @Table(name = "user_roles")
 @Getter
 @NoArgsConstructor

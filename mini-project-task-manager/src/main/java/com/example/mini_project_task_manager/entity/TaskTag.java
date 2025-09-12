@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 // 테스트용
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TaskTag{
-
+    
     @EmbeddedId
     private TaskTagId id;
 
@@ -67,4 +68,5 @@ public class TaskTag{
 //    @NotNull @ManyToMany
 //    @JoinColumn(name = "tag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tags_id"))
 //    private List<Tag> tags;
+
 }
