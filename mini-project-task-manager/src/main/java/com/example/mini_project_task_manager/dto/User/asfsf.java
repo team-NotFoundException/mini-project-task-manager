@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.User;
+package com.example.mini_project_task_manager.dto.User;
 
 public class asfsf {
 }
