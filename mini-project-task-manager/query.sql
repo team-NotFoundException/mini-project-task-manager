@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     CONSTRAINT `uq_users_nickname` UNIQUE (nickname),
     CONSTRAINT `chk_users_gender` CHECK (gender IN ('MALE','FEMALE'))
 
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자';
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
     role_name	VARCHAR(30) PRIMARY KEY
-    )ENGINE=InnoDB
+)	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '권한';
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
     CONSTRAINT `fk_user_roles_user` FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT `fK_user_roles_role` FOREIGN KEY (role_name) REFERENCES roles (role_name) ON DELETE CASCADE
 
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자 권한';
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
 DROP TABLE IF EXISTS `projects`;
 CREATE TABLE IF NOT EXISTS `projects`(
     id              BIGINT AUTO_INCREMENT PRIMARY KEY,
-    author_id        BIGINT NOT NULL,
+    author_id       BIGINT NOT NULL,
     title   		VARCHAR(200) NOT NULL,
     content 		VARCHAR(255),
     created_at      DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `projects`(
     CONSTRAINT `fk_projects_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT `uq_projects_title` UNIQUE (title)
 
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '프로젝트';
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `tasks`(
     INDEX idx_tasks_project_id_status (project_id, status),
     INDEX idx_tasks_author_id_due_date (author_id, due_date)
 
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '할일';
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `tasks`(
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
     tag_name    VARCHAR(100) PRIMARY KEY
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '태그';
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `task_tags` (
     PRIMARY KEY (task_id, tag_name),
     CONSTRAINT `fk_task_tags_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_task_tags_tag_name` FOREIGN KEY (tag_name) REFERENCES tags(tag_name) ON DELETE CASCADE
-    )   ENGINE=InnoDB
+)   ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT ='태스크 태그';
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
     CONSTRAINT `fk_comments_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     CONSTRAINT `fk_comments_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '댓글';
@@ -129,11 +129,14 @@ CREATE TABLE IF NOT EXISTS `comments` (
 DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
     id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
+	author_id    	BIGINT NOT NULL,
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    
+	CONSTRAINT `fk_notifications_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
-    ) 	ENGINE=InnoDB
+) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '공지';
