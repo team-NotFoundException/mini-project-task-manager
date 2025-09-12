@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.User.response;
+package com.example.mini_project_task_manager.dto.User.response;
 
 import com.example.mini_project_task_manager.common.enums.Gender;
 
