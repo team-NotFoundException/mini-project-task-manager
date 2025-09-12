@@ -1,5 +1,7 @@
 package com.example.mini_project_task_manager.filter;
 
+import com.example.mini_project_task_manager.provider.JwtProvider;
+import com.example.mini_project_task_manager.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,10 +14,21 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter{
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final String AUTH_HEADER = "A";
+
+    private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
+
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException
+    {
 
     }
 }
