@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-            @UniqueConstraint(name = "uk_user_login_id", columnNames = "login_id"),
+            @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
             @UniqueConstraint(name = "uk_users_email", columnNames = "email"),
             @UniqueConstraint(name = "uk_users_nickname", columnNames = "nickname")
         }
@@ -62,7 +62,7 @@ public class User extends BaseTimeEntity {
     /** 생성 편의 메서드 */
     @Builder
     private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType>roles){
-        this.loginId = loginId;
+        this.username = loginId;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
