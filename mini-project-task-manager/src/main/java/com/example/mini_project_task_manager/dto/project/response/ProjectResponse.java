@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.projectDto.response;
+package com.example.mini_project_task_manager.dto.project.response;
 
 import com.example.mini_project_task_manager.entity.Project;
 

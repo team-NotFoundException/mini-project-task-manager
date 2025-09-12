@@ -1,9 +1,9 @@
 package com.example.mini_project_task_manager.controller;
 
 
-import com.example.mini_project_task_manager.DTO.ResponseDto;
-import com.example.mini_project_task_manager.DTO.notificationDto.request.NotiRequest;
-import com.example.mini_project_task_manager.DTO.notificationDto.response.NotiResponse;
+import com.example.mini_project_task_manager.dto.ResponseDto;
+import com.example.mini_project_task_manager.dto.notification.request.NotiRequest;
+import com.example.mini_project_task_manager.dto.notification.response.NotiResponse;
 import com.example.mini_project_task_manager.service.NotificationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;

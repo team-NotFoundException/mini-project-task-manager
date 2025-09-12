@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO;
+package com.example.mini_project_task_manager.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
