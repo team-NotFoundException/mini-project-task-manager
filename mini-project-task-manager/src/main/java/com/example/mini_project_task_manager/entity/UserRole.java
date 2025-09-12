@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class UserRole  {
     @EmbeddedId
     private UserRoleId id;
-
+// 테스트에 쓸
     @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
