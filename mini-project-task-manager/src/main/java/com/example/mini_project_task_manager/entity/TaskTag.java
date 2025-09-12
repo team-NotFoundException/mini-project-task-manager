@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 // 테스트용
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
-public class TaskTag extends BaseTimeEntity {
+public class TaskTag implements Serializable {
 
     /** PK */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +24,13 @@ public class TaskTag extends BaseTimeEntity {
     private Long id;
 
     /** FK tasks에서 가져온 id tags에서 가져온 id를 가져와야한다*/
-    @NotNull @ManyToMany
-    @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_id"))
+    @MapsId("task_id")
+    @NotNull @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_task_tags_task_id"))
     private List<Task> tasks;
 
-    @NotNull @ManyToMany
-    @JoinColumn(name = "tag_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tags_id"))
+    @MapsId("tag_name")
+    @NotNull @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_name", nullable = false, foreignKey = @ForeignKey(name = "fk_task_tags_tag_name"))
     private List<Tag> tags;
 }
