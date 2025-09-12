@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.commentDto.response;
+package com.example.mini_project_task_manager.dto.comment.response;
 
 import com.example.mini_project_task_manager.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

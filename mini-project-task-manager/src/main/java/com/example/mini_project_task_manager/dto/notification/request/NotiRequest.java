@@ -1,10 +1,7 @@
-package com.example.mini_project_task_manager.DTO.notificationDto.request;
+package com.example.mini_project_task_manager.dto.notification.request;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
 
 public class NotiRequest {
 

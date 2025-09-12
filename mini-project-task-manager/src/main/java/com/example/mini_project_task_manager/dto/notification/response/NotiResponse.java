@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.notificationDto.response;
+package com.example.mini_project_task_manager.dto.notification.response;
 
 import com.example.mini_project_task_manager.entity.Notification;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

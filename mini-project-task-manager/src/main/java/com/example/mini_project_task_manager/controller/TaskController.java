@@ -1,9 +1,9 @@
 package com.example.mini_project_task_manager.controller;
 
 
-import com.example.mini_project_task_manager.DTO.ResponseDto;
-import com.example.mini_project_task_manager.DTO.task.request.TaskRequest;
-import com.example.mini_project_task_manager.DTO.task.response.TaskResponse;
+import com.example.mini_project_task_manager.dto.ResponseDto;
+import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
+import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
 import com.example.mini_project_task_manager.service.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;

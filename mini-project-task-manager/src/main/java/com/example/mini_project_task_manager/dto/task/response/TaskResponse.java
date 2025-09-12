@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.DTO.task.response;
+package com.example.mini_project_task_manager.dto.task.response;
 
 import com.example.mini_project_task_manager.entity.Task;
 import java.time.LocalDateTime;
