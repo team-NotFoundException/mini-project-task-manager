@@ -30,8 +30,8 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     /** 로그인 아이디 (유니크) */
-    @Column(name = "username", updatable = false, nullable = false, length = 50)
-    private String username;
+    @Column(name = "loginId", updatable = false, nullable = false, length = 50)
+    private String loginId;
 
     /** 로그인 비밀번호 (해시 저장 권장 - 암호화) */
     @Column(name = "password", nullable = false, length = 255)
