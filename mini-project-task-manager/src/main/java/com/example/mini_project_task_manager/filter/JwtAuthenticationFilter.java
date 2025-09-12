@@ -16,6 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+
     private static final String AUTH_HEADER = "A";
 
     private final JwtProvider jwtProvider;
@@ -31,4 +32,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     {
 
     }
+
 }
+
