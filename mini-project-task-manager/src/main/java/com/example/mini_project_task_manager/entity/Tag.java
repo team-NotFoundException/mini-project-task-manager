@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
         name = "tags",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uq_tags_tag_name",
-                columnNames = "tag_name")
+                        columnNames = "tag_name")
         })
 @Getter
 @AllArgsConstructor
@@ -41,6 +41,7 @@ public class Tag extends BaseTimeEntity {
         Tag tag = new Tag();
         tag.tag_name = tag_name;
         return tag;
+
     }
 
 

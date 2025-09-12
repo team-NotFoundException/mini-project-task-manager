@@ -11,7 +11,6 @@ public class NotiResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record NotiCreateResponse(
             Long id,
-            Long projectId,
             String title,
             String content,
             String author,
@@ -22,7 +21,6 @@ public class NotiResponse {
 
             return new NotiCreateResponse(
                     notification.getId(),
-                    notification.getProject() != null ? notification.getProject().getId() : null,
                     notification.getTitle(),
                     notification.getContent(),
                     notification.getUser() != null ? notification.getUser().getNickname() : null,
@@ -34,7 +32,6 @@ public class NotiResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record NotiUpdateResponse(
             Long id,
-            Long projectId,
             String title,
             String content,
             LocalDateTime updatedAt
@@ -44,7 +41,6 @@ public class NotiResponse {
 
             return new NotiUpdateResponse(
                     notification.getId(),
-                    notification.getProject() != null? notification.getProject().getId() : null,
                     notification.getTitle(),
                     notification.getContent(),
                     notification.getUpdatedAt()
