@@ -61,8 +61,8 @@ public class User extends BaseTimeEntity {
 
     /** 생성 편의 메서드 */
     @Builder
-    private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType>roles){
-        this.loginId = loginId;
+    private User(String username, String password, String email, String nickname, Gender gender, Set<RoleType>roles){
+        this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;

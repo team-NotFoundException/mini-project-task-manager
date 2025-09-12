@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
+// 테스트에 쓸
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
