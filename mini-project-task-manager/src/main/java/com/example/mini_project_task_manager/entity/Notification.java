@@ -37,6 +37,8 @@ public class Notification extends BaseTimeEntity {
     private String content;
 
 
+
+
     @Builder
     private Notification(String title, String content) {
         this.title = title;

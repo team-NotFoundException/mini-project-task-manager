@@ -53,11 +53,11 @@ public class TaskTag{
         this.id = new TaskTagId(taskId, tagName);
     }
 
-    @Column(name = "task_id", nullable = false)
-    private Long taskId;
-
-    @Column(name = "tag_name", length = 30, nullable = false)
-    private String tagName;
+//    @Column(name = "task_id", nullable = false)
+//    private Long taskId;
+//
+//    @Column(name = "tag_name", length = 30, nullable = false)
+//    private String tagName;
 
 
 //    /** FK tasks에서 가져온 id tags에서 가져온 id를 가져와야한다*/
