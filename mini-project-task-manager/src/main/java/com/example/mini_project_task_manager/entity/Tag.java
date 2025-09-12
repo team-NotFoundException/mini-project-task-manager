@@ -18,9 +18,19 @@ import lombok.NoArgsConstructor;
 public class Tag {
 
     /** 태그명(PK값) */
-    @Id @NotNull
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
+    private Long id;
+
+    /** 태그 이름 */
+    @NotNull
     @Column(name = "tag_name", updatable = false)
     private String tag_name;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tags_project_id"))
+    private Project project;
 
     // 메서드 //
     public Tag (String tag_name){ this.tag_name = tag_name; }
