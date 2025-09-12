@@ -9,22 +9,36 @@ import java.time.LocalDateTime;
 public class NotiResponse {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record NotiCreateResponse(
+    public record NotiDetailResponse(
             Long id,
             String title,
             String content,
             String author,
             LocalDateTime createdAt
     ) {
-        public static NotiCreateResponse from(Notification notification) {
+        public static NotiDetailResponse from(Notification notification) {
             if (notification == null) return null;
 
-            return new NotiCreateResponse(
+            return new NotiDetailResponse(
                     notification.getId(),
                     notification.getTitle(),
                     notification.getContent(),
                     notification.getUser() != null ? notification.getUser().getNickname() : null,
                     notification.getCreatedAt()
+            );
+        }
+    }
+
+    public record NotiListResponse(
+            Long id,
+            String title
+        ) {
+        public static NotiListResponse from(Notification notification) {
+            if (notification == null) return null;
+
+            return new NotiListResponse(
+                    notification.getId(),
+                    notification.getTitle()
             );
         }
     }

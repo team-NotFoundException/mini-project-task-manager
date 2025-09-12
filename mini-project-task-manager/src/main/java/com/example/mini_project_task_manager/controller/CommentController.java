@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
@@ -28,6 +30,28 @@ public class CommentController {
         ResponseDto<CommentResponse> response = commentService.createComment(taskId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    // 댓글 조회
+    @GetMapping
+    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> getAllComment() {
+        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.getAllComment();
+        return ResponseEntity.ok(response);
+    }
+
+    // task별 댓글 조회
+    @GetMapping("/api/v1/tasks/{taskId}/comments")
+    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> getCommentByTaskId(
+            @PathVariable("taskId") @Positive(message = "taksId 는 1 이상이어야함") Long taskId
+    ) {
+        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.getCommentByTaskId(taskId);
+        return ResponseEntity.ok(response);
+    }
+
+    // comment 키워드 댓글 조회
+    @GetMapping("/search-comment")
+
+    // 특정 작성자의 모든 댓글 조회
+    @GetMapping("/api/v1/tasks/comments/auth/{author}")
 
     // 댓글 수정
     @PutMapping("/api/v1/tasks/{taskId}/comments/{commentsId}")
