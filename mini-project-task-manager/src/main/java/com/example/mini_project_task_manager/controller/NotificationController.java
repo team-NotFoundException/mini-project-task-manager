@@ -29,15 +29,6 @@ public class NotificationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/api/v1/pojets/{projId}/notification/{notiId}")
-    public ResponseEntity<ResponseDto<NotiResponse.NotiUpdateResponse>> updateNotification(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야합니다.") Long projId,
-            @PathVariable("notiId") @Positive(message = "notiId는 1 이상이어야합니다.") Long notiId,
-            @Valid @RequestBody NotiRequest.NotiUpdateRequest dto
-    ) {
-        ResponseDto<NotiResponse.NotiUpdateResponse> response = notificationService.updateNotification(projId, notiId, dto);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
     // 공지 삭제
     @DeleteMapping("/api/v1/pojets/{projId}/notification/{notiId}")

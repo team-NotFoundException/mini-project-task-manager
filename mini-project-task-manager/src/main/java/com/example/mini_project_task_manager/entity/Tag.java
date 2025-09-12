@@ -8,26 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
+// 엔티티 설계 완료
 @Entity
 @Table(
-        name = "tags",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uq_tags_tag_name",
-                columnNames = "tag_name")
-        })
+        name = "tags")
+
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Tag extends BaseTimeEntity {
+public class Tag {
 
-    /** PK */
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
-    private Long id;
-
-    /** 태그명 */
-    @NotNull
+    /** 태그명(PK값) */
+    @Id @NotNull
     @Column(name = "tag_name", updatable = false)
     private String tag_name;
 
@@ -41,6 +32,7 @@ public class Tag extends BaseTimeEntity {
         Tag tag = new Tag();
         tag.tag_name = tag_name;
         return tag;
+
     }
 
 

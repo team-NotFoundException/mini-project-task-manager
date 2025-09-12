@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
+// 엔티티 설계 완료
 @Entity
 @Table(name = "comments")
 @Getter

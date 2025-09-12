@@ -8,12 +8,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
+// 엔티티 설계 완료
 @Entity
 @Table(name = "notifications")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification extends BaseTimeEntity {
+public class Notification {
 
     /** PK */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +38,11 @@ public class Notification extends BaseTimeEntity {
     /** 내용 */
     @Column(name = "content")
     private String content;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
+    private LocalDateTime createdAt;
+
 
 
     @Builder

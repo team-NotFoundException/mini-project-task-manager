@@ -19,11 +19,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseDto<NotiResponse.NotiUpdateResponse> updateNotification(Long projId, Long notiId, NotiRequest.@Valid NotiUpdateRequest dto) {
-        return null;
-    }
-
-    @Override
     public ResponseDto<NotiResponse> deleteNotification(Long projId, Long notiId) {
         return null;
     }

@@ -33,10 +33,10 @@ public class CommentController {
     @PutMapping("/api/v1/tasks/{taskId}/comments/{commentsId}")
     public ResponseEntity<ResponseDto<CommentResponse>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
-            @PathVariable("commentId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentId,
+            @PathVariable("commentsId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentsId,
             @Valid @RequestBody CommentRequest.CommentUpdateRequest dto
     ) {
-        ResponseDto<CommentResponse> response = commentService.updateComment(taskId, commentId, dto);
+        ResponseDto<CommentResponse> response = commentService.updateComment(taskId, commentsId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -44,9 +44,9 @@ public class CommentController {
     @DeleteMapping("/api/v1/tasks/{taskId}/comments/{commentsId}")
     public ResponseEntity<ResponseDto<CommentResponse>> deleteComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
-            @PathVariable("commentId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentId
+            @PathVariable("commentsId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentsId
     ){
-        ResponseDto<CommentResponse> response = commentService.deleteComment(taskId, commentId);
+        ResponseDto<CommentResponse> response = commentService.deleteComment(taskId, commentsId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

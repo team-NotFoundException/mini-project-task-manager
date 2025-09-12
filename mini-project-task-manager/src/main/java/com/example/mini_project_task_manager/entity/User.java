@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-
+// 엔티티 설계 완료
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -54,15 +54,15 @@ public class User extends BaseTimeEntity {
     @Column(name = "gender", length = 20)
     private Gender gender;
 
-    private Set<RoleType> roles = new HashSet<>();
+//    private Set<RoleType> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<User> userRoles = new HashSet<>();
+    private Set<UserRole> userRoles = new HashSet<>();
 
     /** 생성 편의 메서드 */
     @Builder
-    private User(String loginId, String password, String email, String nickname, Gender gender, Set<RoleType>roles){
-        this.username = loginId;
+    private User(String username, String password, String email, String nickname, Gender gender, Set<RoleType> roles){
+        this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;

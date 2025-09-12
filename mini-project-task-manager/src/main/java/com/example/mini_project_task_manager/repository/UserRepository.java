@@ -10,11 +10,11 @@ import com.example.mini_project_task_manager.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-  @Query("""
-      SELECT u
-    FROM user u
-      WHERE u.loginId = :loginId
-
-    """)
+//  @Query("""
+//      SELECT u
+//    FROM user u
+//      WHERE u.loginId = :loginId
+//
+//    """)
     
 }
