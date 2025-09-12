@@ -28,23 +28,4 @@ public class NotiResponse {
             );
         }
     }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public record NotiUpdateResponse(
-            Long id,
-            String title,
-            String content,
-            LocalDateTime updatedAt
-    ) {
-        public static NotiUpdateResponse from(Notification notification) {
-            if (notification == null) return null;
-
-            return new NotiUpdateResponse(
-                    notification.getId(),
-                    notification.getTitle(),
-                    notification.getContent(),
-                    notification.getUpdatedAt()
-            );
-        }
-    }
 }

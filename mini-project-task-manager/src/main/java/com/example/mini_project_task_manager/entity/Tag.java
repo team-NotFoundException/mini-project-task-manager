@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Tag extends BaseTimeEntity {
+public class Tag {
 
     /** 태그명(PK값) */
     @Id @NotNull
