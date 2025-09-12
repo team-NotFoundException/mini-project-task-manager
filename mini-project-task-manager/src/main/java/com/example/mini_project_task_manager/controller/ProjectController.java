@@ -4,12 +4,14 @@ package com.example.mini_project_task_manager.controller;
 import com.example.mini_project_task_manager.DTO.ResponseDto;
 import com.example.mini_project_task_manager.DTO.projectDto.request.ProjectRequest;
 import com.example.mini_project_task_manager.DTO.projectDto.response.ProjectResponse;
+import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,10 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectSummaryResponse>> createProject(
+            @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody ProjectRequest.ProjectCreateRequest request
             ) {
-        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.createProject(request);
+        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.createProject(principal, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -45,6 +48,39 @@ public class ProjectController {
             @PathVariable Long author_id
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByAuthorId(author_id);
+        return ResponseEntity.ok().body(response);
+    }
+
+    // 4) 프로젝트 조회 (단건 조회)
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<ProjectResponse.ProjectSummaryResponse>> getProjectById(
+            @PathVariable Long id
+    ) {
+        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.getProjectById();
+        return ResponseEntity.ok().body(response);
+    }
+
+    // 5) 프로젝트 수정
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<ProjectResponse.ProjectSummaryResponse>> updateProject(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable Long id,
+            @Valid @RequestBody ProjectRequest.ProjectUpdateRequest request
+            ) {
+        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.updateProject();
+        return ResponseEntity.ok().body(response);
+    }
+
+    // 6) 프로젝트 삭제
+    @PreAuthorize(("hasAnyRole('MANAGER', 'ADMIN')"))
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto<Void>> deleteProject(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable Long id
+    ) {
+        ResponseDto<Void> response = projectService.deleteProject(principal, id);
         return ResponseEntity.ok().body(response);
     }
 
