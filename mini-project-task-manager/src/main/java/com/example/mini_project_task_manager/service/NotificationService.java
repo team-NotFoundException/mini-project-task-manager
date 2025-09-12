@@ -6,8 +6,14 @@ import com.example.mini_project_task_manager.dto.notification.response.NotiRespo
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 
+import java.util.List;
+
 public interface NotificationService {
-    ResponseDto<NotiResponse.NotiCreateResponse> createNotification(NotiRequest.@Valid NotiCreateRequest dto);
+    ResponseDto<NotiResponse.NotiDetailResponse> NotiDetailResponse(NotiRequest.@Valid NotiCreateRequest dto);
+
+    ResponseDto<List<NotiResponse.NotiListResponse>> getAllNotifications();
+
+    ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long id);
 
     ResponseDto<NotiResponse> deleteNotification(@Positive(message = "notiId는 1 이상이어야합니다.") Long notiId);
 }

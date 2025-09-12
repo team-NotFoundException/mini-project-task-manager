@@ -29,25 +29,21 @@ import java.time.LocalDateTime;
             );
         }
 
-//        @JsonIgnoreProperties(ignoreUnknown = true)
-//        public record CommentUpdateResponse(
-//                Long id,
-//                Long taskId,
-//                String content,
-//                LocalDateTime updatedAt
-//
-//        ) {
-//            public static CommentUpdateResponse from(Comment comment) {
-//                if (comment == null) return null;
-//
-//                return new CommentUpdateResponse(
-//                        comment.getId(),
-//                        comment.getTask() != null ? comment.getTask().getId() : null,
-//                        comment.getContent(),
-//                        comment.getUpdatedAt()
-//                );
-//            }
-//        }
+        public record CommentListResponse(
+                Long taskId,
+                String content,
+                String author
+        ) {
+            public static CommentListResponse from(Comment comment) {
+                if (comment == null) return null;
+
+                return new CommentListResponse(
+                        comment.getTask() != null? comment.getTask().getId() : null,
+                        comment.getContent(),
+                        comment.getUser() != null? comment.getUser().getNickname() : null
+                );
+            }
+        }
 
     }
 

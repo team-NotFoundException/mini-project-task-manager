@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 // C: USER, AUTHOR, OWNER
 // R: USER, AUTHOR, OWNER
 // U: USER(댓글 작성자)
@@ -20,6 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService {
     @Override
     public ResponseDto<CommentResponse> createComment(Long taskId, CommentRequest.@Valid CommentCreateRequest dto) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<CommentResponse.CommentListResponse>> getAllComment() {
         return null;
     }
 

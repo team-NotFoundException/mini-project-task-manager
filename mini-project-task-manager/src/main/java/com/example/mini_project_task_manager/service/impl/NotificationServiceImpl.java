@@ -9,12 +9,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NotificationServiceImpl implements NotificationService {
+
     @Override
-    public ResponseDto<NotiResponse.NotiCreateResponse> createNotification(NotiRequest.@Valid NotiCreateRequest dto) {
+    public ResponseDto<NotiResponse.NotiDetailResponse> NotiDetailResponse(NotiRequest.@Valid NotiCreateRequest dto) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<NotiResponse.NotiListResponse>> getAllNotifications() {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long id) {
         return null;
     }
 
