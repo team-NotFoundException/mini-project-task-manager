@@ -1,12 +1,10 @@
 package com.example.mini_project_task_manager.dto.notification.response;
 
-import com.example.mini_project_task_manager.dto.pagenation.DomainSummarizable;
-import com.example.mini_project_task_manager.dto.pagenation.PageMetaResponse;
+import com.example.mini_project_task_manager.dto.pagination.DomainSummarizable;
+import com.example.mini_project_task_manager.dto.pagination.PageMetaResponse;
 import com.example.mini_project_task_manager.entity.Notification;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import org.hibernate.query.Page;
 
 import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)

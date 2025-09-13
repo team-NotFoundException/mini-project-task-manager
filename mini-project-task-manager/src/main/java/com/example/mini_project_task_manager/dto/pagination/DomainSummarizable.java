@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.dto.pagenation;
+package com.example.mini_project_task_manager.dto.pagination;
 
 import java.time.LocalDateTime;
 
