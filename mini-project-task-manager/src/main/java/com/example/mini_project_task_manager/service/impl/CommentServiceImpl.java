@@ -31,6 +31,21 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public ResponseDto<List<CommentResponse.CommentListResponse>> getCommentByTaskId(Long taskId) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<CommentResponse.CommentListResponse>> searchCommentByKeyword(String keyword) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<CommentResponse.CommentListResponse>> getCommentsByAuthor(String author) {
+        return null;
+    }
+
+    @Override
     public ResponseDto<CommentResponse> updateComment(Long taskId, Long commentId, CommentRequest.@Valid CommentUpdateRequest dto) {
         return null;
     }

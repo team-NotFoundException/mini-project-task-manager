@@ -6,6 +6,7 @@ import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
 import com.example.mini_project_task_manager.dto.comment.response.CommentResponse;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,9 +50,21 @@ public class CommentController {
 
     // comment 키워드 댓글 조회
     @GetMapping("/search-comment")
+    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> searchCommentByKeyword (
+            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 수 없어요") String keyword
+    ) {
+        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.searchCommentByKeyword(keyword);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     // 특정 작성자의 모든 댓글 조회
     @GetMapping("/api/v1/tasks/comments/auth/{author}")
+    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> getCommentsByAuthor(
+            @PathVariable @NotBlank(message = "작성자는 비어있을 수 없습니다.") String author
+    ) {
+        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.getCommentsByAuthor(author);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     // 댓글 수정
     @PutMapping("/api/v1/tasks/{taskId}/comments/{commentsId}")
