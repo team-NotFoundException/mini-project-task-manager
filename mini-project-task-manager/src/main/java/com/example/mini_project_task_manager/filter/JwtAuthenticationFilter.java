@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-
     private static final String AUTH_HEADER = "Authorization";
     private static final String BEARER_PREFIX = JwtProvider.BEARER_PREFIX;
 
@@ -41,14 +40,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserRepository UserRepository;
     private final UserPrincipalMapper principalMapper;
 
-
-
     @Override
-    protected void doFilterInternal (
-                                      HttpServletRequest request,
-                                      HttpServletResponse response,
-                                      FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain) throws ServletException, IOException {
         try {
 
             if (SecurityContextHolder.getContext().getAuthentication() != null) {
@@ -57,27 +53,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-
             if (HttpMethod.OPTIONS.matches(request.getMethod())) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-
             String authorization = request.getHeader(AUTH_HEADER);
-
 
             if (authorization == null || authorization.isBlank()) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-
             if (!authorization.startsWith(BEARER_PREFIX)) {
                 unauthorized(response, "Authorization 헤더는 'Bearer <token>' 형식이어야 합니다.");
                 return;
             }
-
 
             String token = jwtProvider.removeBearer(authorization);
             if (token.isBlank()) { // 토큰이 비어있는지 확인
@@ -85,22 +76,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-
             if (!jwtProvider.isValidToken(token)) {
                 unauthorized(response, "토큰이 유효하지 않거나 만료되었습니다.");
                 return;
             }
 
-
             String username = jwtProvider.getUsernameFromJwt(token);
-
 
             User user = (User) UserRepository.findByLoginId(username) // DB에서 username 조회
                     .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-
             UserPrincipal principal = principalMapper.map(user); // UserPrincipal 객체로 변환
-
 
             setAuthenticationContext(request, principal);
 
@@ -113,44 +99,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-
     private void setAuthenticationContext(
-                                           HttpServletRequest request,
-                                           UserPrincipal principal
-    ) {
+            HttpServletRequest request,
+            UserPrincipal principal) {
 
-        AbstractAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
-
+        AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principal, null,
+                principal.getAuthorities());
 
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
 
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authenticationToken);
 
-
         SecurityContextHolder.setContext(context);
     }
 
-
     private List<GrantedAuthority> toAuthorities(Set<String> roles) {
-        if (roles == null || roles.isEmpty()) return List.of();
+        if (roles == null || roles.isEmpty())
+            return List.of();
         return roles.stream()
                 .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
                 .map(SimpleGrantedAuthority::new)
 
                 .collect(Collectors.toList());
 
-
     }
-
 
     private void unauthorized(HttpServletResponse response, String message) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(""" 
+        response.getWriter().write("""
                 {"result": "fail","message":"%s"}
                 """.formatted(message));
     }
