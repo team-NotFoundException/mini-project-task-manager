@@ -19,11 +19,12 @@ public class ResponseDto<T> {
         return ResponseDto.set(true, message, data);
     }
 
-    public static <T> ResponseDto<T> setFailed(String message) { return ResponseDto.set(false, message, null); }
-
-    public static <T> ResponseDto<T> setFailed(String message, T data) {
-        return ResponseDto.set(false,message,data);
+    public static <T> ResponseDto<T> setFailed(String message) {
+        return ResponseDto.set(false, message, null);
     }
 
+    public static <T> ResponseDto<T> setFailed(String message, T data) {
+        return ResponseDto.set(false, message, data);
+    }
 
 }
