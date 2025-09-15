@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,6 +51,10 @@ public class Task extends BaseTimeEntity {
     @Column(name = "priority", nullable = false, length = 50)
     private Priority priority = Priority.MEDIUM;
 
+    /** 마감 기한 */
+    @Column(name = "due_date", nullable = false)
+    private LocalDate dueDate;
+
     // Task N <-> Tag N 다대다 관계
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
@@ -67,12 +72,13 @@ public class Task extends BaseTimeEntity {
     /** 생성 편의 메서드 */
     @Builder
     public Task(@NotNull String title, @NotNull String content,
-                @NotNull User user, Status status, Priority priority) {
+                @NotNull User user, Status status, Priority priority, Tag tag) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.status = (status != null) ? status : Status.TODO;
         this.priority = (priority != null) ? priority : Priority.MEDIUM;
+        this.tag = tag;
     }
 
     /** 변경(수정) 메서드 */
