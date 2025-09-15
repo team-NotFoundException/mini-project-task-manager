@@ -11,10 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-// C: USER
-// R: USER
-// U: OWNER
-// D: OWNER
 
 @Service
 @RequiredArgsConstructor
@@ -36,12 +32,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseDto<ProjectResponse.ProjectSummaryResponse> getProjectById() {
+    public ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectById() {
         return null;
     }
 
     @Override
-    public ResponseDto<ProjectResponse.ProjectSummaryResponse> updateProject() {
+    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword() {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject() {
         return null;
     }
 
@@ -49,4 +50,5 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseDto<Void> deleteProject(UserPrincipal principal, Long id) {
         return null;
     }
+
 }
