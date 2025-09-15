@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 public interface CommentService {
-    ResponseDto<CommentResponse> createComment(@Positive(message = "taskId는 1 이상이어야합니당") Long taskId, CommentRequest.@Valid CommentCreateRequest dto);
+    ResponseDto<CommentResponse> createComment(@Positive(message = "taskId는 1 이상이어야합니당") Long taskId, CommentRequest.CommentCreateRequest dto);
 
     ResponseDto<List<CommentResponse.CommentListResponse>> getAllComment();
 

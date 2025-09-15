@@ -38,12 +38,14 @@ public class Comment extends BaseTimeEntity {
 
     // 생성 메서드 //
     public static Comment create(
-            Task task, User user, String content) {
+            String content) {
         Comment comment = new Comment();
-        comment.task = task;
-        comment.user = user;
         comment.content = content;
         return  comment;
+    }
+
+    void setTask(Task task) {
+        this.task = task;
     }
 
     // 수정 메서드 //
