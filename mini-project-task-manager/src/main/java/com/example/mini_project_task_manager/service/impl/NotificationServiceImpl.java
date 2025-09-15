@@ -33,7 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long id) {
+    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long notiId) {
         return null;
     }
 

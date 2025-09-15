@@ -10,7 +10,8 @@ import com.example.mini_project_task_manager.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<Object> findByLoginId(String username);
+
+    Optional<Object> findByUsername(String username);
 //  @Query("""
 //      SELECT u
 //    FROM user u
