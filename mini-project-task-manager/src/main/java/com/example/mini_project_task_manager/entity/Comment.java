@@ -37,8 +37,7 @@ public class Comment extends BaseTimeEntity {
     }
 
     // 생성 메서드 //
-    public static Comment create(
-            String content) {
+    public static Comment create(String content) {
         Comment comment = new Comment();
         comment.content = content;
         return  comment;

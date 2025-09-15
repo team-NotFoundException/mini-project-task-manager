@@ -78,7 +78,7 @@ public class CommentController {
     public ResponseEntity<ResponseDto<CommentResponse>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
             @PathVariable("commentsId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentsId,
-            @Valid @RequestBody CommentRequest.CommentUpdateRequest dto
+            @RequestBody CommentRequest.CommentUpdateRequest dto
     ) {
         ResponseDto<CommentResponse> response = commentService.updateComment(taskId, commentsId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);

@@ -96,4 +96,11 @@ public class Task extends BaseTimeEntity {
             comment.setTask(this);
         }
     }
+
+    public void removeComment(Comment comment) {
+        if (comment == null) return;
+        if (this.contents.remove(comment)) {
+            comment.setTask(null);
+        }
+    }
 }
