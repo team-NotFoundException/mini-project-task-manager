@@ -28,7 +28,7 @@ public class CommentController {
     @PostMapping("/api/v1/tasks/{taskId}/comments")
     public ResponseEntity<ResponseDto<CommentResponse>> createComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
-            @Valid @RequestBody CommentRequest.CommentCreateRequest dto
+            @RequestBody CommentRequest.CommentCreateRequest dto
             ) {
         ResponseDto<CommentResponse> response = commentService.createComment(taskId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
