@@ -38,6 +38,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public ResponseDto<List<NotiResponse.NotiListResponse>> getNotificationByKeyword(String keyword) {
+        return null;
+    }
+
+    @Override
     public ResponseDto<NotiResponse> deleteNotification(Long notiId) {
         return null;
     }
