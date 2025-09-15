@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 // 엔티티 설계 완료
@@ -55,9 +54,12 @@ public class Task extends BaseTimeEntity {
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
 
+    /** 해쉬 태그 */
     // Task N <-> Tag N 다대다 관계
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
+
+
 
     @NotNull
     @ManyToOne
@@ -69,16 +71,32 @@ public class Task extends BaseTimeEntity {
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
     private User user;
 
+
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
+
+    // update 할때 쓰는 메서드
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
+    public String tag(Tag tag) {
+        this.tag = new Tag(tag.getTag_name());
+        return
+    }
+
     /** 생성 편의 메서드 */
     @Builder
     public Task(@NotNull String title, @NotNull String content,
-                @NotNull User user, Status status, Priority priority, Tag tag) {
+                @NotNull User user, Status status, Priority priority, LocalDate dueDate, String tag_name) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.status = (status != null) ? status : Status.TODO;
         this.priority = (priority != null) ? priority : Priority.MEDIUM;
-        this.tag = tag;
+        this.dueDate = dueDate;
+        this.tag = Tag.create(tag_name);
     }
 
     /** 변경(수정) 메서드 */
