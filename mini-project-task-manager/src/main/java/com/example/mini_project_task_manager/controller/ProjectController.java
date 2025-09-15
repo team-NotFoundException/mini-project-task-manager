@@ -7,6 +7,7 @@ import com.example.mini_project_task_manager.dto.project.response.ProjectRespons
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,22 +55,33 @@ public class ProjectController {
     // 4) 프로젝트 조회 (단건 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto<ProjectResponse.ProjectSummaryResponse>> getProjectById(
+    public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> getProjectById(
             @PathVariable Long id
     ) {
-        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.getProjectById();
+        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.getProjectById();
         return ResponseEntity.ok().body(response);
+    }
+
+    // 5) 프로젝트 조회 (키워드 조회)
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @GetMapping("/search-project")
+    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByKeyword(
+            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword
+    ) {
+        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword();
+        return ResponseEntity.ok().body(response);
+
     }
 
     // 5) 프로젝트 수정
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto<ProjectResponse.ProjectSummaryResponse>> updateProject(
+    public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> updateProject(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long id,
             @Valid @RequestBody ProjectRequest.ProjectUpdateRequest request
             ) {
-        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.updateProject();
+        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject();
         return ResponseEntity.ok().body(response);
     }
 
@@ -83,6 +95,4 @@ public class ProjectController {
         ResponseDto<Void> response = projectService.deleteProject(principal, id);
         return ResponseEntity.ok().body(response);
     }
-
-
 }

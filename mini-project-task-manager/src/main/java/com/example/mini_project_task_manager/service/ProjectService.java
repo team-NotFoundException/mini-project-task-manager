@@ -14,9 +14,12 @@ public interface ProjectService {
 
     ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId);
 
-    ResponseDto<ProjectResponse.ProjectSummaryResponse> getProjectById();
+    ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectById();
 
-    ResponseDto<ProjectResponse.ProjectSummaryResponse> updateProject();
+    ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword();
+
+    ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject();
 
     ResponseDto<Void> deleteProject(UserPrincipal principal, Long id);
+
 }

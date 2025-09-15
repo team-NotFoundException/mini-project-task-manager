@@ -10,13 +10,29 @@ public class ProjectResponse {
     public record ProjectSummaryResponse(
             Long id,
             String title,
-            String content,
             LocalDateTime createdAt
     ) {
         public static ProjectSummaryResponse from(Project project) {
             if (project == null) return null;
 
             return new ProjectSummaryResponse(
+                    project.getId(),
+                    project.getTitle(),
+                    project.getCreatedAt()
+            );
+        }
+    }
+
+    public record ProjectDetailResponse(
+            Long id,
+            String title,
+            String content,
+            LocalDateTime createdAt
+    ) {
+        public static ProjectDetailResponse from(Project project) {
+            if (project == null) return null;
+
+            return new ProjectDetailResponse(
                     project.getId(),
                     project.getTitle(),
                     project.getContent(),
