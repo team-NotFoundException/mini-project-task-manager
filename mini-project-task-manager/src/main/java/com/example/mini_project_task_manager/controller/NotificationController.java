@@ -11,6 +11,7 @@ import com.example.mini_project_task_manager.service.NotificationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -67,6 +68,12 @@ public class NotificationController {
     
     // 특정 키워드 포함 공지 조회
     @GetMapping("/search-notification")
+    public ResponseEntity<ResponseDto<List<NotiResponse.NotiListResponse>>> getNotificationByKeyword(
+            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 ㅅ 없습니다.") String keyword
+    ) {
+        ResponseDto<List<NotiResponse.NotiListResponse>> response = notificationService.getNotificationByKeyword(keyword);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
     // 공지 삭제
     @DeleteMapping("/api/v1/notification/{notiId}")
