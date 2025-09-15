@@ -62,8 +62,6 @@ public class Task extends BaseTimeEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
 
-
-
     @NotNull
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_project"))
@@ -74,29 +72,50 @@ public class Task extends BaseTimeEntity {
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
     private User user;
 
-
-    @ManyToOne
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
-
-
-    public String tag(Tag tag) {
-        this.tag = new Tag(tag.getTag_name());
-        return
-                /// 수정해야됨.
+    /** add Tag 수정해야됨. */
+    public String addTag(TaskTag tag) {
+        this.taskTags.add(tag);
+        tag.getTask().addTask(this);
     }
 
+
+    // project에서 addTask?
+    private void addTask() {
+        //  프로젝트 id 와 task id FK 아니면 ~ return
+        if(!project.getId().equals(this.id)) return;
+        else {
+            if (this.equals(null)) {
+                return;
+            } else {
+                Task task =
+                title = getTitle();
+
+            }
+        }
+    }
+
+    public static Task createTask(
+            String title, String content, User user, Status status, Priority priority, LocalDate dueDate
+    ){
+        Task task = new Task();
+        task.title = title;
+        task.content = content;
+        task.user = user;
+        task.status = (status != null) ? status : Status.TODO;
+        task.priority = (priority != null) ? priority : Priority.MEDIUM;
+        task.dueDate = dueDate;
+        return task;
+    }
     /** 생성 편의 메서드 */
-    @Builder
     public Task(@NotNull String title, @NotNull String content,
-                @NotNull User user, Status status, Priority priority, LocalDate dueDate, String tag_name) {
+                @NotNull User user, Status status, Priority priority, LocalDate dueDate) {
         this.title = title;
         this.content = content;
         this.user = user;
         this.status = (status != null) ? status : Status.TODO;
         this.priority = (priority != null) ? priority : Priority.MEDIUM;
         this.dueDate = dueDate;
-        this.tag = Tag.create(tag_name);
+        //this.tag = Tag.create(tag_name);
     }
 
     /** 변경(수정) 메서드 */
@@ -109,7 +128,7 @@ public class Task extends BaseTimeEntity {
     }
 
     // Task 수정할때는 프로젝트한테 넘겨줘 (공유해)
-    public void setProject(Project project) {
+    void setProject(Project project) {
         this.project = project;
     }
 
