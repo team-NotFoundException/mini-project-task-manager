@@ -10,10 +10,12 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/projects/{projectId}")
@@ -21,18 +23,39 @@ import java.nio.file.attribute.UserPrincipal;
 public class TaskController {
     private final TaskService taskService;
 
-    // Task 생성 - 인증된 사용자만
+    // Task 생성 - ADMIN/ MANAGER @AuthenticationPrincipal 쓰는 방법
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<ResponseDto<TaskResponse>> createTask(
+    public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> createTask(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
             @Valid @RequestBody TaskRequest.TaskCreateRequest dto
     ) {
-        ResponseDto<TaskResponse> response = taskService.createTask(userPrincipal, projectId, dto);
+        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.createTask(userPrincipal, projectId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Task 수정 - 인증된 사용자만
+
+    // Task 조회 (전체 조회) - @PreAuthorize 쓰는 방법
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks() {
+        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // Task 조회 (단건 조회)
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @GetMapping("/tasks/{taskId}")
+    public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
+            @PathVariable Long taskId
+    ) {
+        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.getTaskById();
+        return ResponseEntity.ok().body(response);
+    }
+
+    // Task 수정 - ADMIN/ MANAGER
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping("/tasks/{taskId}")
     public ResponseEntity<ResponseDto<TaskResponse>> updateTask(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -45,6 +68,7 @@ public class TaskController {
     }
 
     // Task 삭제 - 인증된 사용자만
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @DeleteMapping("/tasks/{taskId}")
     public ResponseEntity<ResponseDto<Void>> deleteTask(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
