@@ -83,7 +83,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             String username = jwtProvider.getUsernameFromJwt(token);
 
-            User user = (User) UserRepository.findByLoginId(username) // DB에서 username 조회
+            User user = (User) UserRepository.findByUsername(username) // DB에서 username 조회
                     .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
             UserPrincipal principal = principalMapper.map(user); // UserPrincipal 객체로 변환

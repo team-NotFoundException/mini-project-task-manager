@@ -50,18 +50,18 @@ public class NotificationController {
     }
 
     // 공지 조회(전체) 
-    @GetMapping
+    @GetMapping("/api/v1/notifications/all")
     public ResponseEntity<ResponseDto<List<NotiResponse.NotiListResponse>>> getAllNotifications() {
         ResponseDto<List<NotiResponse.NotiListResponse>> response = notificationService.getAllNotifications();
         return ResponseEntity.ok(response);
     }
 
     // 공지 단건 조회
-    @GetMapping
+    @GetMapping("/api/v1/notifications/{notiId}")
     public ResponseEntity<ResponseDto<NotiResponse.NotiDetailResponse>> getNotificationById(
-            @PathVariable Long id
+            @PathVariable Long notiId
     ) {
-        ResponseDto<NotiResponse.NotiDetailResponse> response = notificationService.getNotificationById(id);
+        ResponseDto<NotiResponse.NotiDetailResponse> response = notificationService.getNotificationById(notiId);
         return ResponseEntity.ok(response);
     }
     

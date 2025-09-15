@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "notifications")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification extends BaseTimeEntity implements DomainSummarizable {
+public class Notification implements DomainSummarizable {
 
     /** PK */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

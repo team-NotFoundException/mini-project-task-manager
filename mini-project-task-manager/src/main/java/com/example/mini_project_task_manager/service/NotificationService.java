@@ -16,7 +16,7 @@ public interface NotificationService {
 
     ResponseDto<List<NotiResponse.NotiListResponse>> getAllNotifications();
 
-    ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long id);
+    ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long notiId);
 
     ResponseDto<NotiResponse> deleteNotification(@Positive(message = "notiId는 1 이상이어야합니다.") Long notiId);
 }
