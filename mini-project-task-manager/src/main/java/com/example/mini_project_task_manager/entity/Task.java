@@ -79,10 +79,6 @@ public class Task extends BaseTimeEntity {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-    // update 할때 쓰는 메서드
-    public void setTag(Tag tag) {
-        this.tag = tag;
-    }
 
     public String tag(Tag tag) {
         this.tag = new Tag(tag.getTag_name());
@@ -112,6 +108,10 @@ public class Task extends BaseTimeEntity {
         this.taskTags = tag;
     }
 
+    // Task 수정할때는 프로젝트한테 넘겨줘 (공유해)
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     private List<Comment> contents = new ArrayList<>();
     // 팀장 - addComment 메서드 생성하러 왔습니다!

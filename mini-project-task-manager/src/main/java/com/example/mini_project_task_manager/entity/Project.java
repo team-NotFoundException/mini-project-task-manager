@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 // 엔티티 설계 완료
 @Entity
@@ -42,6 +43,16 @@ public class Project extends BaseTimeEntity {
     private Project(@NotNull String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    // Task(MH) 작성 - 메서드 생성하러 왔습니다!
+    private List<Task> tasks = new ArrayList<>();
+    public void addTask(Task task) {
+        if( task == null) return;
+        if(!this.tasks.contains(task)){
+            this.tasks.add(task);
+            task.setProject(this);
+        }
     }
 
     public void setTitle(String title) {
