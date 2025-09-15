@@ -1,14 +1,12 @@
 package com.example.mini_project_task_manager.dto.notification.response;
 
-import com.example.mini_project_task_manager.dto.pagination.DomainSummarizable;
-import com.example.mini_project_task_manager.dto.pagination.PageMetaResponse;
 import com.example.mini_project_task_manager.entity.Notification;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NotiResponse extends PageMetaResponse {
+public class NotiResponse{
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record NotiDetailResponse(
@@ -35,7 +33,7 @@ public class NotiResponse extends PageMetaResponse {
             Long id,
             String title,
             LocalDateTime createdAt
-        ) implements DomainSummarizable {
+        ) {
         public static NotiListResponse from(Notification notification) {
             if (notification == null) return null;
 
@@ -45,14 +43,6 @@ public class NotiResponse extends PageMetaResponse {
                     notification.getCreatedAt()
             );
         }
-
-        // DomainSummarizable 재정의
-        @Override
-        public Long getId() {return id;}
-        @Override
-        public String getTitle() {return "";}
-        @Override
-        public LocalDateTime getCreatedAt() {return createdAt;}
     }
 
 }
