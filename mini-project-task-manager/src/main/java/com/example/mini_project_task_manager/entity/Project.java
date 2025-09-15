@@ -50,9 +50,14 @@ public class Project extends BaseTimeEntity {
     public void addTask(Task task) {
         if( task == null) return;
         if(!this.tasks.contains(task)){
-            this.tasks.add(task);
+            tasks.add(task);
             task.setProject(this);
         }
+    }
+
+    public void removeTask(Task task){
+        tasks.remove(task);
+        task.setProject(null);
     }
 
     public void setTitle(String title) {
