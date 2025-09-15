@@ -105,10 +105,12 @@ CREATE TABLE IF NOT EXISTS `tasks`(
 
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
-    id          BIGINT PRIMARY KEY AUTO INCREMENT,
+    id          BIGINT PRIMARY KEY AUTO_INCREMENT,
     tag_name    VARCHAR(100) ,
     project_id  BIGINT NOT NULL,
-    CONSTRAINT `fk_tags_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+    CONSTRAINT `fk_tags_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    CONSTRAINT `uk_tags_tag_name` UNIQUE (tag_name)
+
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci

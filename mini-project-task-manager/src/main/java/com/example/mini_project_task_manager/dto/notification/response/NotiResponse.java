@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NotiResponse {
+public class NotiResponse{
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record NotiDetailResponse(
@@ -31,15 +31,18 @@ public class NotiResponse {
 
     public record NotiListResponse(
             Long id,
-            String title
+            String title,
+            LocalDateTime createdAt
         ) {
         public static NotiListResponse from(Notification notification) {
             if (notification == null) return null;
 
             return new NotiListResponse(
                     notification.getId(),
-                    notification.getTitle()
+                    notification.getTitle(),
+                    notification.getCreatedAt()
             );
         }
     }
+
 }

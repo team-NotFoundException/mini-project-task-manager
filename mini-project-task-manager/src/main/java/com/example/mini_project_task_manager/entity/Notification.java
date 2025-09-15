@@ -1,8 +1,8 @@
 package com.example.mini_project_task_manager.entity;
 
+
 import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -58,5 +58,6 @@ public class Notification {
     public void setContent(String content) {
         this.content = content;
     }
+
 
 }

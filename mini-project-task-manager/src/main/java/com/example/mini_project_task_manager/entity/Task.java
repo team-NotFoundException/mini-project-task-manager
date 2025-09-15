@@ -14,7 +14,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 // 엔티티 설계 완료
 @Entity
@@ -107,5 +110,16 @@ public class Task extends BaseTimeEntity {
         this.status = status;
         this.priority = priority;
         this.taskTags = tag;
+    }
+
+
+    private List<Comment> contents = new ArrayList<>();
+    // 팀장 - addComment 메서드 생성하러 왔습니다!
+    public void addComment(Comment comment) {
+        if (comment == null) return;
+        if (!this.contents.contains(comment)) {
+            this.contents.add(comment);
+            comment.setTask(this);
+        }
     }
 }

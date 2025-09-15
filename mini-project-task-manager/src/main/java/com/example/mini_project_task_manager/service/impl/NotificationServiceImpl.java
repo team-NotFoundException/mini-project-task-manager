@@ -27,7 +27,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long id) {
+    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long notiId) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<NotiResponse.NotiListResponse>> getNotificationByKeyword(String keyword) {
         return null;
     }
 
