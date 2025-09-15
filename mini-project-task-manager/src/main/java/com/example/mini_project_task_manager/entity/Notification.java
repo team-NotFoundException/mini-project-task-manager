@@ -1,6 +1,6 @@
 package com.example.mini_project_task_manager.entity;
 
-import com.example.mini_project_task_manager.dto.pagination.DomainSummarizable;
+
 import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "notifications")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification implements DomainSummarizable {
+public class Notification {
 
     /** PK */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,12 +59,5 @@ public class Notification implements DomainSummarizable {
         this.content = content;
     }
 
-    // DomainSummarizable 재정의
-    @Override
-    public Long getId() {return id;}
-    @Override
-    public String getTitle() {return "";}
-    @Override
-    public LocalDateTime getCreatedAt() {return createdAt;}
 
 }
