@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
 // 엔티티 설계 완료
 @Entity
 @Table(
@@ -53,4 +55,8 @@ public class Tag {
         this.tag_name = tag_name;
     }
 
+    // Tag : Task = N:N -> TaskTag 중간 테이블
+    // TaskTag 안에 tag 필드
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TaskTag> taskTags = new HashSet<>();
 }

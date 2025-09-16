@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 public class TaskRequest {
 
@@ -26,7 +27,8 @@ public class TaskRequest {
             // 선택하지 않아도 기본값 설정
             Priority priority,
             Status status,
-            Tag tag
+
+            Set<String> tagNames
 
     ) {}
 
@@ -45,6 +47,7 @@ public class TaskRequest {
 
             Priority priority,
             Status status,
-            Tag tag
+            
+            Set<String> tagNames
     ) {}
 }

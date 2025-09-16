@@ -45,8 +45,8 @@ public class Project extends BaseTimeEntity {
         this.content = content;
     }
 
-    // Task(MH) 작성 - 메서드 생성하러 왔습니다!
-
+    // Task 생성시 Project에도 적용시키기
+    @OneToMany(mappedBy = "project")
     private List<Task> tasks = new ArrayList<>();
     public void addTask(Task task) {
         if( task == null) return;
