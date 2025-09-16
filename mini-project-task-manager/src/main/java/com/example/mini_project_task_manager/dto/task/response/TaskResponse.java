@@ -13,7 +13,6 @@ public class TaskResponse {
     // Task 상세 보기
     public record TaskDetailResponse(
             Long id,
-            //Long projectId,
             String title,
             String content,
             String author,
@@ -27,7 +26,6 @@ public class TaskResponse {
 
             return new TaskDetailResponse(
                     task.getId(),
-                    //task.getProject() != null ? task.getProject().getId() : null,
                     task.getTitle(),
                     task.getContent(),
                     task.getUser() != null ? task.getUser().getNickname() : null,
@@ -42,7 +40,6 @@ public class TaskResponse {
     public record TaskListResponse(
             Long id,
             String title,
-            String content,
             Status status,
             Priority priority,
             Set<TaskTag> taskTags
@@ -53,7 +50,6 @@ public class TaskResponse {
             return new TaskListResponse(
                     task.getId(),
                     task.getTitle(),
-                    task.getContent(),
                     task.getStatus(),
                     task.getPriority(),
                     task.getTaskTags()

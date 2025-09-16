@@ -46,6 +46,7 @@ public class Project extends BaseTimeEntity {
     }
 
     // Task(MH) 작성 - 메서드 생성하러 왔습니다!
+
     private List<Task> tasks = new ArrayList<>();
     public void addTask(Task task) {
         if( task == null) return;

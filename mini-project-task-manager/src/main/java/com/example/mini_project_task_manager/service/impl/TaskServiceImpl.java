@@ -3,6 +3,10 @@ package com.example.mini_project_task_manager.service.impl;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
 import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
+import com.example.mini_project_task_manager.repository.ProjectRepository;
+import com.example.mini_project_task_manager.repository.TagsRepository;
+import com.example.mini_project_task_manager.repository.TasksRepository;
+import com.example.mini_project_task_manager.service.ProjectService;
 import com.example.mini_project_task_manager.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +25,7 @@ import java.nio.file.attribute.UserPrincipal;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TaskServiceImpl implements TaskService {
-
+    private final ProjectRepository projectRepository; // projectId 가져오기
+    private final TasksRepository tasksRepository;     // task 저장할 때 필요함
+    private final TagsRepository tagsRepository;       // tags 저장할 때 필요함.
 }

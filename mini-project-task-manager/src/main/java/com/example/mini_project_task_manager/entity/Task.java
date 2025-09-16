@@ -61,6 +61,9 @@ public class Task extends BaseTimeEntity {
     // Task N <-> Tag N 다대다 관계
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
+    // - 1 : N 관계 시 컬렉션은 NPE 방지를 위해 즉시 초기화
+    // - JPA가 내부적으로 컬렉션 프록시로 교체 가능
+    // cf) 프록시 (중개자)
 
     @NotNull
     @ManyToOne
@@ -72,26 +75,11 @@ public class Task extends BaseTimeEntity {
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
     private User user;
 
-    /** add Tag 수정해야됨. */
-    public String addTag(TaskTag tag) {
-        this.taskTags.add(tag);
-        tag.getTask().addTask(this);
-    }
-
-
-    // project에서 addTask?
-    private void addTask() {
-        //  프로젝트 id 와 task id FK 아니면 ~ return
-        if(!project.getId().equals(this.id)) return;
-        else {
-            if (this.equals(null)) {
-                return;
-            } else {
-                Task task =
-                title = getTitle();
-
-            }
-        }
+    /** 연관관계 편의 메서드 */
+    public void addTag(Tag tag) {
+        TaskTag taskTag = new TaskTag(this, tag); // 중간 엔티티 생성
+        this.taskTags.add(taskTag); // taskTags Set에 생성된 taskTag를 추가한다.
+        tag.getTaskTags().add(taskTag);
     }
 
     public static Task createTask(
@@ -107,6 +95,7 @@ public class Task extends BaseTimeEntity {
         return task;
     }
     /** 생성 편의 메서드 */
+    // 서비츠 계층에서
     public Task(@NotNull String title, @NotNull String content,
                 @NotNull User user, Status status, Priority priority, LocalDate dueDate) {
         this.title = title;
