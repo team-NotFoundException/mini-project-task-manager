@@ -37,14 +37,15 @@ public class Tag {
 
 
     // 태그 생성
-    public static Tag create(
-            String tag_name){
+    public static Tag create(String tag_name){
         Tag tag = new Tag();
         tag.tag_name = tag_name;
         return tag;
-
     }
 
+    void setTag(Tag tag) {
+        this.tag_name = tag_name;
+    }
 
 
 
