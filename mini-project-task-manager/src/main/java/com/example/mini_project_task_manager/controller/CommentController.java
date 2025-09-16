@@ -87,11 +87,11 @@ public class CommentController {
     // 댓글 삭제
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @DeleteMapping("/api/v1/tasks/{taskId}/comments/{commentsId}")
-    public ResponseEntity<ResponseDto<CommentResponse>> deleteComment(
-            @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
-            @PathVariable("commentsId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentsId
+    public ResponseEntity<ResponseDto<Void>> deleteComment(
+            @PathVariable("taskId") Long taskId,
+            @PathVariable("commentsId") Long commentsId
     ){
-        ResponseDto<CommentResponse> response = commentService.deleteComment(taskId, commentsId);
+        ResponseDto<Void> response = commentService.deleteComment(taskId, commentsId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

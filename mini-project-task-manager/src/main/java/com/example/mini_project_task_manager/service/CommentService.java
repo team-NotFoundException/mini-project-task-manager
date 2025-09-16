@@ -21,5 +21,5 @@ public interface CommentService {
 
     ResponseDto<CommentResponse> updateComment(@Positive(message = "taskId는 1 이상이어야합니당") Long taskId, @Positive(message = "commentId는 1 이상이어야합니당") Long commentId, CommentRequest.@Valid CommentUpdateRequest dto);
 
-    ResponseDto<CommentResponse> deleteComment(@Positive(message = "taskId는 1 이상이어야합니당") Long taskId, @Positive(message = "commentId는 1 이상이어야합니당") Long commentId);
+    ResponseDto<Void> deleteComment(@Positive(message = "taskId는 1 이상이어야합니당") Long taskId, @Positive(message = "commentId는 1 이상이어야합니당") Long commentId);
 }

@@ -37,7 +37,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseDto<NotiResponse> deleteNotification(Long notiId) {
+    public ResponseDto<Void> deleteNotification(Long notiId) {
         return null;
     }
 }
