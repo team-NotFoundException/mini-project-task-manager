@@ -37,16 +37,20 @@ public class Tag {
 
 
     // 태그 생성
-    public static Tag create(
-            String tag_name){
+    public static Tag create(String tag_name){
         Tag tag = new Tag();
         tag.tag_name = tag_name;
         return tag;
-
     }
+
 
     // tag 생성/삭제 시 project에 공유
     void setProject(Project project) {
         this.project = project;
     }
+
+    void setTag(Tag tag) {
+        this.tag_name = tag_name;
+    }
+
 }
