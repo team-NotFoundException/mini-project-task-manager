@@ -1,7 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
-import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
-import com.example.mini_project_task_manager.dto.Auth.response.SignInResponse;
+import com.example.mini_project_task_manager.dto.user.request.SignRequest;
+import com.example.mini_project_task_manager.dto.user.response.SignInResponse;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.service.UserService;
 import jakarta.validation.Valid;
@@ -20,16 +20,13 @@ public class UserSingController {
 
     /** 회원가입 */
     @PostMapping("/sign-up")
-    public ResponseEntity<ResponseDto<Void>>
-    sigUp(@Valid @RequestBody SignRequest.SingUpRequest req){
+    public ResponseEntity<ResponseDto<Void>> sigUp(@Valid @RequestBody SignRequest.SingUpRequest req){
         userService.signUp(req);
-        return ResponseEntity.ok
-                (ResponseDto.setSuccess("회원가입이 완료되었습니다.",null));
+        return ResponseEntity.ok(ResponseDto.setSuccess("회원가입이 완료되었습니다.",null));
     }
     /** 로그인 */
     @PostMapping("/sign-in")
-    public ResponseEntity<ResponseDto<SignRequest.SignInRequest>>
-    signIn(@Valid @RequestBody SignRequest.SignInRequest req){
+    public ResponseEntity<ResponseDto<SignRequest.SignInRequest>> signIn(@Valid @RequestBody SignRequest.SignInRequest req){
         ResponseDto<SignInResponse> response = userService.signIn(req);
         return ResponseEntity.ok
                 (ResponseDto.setSuccess("로그인이 완료되었습니다.",null));
