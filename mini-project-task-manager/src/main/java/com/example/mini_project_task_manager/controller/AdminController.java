@@ -17,7 +17,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/vi/admin")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
-public class AdminController {
+public class
+
+
+
+
+
+
+
+
+
+
+
+AdminController {
     private final AdminService adminService;
 
     @PutMapping("/roles/replace")

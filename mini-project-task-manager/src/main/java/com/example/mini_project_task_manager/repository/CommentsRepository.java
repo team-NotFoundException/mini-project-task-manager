@@ -20,7 +20,7 @@ public interface CommentsRepository extends JpaRepository<Comment, Long> {
         select 
             id,
             content
-        from commnet
+        from comment
             where content like concat('%', :searchKeyword, '%') 
             order by content desc
     """, nativeQuery = true)
