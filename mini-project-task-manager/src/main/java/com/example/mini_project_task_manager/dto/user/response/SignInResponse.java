@@ -1,4 +1,4 @@
-package com.example.mini_project_task_manager.dto.Auth.response;
+package com.example.mini_project_task_manager.dto.user.response;
 
 import java.util.Set;
 
