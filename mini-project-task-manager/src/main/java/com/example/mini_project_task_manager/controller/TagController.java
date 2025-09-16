@@ -43,7 +43,7 @@ public class TagController {
 //        return ResponseEntity.status(HttpStatus.OK).body(response);
     // Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/api/v1/tags")
+    @GetMapping("/api/v1/tags/all")
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTags() {
         ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTags();
         return ResponseEntity.status(HttpStatus.OK).body(response);
