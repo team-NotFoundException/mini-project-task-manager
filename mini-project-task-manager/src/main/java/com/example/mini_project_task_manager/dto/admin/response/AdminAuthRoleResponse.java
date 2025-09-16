@@ -12,7 +12,7 @@ public class AdminAuthRoleResponse {
             Set<RoleType> roles,
             LocalDateTime updatedAt
     ) {}
-    public record addRoleResponse (
+    public record AddRoleResponse (
             Long username,
             String loginId,
             Set<RoleType> roles,
