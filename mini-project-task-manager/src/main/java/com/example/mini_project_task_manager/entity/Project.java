@@ -60,6 +60,22 @@ public class Project extends BaseTimeEntity {
         task.setProject(null);
     }
 
+    // Tag 생성
+    private List<Tag> tags = new ArrayList<>();
+    public void addTag(Tag tag) {
+        if (tag == null) return;
+        if (!this.tags.contains(tag)) {
+            tags.add(tag);
+            tag.setProject(this);
+        }
+    }
+
+    // Tag 삭제
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+        tag.setProject(null);
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

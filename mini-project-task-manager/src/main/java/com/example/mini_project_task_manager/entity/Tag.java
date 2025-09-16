@@ -43,10 +43,14 @@ public class Tag {
         return tag;
     }
 
+
+    // tag 생성/삭제 시 project에 공유
+    void setProject(Project project) {
+        this.project = project;
+    }
+
     void setTag(Tag tag) {
         this.tag_name = tag_name;
     }
-
-
 
 }
