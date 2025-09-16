@@ -82,8 +82,10 @@ public class CommentServiceImpl implements CommentService {
         }
 
         // 3. 해당 keyword를 가지고 있는 댓글이 있는지 확인한다
-
+        var rows = commentsRepository.findByCommentKeyword(searchKeyword);
         // 4. 순환하면서 찾는다
+        List<CommentResponse.CommentListResponse> result = rows.stream()
+                .map(CommentResponse.CommentListResponse::from).toList();
         // 5. 담는다
 
 
