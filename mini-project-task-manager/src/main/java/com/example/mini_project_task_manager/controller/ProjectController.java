@@ -26,19 +26,27 @@ public class ProjectController {
     // 1) 프로젝트 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<ResponseDto<ProjectResponse.ProjectSummaryResponse>> createProject(
+    public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> createProject(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody ProjectRequest.ProjectCreateRequest request
             ) {
-        ResponseDto<ProjectResponse.ProjectSummaryResponse> response = projectService.createProject(principal, request);
+        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.createProject(principal, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 2) 프로젝트 조회 (전체 조회)
+    // 2-1) 프로젝트 조회 (전체 조회 내림차순(최신순)) - 기본값
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/all")
-    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjects() {
-        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjects();
+    @GetMapping("/all/desc")
+    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAtDesc() {
+        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAtDesc();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // 2-2) 프로젝트 조회 (전체 조회 오름차순(오래된순))
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @GetMapping("/all/asc")
+    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAtAsc() {
+        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAtAsc();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -52,11 +60,11 @@ public class ProjectController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 4) 프로젝트 조회 (단건 조회)
+    // 4) 프로젝트 조회 (프로젝트 이름으로 단건 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/{title}")
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> getProjectById(
-            @PathVariable Long id
+            @PathVariable String title
     ) {
         ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.getProjectById();
         return ResponseEntity.ok().body(response);
@@ -73,7 +81,7 @@ public class ProjectController {
 
     }
 
-    // 5) 프로젝트 수정
+    // 6) 프로젝트 수정
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> updateProject(
@@ -81,11 +89,11 @@ public class ProjectController {
             @PathVariable Long id,
             @Valid @RequestBody ProjectRequest.ProjectUpdateRequest request
             ) {
-        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject();
+        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject(principal, id, request);
         return ResponseEntity.ok().body(response);
     }
 
-    // 6) 프로젝트 삭제
+    // 7) 프로젝트 삭제
     @PreAuthorize(("hasAnyRole('MANAGER', 'ADMIN')"))
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<Void>> deleteProject(
