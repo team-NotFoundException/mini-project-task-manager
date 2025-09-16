@@ -76,11 +76,11 @@ public class NotificationController {
 
     // 공지 삭제
     @DeleteMapping("/api/v1/notification/{notiId}")
-    public ResponseEntity<ResponseDto<NotiResponse>> deleteNotification(
+    public ResponseEntity<ResponseDto<Void>> deleteNotification(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("notiId") @Positive(message = "notiId는 1 이상이어야합니다.") Long notiId
             ) {
-        ResponseDto<NotiResponse> response = notificationService.deleteNotification(notiId);
+        ResponseDto<Void> response = notificationService.deleteNotification(notiId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

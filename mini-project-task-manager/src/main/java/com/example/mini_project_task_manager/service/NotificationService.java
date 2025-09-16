@@ -18,5 +18,5 @@ public interface NotificationService {
 
     ResponseDto<List<NotiResponse.NotiListResponse>> getNotificationByKeyword(@NotBlank(message = "검색 키워드는 비워져있을 ㅅ 없습니다.") String keyword);
 
-    ResponseDto<NotiResponse> deleteNotification(@Positive(message = "notiId는 1 이상이어야합니다.") Long notiId);
+    ResponseDto<Void> deleteNotification(@Positive(message = "notiId는 1 이상이어야합니다.") Long notiId);
 }

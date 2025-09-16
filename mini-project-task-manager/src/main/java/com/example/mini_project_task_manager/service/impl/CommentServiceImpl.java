@@ -9,10 +9,11 @@ import com.example.mini_project_task_manager.repository.CommentsRepository;
 import com.example.mini_project_task_manager.repository.TasksRepository;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -70,6 +71,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponseDto<List<CommentResponse.CommentListResponse>> searchCommentByKeyword(String keyword) {
+        // 1. 내용값을 입력받는다
+        String searchKeyword = (keyword == null)? "" : keyword.trim();
+
+        // 2. 유효한 값인지 확인한다
+        if (searchKeyword.isEmpty()) {
+            throw new IllegalArgumentException("검색 키워드가 비워져있다니");
+        } else if (searchKeyword.length() > 50) {
+            return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요");
+        }
+
+        // 3. 해당 keyword를 가지고 있는 댓글이 있는지 확인한다
+
+        // 4. 순환하면서 찾는다
+        // 5. 담는다
 
 
         return null;
@@ -99,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public ResponseDto<CommentResponse> deleteComment(Long taskId, Long commentId) {
+    public ResponseDto<Void> deleteComment(Long taskId, Long commentId) {
         Comment comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 댓글을 찾을 수 없어요"));
 
