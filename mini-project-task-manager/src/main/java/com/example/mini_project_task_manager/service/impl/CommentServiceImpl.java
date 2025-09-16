@@ -88,15 +88,16 @@ public class CommentServiceImpl implements CommentService {
                 .map(CommentResponse.CommentListResponse::from).toList();
         // 5. 담는다
 
-
-        return null;
+        return ResponseDto.setSuccess("SUCCESS", result);
 
     }
 
     @Override
     public ResponseDto<List<CommentResponse.CommentListResponse>> getCommentsByAuthor(String author) {
-
-        return null;
+        List<Comment> comments = commentsRepository.findByAuthor(author);
+        List<CommentResponse.CommentListResponse> result = comments.stream()
+                .map(CommentResponse.CommentListResponse::from).toList();
+        return ResponseDto.setSuccess("SUCCESS", result);
     }
 
     @Override
