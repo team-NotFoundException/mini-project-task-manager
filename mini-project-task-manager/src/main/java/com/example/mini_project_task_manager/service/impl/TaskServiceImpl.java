@@ -6,6 +6,7 @@ import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
 import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.TagsRepository;
 import com.example.mini_project_task_manager.repository.TasksRepository;
+import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
 import com.example.mini_project_task_manager.service.TaskService;
 import jakarta.validation.Valid;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 
 // C: USER, OWNER
@@ -27,7 +27,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class TaskServiceImpl implements TaskService {
     @Override
-    public ResponseDto<TaskResponse.TaskDetailResponse> createTask(Long projectId, TaskRequest.@Valid TaskCreateRequest dto) {
+    public ResponseDto<TaskResponse.TaskDetailResponse> createTask(UserPrincipal principal, Long projectId, TaskRequest.@Valid TaskCreateRequest dto) {
         return null;
     }
 
@@ -37,17 +37,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<TaskResponse> updateTask(UserPrincipal userPrincipal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
+    public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long taskId) {
         return null;
     }
 
     @Override
-    public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById() {
+    public ResponseDto<TaskResponse> updateTask(UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
         return null;
     }
 
     @Override
-    public ResponseDto<Void> deleteTask(UserPrincipal userPrincipal, Long projectId, Long taskId) {
+    public ResponseDto<Void> deleteTask(UserPrincipal principal, Long projectId, Long taskId) {
         return null;
     }
 }

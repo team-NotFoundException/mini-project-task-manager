@@ -51,39 +51,45 @@ public class Task extends BaseTimeEntity {
     /** 우선 순위 */
     @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false, length = 50)
-    private Priority priority = Priority.MEDIUM;
+    private Priority priority = Priority.MEDIUM;// 디폴트 값 설정
 
     /** 마감 기한 */
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;
 
     /** 해쉬 태그 */
-    // Task N <-> Tag N 다대다 관계
+    /* Task N <-> Tag N 다대다 관계
+     * ===== 권한 컬렉션 (조인 엔티티) =====
+     * mappedBy = "task": TaskTag 엔티티 안의 task 필드가 연관관계의 주인을 뜻함
+     * cascade = CascadeType.ALL: TaskTag 생성/삭제 전파
+     * orphanRemoval = true: 컬렉션에서 제거되면 join row 삭제
+     * */
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
-    // - 1 : N 관계 시 컬렉션은 NPE 방지를 위해 즉시 초기화
-    // - JPA가 내부적으로 컬렉션 프록시로 교체 가능
-    // cf) 프록시 (중개자)
+    // 처음에는 taskTags는 비어있는 Set 으로 초기화
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_project"))
-    private Project project;
-
+    // Task : User = N:1
     @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
     private User user;
 
-//    /** 연관관계 편의 메서드 */
-//    public void addTag(Tag tag) {
-//        TaskTag taskTag = new TaskTag(this, tag); // 중간 엔티티 생성
-//        this.taskTags.add(taskTag); // taskTags Set에 생성된 taskTag를 추가한다.
-//        tag.getTaskTags().add(taskTag);
-//    }
+    // Task : Project = N:1
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_project"))
+    private Project project;
+
+    /** 연관관계 편의 메서드 */ // TaskServiceImpl 에서 사용할 메서드
+    public void addTag(Tag tag) {
+        if (tag == null) return;
+        TaskTag taskTag = new TaskTag(this, tag); // 중간 엔티티 생성
+        this.taskTags.add(taskTag);                   // Task & TaskTag 관계 세팅
+        tag.getTaskTags().add(taskTag);               // Tag & TaskTag 관계 세팅
+    }
 
     public static Task createTask(
-            String title, String content, User user, Status status, Priority priority, LocalDate dueDate
+            @NotNull String title, @NotNull String content, User user, Status status, Priority priority, LocalDate dueDate
     ){
         Task task = new Task();
         task.title = title;
@@ -92,20 +98,8 @@ public class Task extends BaseTimeEntity {
         task.status = (status != null) ? status : Status.TODO;
         task.priority = (priority != null) ? priority : Priority.MEDIUM;
         task.dueDate = dueDate;
-        return task;
-    }
 
-    /** 생성 편의 메서드 */
-    // 서비츠 계층에서
-    public Task(@NotNull String title, @NotNull String content,
-                @NotNull User user, Status status, Priority priority, LocalDate dueDate) {
-        this.title = title;
-        this.content = content;
-        this.user = user;
-        this.status = (status != null) ? status : Status.TODO;
-        this.priority = (priority != null) ? priority : Priority.MEDIUM;
-        this.dueDate = dueDate;
-        //this.tag = Tag.create(tag_name);
+        return task;
     }
 
     /** 변경(수정) 메서드 */
@@ -117,7 +111,7 @@ public class Task extends BaseTimeEntity {
         this.taskTags = tag;
     }
 
-    // Task 수정할때는 프로젝트한테 넘겨줘 (공유해)
+    // Task 생성/수정/삭제 할때 프로젝트에 공유
     void setProject(Project project) {
         this.project = project;
     }
