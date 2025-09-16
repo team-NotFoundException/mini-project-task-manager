@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 // C: AUTHOR
 // R: USER
 // D: AUTHOR
@@ -24,6 +26,11 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public ResponseDto<TagResponse> deleteTag(Long projId, Long tagId) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<TagResponse.TagNameResponse>> getAllTags() {
         return null;
     }
 }

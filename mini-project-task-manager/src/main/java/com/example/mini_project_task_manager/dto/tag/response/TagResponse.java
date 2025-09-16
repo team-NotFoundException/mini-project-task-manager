@@ -7,8 +7,7 @@ public class TagResponse {
 
     // 태그 이름만 반환하면 된다.
     public record TagNameResponse(
-            String tag_name
-    ){
+            String tag_name){
         public static TagNameResponse from(Tag tag){
             if (tag == null) return null;
 
