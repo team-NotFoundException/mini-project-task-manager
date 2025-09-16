@@ -75,12 +75,12 @@ public class Task extends BaseTimeEntity {
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
     private User user;
 
-    /** 연관관계 편의 메서드 */
-    public void addTag(Tag tag) {
-        TaskTag taskTag = new TaskTag(this, tag); // 중간 엔티티 생성
-        this.taskTags.add(taskTag); // taskTags Set에 생성된 taskTag를 추가한다.
-        tag.getTaskTags().add(taskTag);
-    }
+//    /** 연관관계 편의 메서드 */
+//    public void addTag(Tag tag) {
+//        TaskTag taskTag = new TaskTag(this, tag); // 중간 엔티티 생성
+//        this.taskTags.add(taskTag); // taskTags Set에 생성된 taskTag를 추가한다.
+//        tag.getTaskTags().add(taskTag);
+//    }
 
     public static Task createTask(
             String title, String content, User user, Status status, Priority priority, LocalDate dueDate
@@ -94,6 +94,7 @@ public class Task extends BaseTimeEntity {
         task.dueDate = dueDate;
         return task;
     }
+
     /** 생성 편의 메서드 */
     // 서비츠 계층에서
     public Task(@NotNull String title, @NotNull String content,

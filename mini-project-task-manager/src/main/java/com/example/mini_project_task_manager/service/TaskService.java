@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface TaskService {
 
-    ResponseDto<TaskResponse.TaskDetailResponse> createTask(UserPrincipal userPrincipal, @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, TaskRequest.@Valid TaskCreateRequest dto);
+    ResponseDto<TaskResponse.TaskDetailResponse> createTask( @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, TaskRequest.@Valid TaskCreateRequest dto);
     ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks();
 
     ResponseDto<TaskResponse> updateTask(UserPrincipal userPrincipal, @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId, TaskRequest.@Valid TaskUpdateRequest dto);

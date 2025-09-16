@@ -27,11 +27,10 @@ public class TaskController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> createTask(
-            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
             @Valid @RequestBody TaskRequest.TaskCreateRequest dto
     ) {
-        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.createTask(userPrincipal, projectId, dto);
+        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.createTask(projectId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

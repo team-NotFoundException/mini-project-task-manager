@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.attribute.UserPrincipal;
+import java.util.List;
 
 // C: USER, OWNER
 // R: 권한 x
@@ -25,7 +26,28 @@ import java.nio.file.attribute.UserPrincipal;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TaskServiceImpl implements TaskService {
-    private final ProjectRepository projectRepository; // projectId 가져오기
-    private final TasksRepository tasksRepository;     // task 저장할 때 필요함
-    private final TagsRepository tagsRepository;       // tags 저장할 때 필요함.
+    @Override
+    public ResponseDto<TaskResponse.TaskDetailResponse> createTask(Long projectId, TaskRequest.@Valid TaskCreateRequest dto) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks() {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<TaskResponse> updateTask(UserPrincipal userPrincipal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById() {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<Void> deleteTask(UserPrincipal userPrincipal, Long projectId, Long taskId) {
+        return null;
+    }
 }
