@@ -23,24 +23,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAtDesc() {
+    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAt(boolean sortedBy) {
         return null;
     }
 
-    @Override
-    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAtAsc() {
-        return null;
-    }
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId) {
         return null;
     }
 
-//    @Override
-//    public ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectByTitle(String title) {
-//        return null;
-//    }
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword) {

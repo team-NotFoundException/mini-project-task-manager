@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
 
+import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.request.ProjectRequest;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping(ApiMappingPattern.Projects.ROOT)
 @RequiredArgsConstructor
 public class ProjectController {
     private final ProjectService projectService;
@@ -34,25 +35,19 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 2-1) 프로젝트 조회 (전체 조회 내림차순(최신순)) - 기본값
+    // 2) 프로젝트 조회 (전체 조회 - 내림차순/오름차순)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/all/desc")
-    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAtDesc() {
-        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAtDesc();
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    // 2-2) 프로젝트 조회 (전체 조회 오름차순(오래된순))
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/all/asc")
-    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAtAsc() {
-        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAtAsc();
+    @GetMapping(ApiMappingPattern.Projects.SORTED)
+    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAt(
+            @RequestParam("sortedBy") boolean sortedBy
+    ) {
+        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAt(sortedBy);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 3) 프로젝트 조회 (작성자 id로 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/{author_id}")
+    @GetMapping(ApiMappingPattern.Projects.MY_PROJECT)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByAuthorId(
             @PathVariable Long author_id
     ) {
@@ -60,30 +55,20 @@ public class ProjectController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 4) 프로젝트 조회 (프로젝트 이름으로 단건 조회) - 키워드 조회로 병합
-//    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-//    @GetMapping("/{title}")
-//    public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> getProjectByTitle(
-//            @PathVariable String title
-//    ) {
-//        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.getProjectByTitle(title);
-//        return ResponseEntity.ok().body(response);
-//    }
 
-    // 5) 프로젝트 조회 (키워드 조회)
+    // 4) 프로젝트 검색 (키워드로 검색)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/search-project")
+    @GetMapping(ApiMappingPattern.Projects.SEARCH)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByKeyword(
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword(keyword);
         return ResponseEntity.ok().body(response);
-
     }
 
-    // 6) 프로젝트 수정
+    // 5) 프로젝트 수정
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PutMapping("/{id}")
+    @PutMapping(ApiMappingPattern.Projects.BY_ID)
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> updateProject(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long id,
@@ -93,9 +78,9 @@ public class ProjectController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 7) 프로젝트 삭제
+    // 6) 프로젝트 삭제
     @PreAuthorize(("hasAnyRole('MANAGER', 'ADMIN')"))
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiMappingPattern.Projects.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteProject(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long id
