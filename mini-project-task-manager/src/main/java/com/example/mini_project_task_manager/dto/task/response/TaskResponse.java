@@ -28,7 +28,7 @@ public class TaskResponse {
             Status status,
             Priority priority,
             Set<TaskTagResponse> tags, // 여기 좀 찾아봐야함.
-            List<CommentResponse> comments,
+            List<CommentResponse.CommentListResponse> comments,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
@@ -41,9 +41,9 @@ public class TaskResponse {
             List<Comment> comments
                     = task.getContents() != null ? task.getContents() : Collections.emptyList();
 
-            List<CommentResponse> commentDtos = comments.stream()
+            List<CommentResponse.CommentListResponse> commentDtos = comments.stream()
                     .filter(Objects::nonNull)
-                    .map(CommentResponse::from)
+                    .map(CommentResponse.CommentListResponse::from)
                     .toList();
 
             // TaskTag 엔티티 가져오기
