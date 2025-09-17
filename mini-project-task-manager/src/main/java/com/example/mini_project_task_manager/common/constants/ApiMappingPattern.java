@@ -50,6 +50,7 @@ public class ApiMappingPattern {
 
         // 필터링(status, priority - @RequestParam)
         public static final String FILTER_OPTION = "/filtering";
+    }
 
     }
 

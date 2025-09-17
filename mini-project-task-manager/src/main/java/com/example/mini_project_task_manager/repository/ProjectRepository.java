@@ -9,23 +9,23 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long>, ProjectRepositoryCustom {
 
     // 전체 조회(내림차순)
-    @Query(value = """
-    select 
-        p.id            as "고유번호",
-        p.title         as "제목",
-        u.username      as "작성자",
-        p.created_at    as "생성일"
-    from
-        projects p
-        left join p.users u
-        on u.id = p.author_id
-    order by
-        p.created_at desc
-    """, nativeQuery = true)
-    List<Project> findAllProjectsByCreatedAt();
+//    @Query(value = """
+//    select
+//        p.id            as "고유번호",
+//        p.title         as "제목",
+//        u.nickname      as "작성자",
+//        p.created_at    as "생성일"
+//    from
+//        projects p
+//        left join p.users u
+//        on u.id = p.author_id
+//    order by
+//        p.created_at desc
+//    """, nativeQuery = true)
+//    List<Project> findAllProjectsByCreatedAt();
 
 
     // 작성자 id로 조회
@@ -33,7 +33,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 	select 
 		p.id 			as "고유번호",
 		p.title			as "제목",
-		u.username 	    as "작성자",
+		u.nickname 	    as "작성자",
 		p.created_at 	as "생성일"
 	from 
 		projects p
@@ -51,7 +51,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 	select distinct 
 	    p.id 			as "고유번호",
 		p.title			as "제목",
-	 	u.username 	    as "작성자",
+	 	u.nickname 	    as "작성자",
 		p.created_at 	as "생성일"
 	from 
 		projects p
@@ -61,6 +61,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 		p.created_at asc
     """, nativeQuery = true)
     List<Project> searchProjectsByKeyword(@Param("searchKeyword") String searchKeyword) ;
-
 
 }
