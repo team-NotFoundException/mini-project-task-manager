@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-// C: USER, AUTHOR, OWNER
-// R: USER, AUTHOR, OWNER
-// U: USER(댓글 작성자)
-// D: USER(댓글 작성자), OWNER
 
 @Service
 @RequiredArgsConstructor
@@ -57,17 +53,6 @@ public class CommentServiceImpl implements CommentService {
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
-    @Override
-    public ResponseDto<List<CommentResponse.CommentListResponse>> getCommentByTaskId(Long taskId) {
-        // 1. List를 담을 그릇 만들기
-        List<CommentResponse.CommentListResponse> data = null;
-
-        // 2. 전체 순환해서 commentId = taskId랑 일치하는 애들 담기
-        // 2-1. commentId순환 + taskId순환 -> 입력한 taskId와 입력하는 값 찾기
-
-        // 출력해주기
-        return null;
-    }
 
     @Override
     public ResponseDto<List<CommentResponse.CommentListResponse>> searchCommentByKeyword(String keyword) {
