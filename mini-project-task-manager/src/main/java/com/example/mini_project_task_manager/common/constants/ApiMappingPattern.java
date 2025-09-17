@@ -21,6 +21,14 @@ public class ApiMappingPattern {
     public static final class Projects {
         private Projects () {}
         public static final String ROOT = BASE + "/projects";
+        public static final String ALL = ROOT + "/all";
+        public static final String DESC = ALL + "/desc";
+        public static final String ASC = ALL + "/asc";
+        public static final String BY_AUTHOR_ID = ROOT + "/{author_id}";
+        public static final String BY_TITLE = ROOT + "/{title}";
+        public static final String BY_KEYWORD = ROOT + "/search-project";
+        public static final String BY_ID = ROOT + "/{id}";
+
     }
 
     public static final class Tasks {
