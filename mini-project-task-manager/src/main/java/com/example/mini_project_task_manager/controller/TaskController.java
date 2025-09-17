@@ -28,7 +28,7 @@ import static com.example.mini_project_task_manager.common.constants.ApiMappingP
 public class TaskController {
     private final TaskService taskService;
 
-    // Task 생성 - ADMIN/ MANAGER
+    // Task 생성 =
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')") // 권한만 체크하는 내용
     @PostMapping
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> createTask(
@@ -40,7 +40,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Task 조회 (전체 조회) - 특정 Project
+    // Task 조회 (전체 조회) - 댓글 제외
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks(
@@ -62,7 +62,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // Task 조회 (단건 조회)
+    // Task 조회 (단건 조회) - 댓글 포함
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
