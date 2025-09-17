@@ -27,6 +27,7 @@ public class ApiMappingPattern {
         private Tasks() {}
         public static final String ROOT = BASE +"/tasks";
 
+
     }
 
     public static final class Tags{
@@ -38,7 +39,21 @@ public class ApiMappingPattern {
     public static final class Notifications {
         private Notifications () {}
         public static final String ROOT = BASE + "/notifications";
+        public static final String All = ROOT + "/all";
+        public static final String SEARCHID = ROOT + "/{notiId}";
+        public static final String SEARCHKEYWORD = ROOT + "/search-notification";
 
     }
+
+    public static final class Commnets {
+        private Commnets () {}
+        public static final String ROOT = BASE + "/tasks";
+        public static final String COMMENT = ROOT + "/{taskId}/comments";
+        public static final String FINDKEYWORD = ROOT + "/search-comment";
+        public static final String FINDAUTHOR = COMMENT + "/auth/{author}";
+        public static final String COMMENTID = COMMENT + "/{commnetsId}";
+    }
+
+    public static final class Admin {}
 
 }
