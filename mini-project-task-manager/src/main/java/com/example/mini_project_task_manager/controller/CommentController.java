@@ -6,7 +6,6 @@ import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
 import com.example.mini_project_task_manager.dto.comment.response.CommentResponse;
 import com.example.mini_project_task_manager.service.CommentService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -69,10 +68,10 @@ public class CommentController {
     @PutMapping(ApiMappingPattern.Comments.BY_ID)
     public ResponseEntity<ResponseDto<CommentResponse>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
-            @PathVariable("commnetId") @Positive(message = "commentId는 1 이상이어야합니당") Long commnetId,
+            @PathVariable("commentId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentId,
             @RequestBody CommentRequest.CommentUpdateRequest dto
     ) {
-        ResponseDto<CommentResponse> response = commentService.updateComment(taskId, commnetId, dto);
+        ResponseDto<CommentResponse> response = commentService.updateComment(taskId, commentId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -81,9 +80,9 @@ public class CommentController {
     @DeleteMapping(ApiMappingPattern.Comments.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteComment(
             @PathVariable("taskId") Long taskId,
-            @PathVariable("commnetId") Long commnetId
+            @PathVariable("commentId") Long commentId
     ){
-        ResponseDto<Void> response = commentService.deleteComment(taskId, commnetId);
+        ResponseDto<Void> response = commentService.deleteComment(taskId, commentId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
