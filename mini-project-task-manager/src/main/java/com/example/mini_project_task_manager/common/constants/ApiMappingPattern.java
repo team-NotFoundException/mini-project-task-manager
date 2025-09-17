@@ -27,14 +27,11 @@ public class ApiMappingPattern {
     public static final class Projects {
         private Projects () {}
         public static final String ROOT = BASE + "/projects";
-        public static final String ALL = ROOT + "/all";
-        public static final String DESC = ALL + "/desc";
-        public static final String ASC = ALL + "/asc";
-        public static final String BY_AUTHOR_ID = ROOT + "/{author_id}";
-//        public static final String BY_TITLE = ROOT + "/{title}";
-        public static final String BY_KEYWORD = ROOT + "/search-project";
-        public static final String BY_ID = ROOT + "/{id}";
-
+        public static final String SORTED = ROOT + "/sorted";
+        public static final String MY_PROJECT = ROOT + "/me";
+        public static final String SEARCH = "/search";
+        public static final String BY_ID = "/{projectId}";
+        public static final String PROJECT_TAG = ROOT + "/project/{projectId}/tag";
     }
 
     public static final class Tasks {
