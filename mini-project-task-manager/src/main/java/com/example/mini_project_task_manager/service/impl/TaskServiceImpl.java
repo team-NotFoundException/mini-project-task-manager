@@ -1,5 +1,7 @@
 package com.example.mini_project_task_manager.service.impl;
 
+import com.example.mini_project_task_manager.common.enums.Priority;
+import com.example.mini_project_task_manager.common.enums.Status;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
 import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
@@ -32,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks() {
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks(Long projectId) {
         return null;
     }
 
@@ -42,7 +44,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<TaskResponse> updateTask(UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getTasksByFiltering(Long projectId, Status status, Priority priority) {
+        return null;
+    }
+
+    @Override
+    public ResponseDto<TaskResponse.TaskDetailResponse> updateTask(UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
         return null;
     }
 

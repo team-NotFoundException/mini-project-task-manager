@@ -19,7 +19,8 @@ public class TaskResponse {
             Status status,
             Priority priority,
             Set<TaskTag> tags, // 여기 좀 찾아봐야함.
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
     ) {
         public static TaskDetailResponse from(Task task) {
             if (task == null) return null;
@@ -32,33 +33,7 @@ public class TaskResponse {
                     task.getStatus(),
                     task.getPriority(),
                     task.getTaskTags() != null ? task.getTaskTags() : null,
-                    task.getCreatedAt()
-            );
-        }
-    }
-
-    // Task 수정후 단건 조회
-    public record TaskUpdatedDetailResponse(
-            Long id,
-            String title,
-            String content,
-            String author,
-            Status status,
-            Priority priority,
-            Set<TaskTag> tags, // 여기 좀 찾아봐야함.
-            LocalDateTime updatedAt
-    ) {
-        public static TaskUpdatedDetailResponse from(Task task) {
-            if (task == null) return null;
-
-            return new TaskUpdatedDetailResponse(
-                    task.getId(),
-                    task.getTitle(),
-                    task.getContent(),
-                    task.getUser() != null ? task.getUser().getNickname() : null,
-                    task.getStatus(),
-                    task.getPriority(),
-                    task.getTaskTags() != null ? task.getTaskTags() : null,
+                    task.getCreatedAt(),
                     task.getUpdatedAt()
             );
         }
@@ -85,7 +60,6 @@ public class TaskResponse {
         }
     }
 }
-//
 
 /*
     null 체크로 NullPointerException 방지
