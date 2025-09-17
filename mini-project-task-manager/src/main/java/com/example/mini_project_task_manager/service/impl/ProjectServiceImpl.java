@@ -37,13 +37,13 @@ public class ProjectServiceImpl implements ProjectService {
         return null;
     }
 
-    @Override
-    public ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectById() {
-        return null;
-    }
+//    @Override
+//    public ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectByTitle(String title) {
+//        return null;
+//    }
 
     @Override
-    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword() {
+    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword) {
         return null;
     }
 

@@ -37,7 +37,7 @@ public class ApiMappingPattern {
         public static final String DESC = ALL + "/desc";
         public static final String ASC = ALL + "/asc";
         public static final String BY_AUTHOR_ID = ROOT + "/{author_id}";
-        public static final String BY_TITLE = ROOT + "/{title}";
+//        public static final String BY_TITLE = ROOT + "/{title}";
         public static final String BY_KEYWORD = ROOT + "/search-project";
         public static final String BY_ID = ROOT + "/{id}";
 
