@@ -12,7 +12,7 @@ public class TagResponse {
             if (tag == null) return null;
 
             return new TagNameResponse(
-                    tag.getTag_name()
+                    tag.getTag_name().toString()
             );
         }
     }
