@@ -37,8 +37,7 @@ public class ApiMappingPattern {
     }
 
     public static final class Tasks {
-        private Tasks() {
-        }
+        private Tasks() {}
 
         public static final String ROOT = BASE + "/projects/{projectId}/tasks";
         public static final String BY_ID = BASE + "/{taskId}";
@@ -52,7 +51,7 @@ public class ApiMappingPattern {
         public static final String FILTER_OPTION = "/filtering";
     }
 
-    }
+
 
     public static final class Tags{
         private Tags() {}

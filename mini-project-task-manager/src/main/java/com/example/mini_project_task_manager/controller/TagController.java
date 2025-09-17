@@ -56,7 +56,7 @@ public class TagController {
 
             @Valid @RequestBody TagRequest.TagCreateRequest dto
     ){
-        ResponseDto<TagResponse> response = tagService.createTagByTag(projId, dto);
+        ResponseDto<TagResponse> response = tagService.createTagByTag(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

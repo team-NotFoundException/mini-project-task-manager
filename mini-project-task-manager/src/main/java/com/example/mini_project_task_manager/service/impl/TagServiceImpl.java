@@ -48,4 +48,9 @@ public class TagServiceImpl implements TagService {
     public ResponseDto<List<TagResponse.TagNameResponse>> getTagByTagId(long tagId) {
         return null;
     }
+
+    @Override
+    public ResponseDto<TagResponse> createTagByTag(TagRequest.@Valid TagCreateRequest dto) {
+        return null;
+    }
 }
