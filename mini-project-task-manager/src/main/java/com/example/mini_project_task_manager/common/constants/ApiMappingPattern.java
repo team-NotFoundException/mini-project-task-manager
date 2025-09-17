@@ -61,20 +61,31 @@ public class ApiMappingPattern {
 
     public static final class Notifications {
         private Notifications () {}
-        public static final String ROOT = BASE + "/notifications";
-        public static final String All = ROOT + "/all";
-        public static final String SEARCHID = ROOT + "/{notiId}";
-        public static final String SEARCHKEYWORD = ROOT + "/search-notification";
 
+        // 컨트롤러 단위
+        // 생성, 전체 조회
+        public static final String ROOT = BASE + "/notifications";
+
+        // 단건 조회, 삭제
+        public static final String BY_ID = "/{notificationId}";
+
+        public static final String SEARCH_CONTENT = "/search-content";
     }
 
-    public static final class Commnets {
-        private Commnets () {}
-        public static final String ROOT = BASE + "/tasks";
-        public static final String COMMENT = ROOT + "/{taskId}/comments";
-        public static final String FINDKEYWORD = ROOT + "/search-comment";
-        public static final String FINDAUTHOR = COMMENT + "/auth/{author}";
-        public static final String COMMENTID = COMMENT + "/{commnetsId}";
+    public static final class Comments {
+        private Comments () {}
+
+        // 생성, 전체 조회
+        public static final String ROOT = BASE + "/tasks/{taskId}/comments";
+
+        // 내용으로 댓글 검색
+        public static final String SEARCH_CONTENT = ROOT + "/search-content";
+
+        // 작성자별 댓글 검색
+        public static final String SEARCH_AUTHOR = ROOT + "/search-author";
+
+        // 수정, 삭제
+        public static final String BY_ID = "/{commnetId}";
     }
 
     public static final class Admin {
