@@ -1,7 +1,8 @@
 package com.example.mini_project_task_manager.controller;
 
 
-import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
+import com.example.mini_project_task_manager.common.enums.Priority;
+import com.example.mini_project_task_manager.common.enums.Status;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
 import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
@@ -17,6 +18,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tasks.FILTER_OPTION;
+import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tasks.TASK_BY_ID;
 
 @RestController
 @RequestMapping(ApiMappingPattern.Tasks.ROOT)
@@ -36,18 +40,31 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
-    // Task 조회 (전체 조회) - @PreAuthorize 쓰는 방법
+    // Task 조회 (전체 조회) - 특정 Project
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping
-    public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks() {
-        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks();
+    public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks(
+            @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId
+    ) {
+        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks(projectId);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    // Task 조회 (전체 조회) - 상태, 우선 순위에 따른 조건 필터링 정렬
+    @PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
+    @GetMapping(FILTER_OPTION)
+    public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getTasksByFiltering(
+            @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) Priority priority
+    ) {
+        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getTasksByFiltering(projectId, status, priority);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Task 조회 (단건 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping(ApiMappingPattern.Tasks.TASK_BY_ID)
+    @GetMapping(TASK_BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
             @PathVariable Long taskId
     ) {
@@ -57,26 +74,26 @@ public class TaskController {
 
     // Task 수정 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PutMapping(ApiMappingPattern.Tasks.TASK_BY_ID)
-    public ResponseEntity<ResponseDto<TaskResponse>> updateTask(
+    @PutMapping(TASK_BY_ID)
+    public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> updateTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId,
             @Valid @RequestBody TaskRequest.TaskUpdateRequest dto
     ) {
-        ResponseDto<TaskResponse> response = taskService.updateTask(principal,projectId, taskId, dto);
+        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.updateTask(principal, projectId, taskId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Task 삭제 - 인증된 사용자만
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @DeleteMapping(ApiMappingPattern.Tasks.TASK_BY_ID)
+    @DeleteMapping(TASK_BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId
     ) {
-        ResponseDto<Void> response = taskService.deleteTask(principal,projectId, taskId);
+        ResponseDto<Void> response = taskService.deleteTask(principal, projectId, taskId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

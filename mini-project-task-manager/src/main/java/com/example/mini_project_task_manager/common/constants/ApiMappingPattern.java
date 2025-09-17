@@ -53,6 +53,8 @@ public class ApiMappingPattern {
 
 
 
+    }
+
     public static final class Tags{
         private Tags() {}
 
