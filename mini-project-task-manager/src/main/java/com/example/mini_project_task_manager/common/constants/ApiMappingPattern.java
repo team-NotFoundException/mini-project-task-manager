@@ -10,23 +10,17 @@ public class ApiMappingPattern {
     public static final class Auth{
         private Auth() {}
         public static final String ROOT = BASE + "/auth";
+        public static final String SIGN_UP = ROOT + "/sign_up";
+        public static final String SIGN_IN = ROOT + "/sign_in";
 
-        // admin은 만들어야 함
-        // /api/vi/admin (ROOT)
-        // /api/vi/admin/roles/replace (권한 갱신)
-        // /api/vi/admin/roles/add (권한 추가)
-        // /api/vi/admin/roles/remove (권한 삭제)
 
-        // /api/v1/auth/ (ROOT)
-        // /api/v1/auth/sign-up (회원가입)
-        // /api/v1/auth/sign-in (로그인)
     }
 
     public static final class Users {
         private Users() {}
         public static final String ROOT = BASE + "/users";
-        // /api/v1/users
-
+        public static final String MY_PROFILE = ROOT + "/my_profile";
+        public static final String UPDATE_PROFILE = ROOT + "/update_profile";
 
     }
 
@@ -83,6 +77,12 @@ public class ApiMappingPattern {
         public static final String COMMENTID = COMMENT + "/{commnetsId}";
     }
 
-    public static final class Admin {}
+    public static final class Admin {
+        private Admin () {}
+        public static final String ROOT = BASE + "/Admin";
+        public static final String REPLACE = ROOT + "/roles/replace";
+        public static final String ADD = ROOT + "/roles/add";
+        public static final String REMOVE = ROOT + "/roles/remove";
+    }
 
 }

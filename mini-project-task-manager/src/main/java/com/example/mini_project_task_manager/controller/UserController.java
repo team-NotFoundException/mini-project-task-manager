@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping
+    @GetMapping("/my_profile")
     public ResponseEntity<
             ResponseDto<UserProfileResponse.MyPageResponse>> getMyInfo(@AuthenticationPrincipal UserPrincipal principal
             ) {
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping
+    @PutMapping("/update_profile")
     public ResponseEntity<ResponseDto<UserProfileResponse.MyPageResponse>> updateMyInfo(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody UserProfileUpdateRequest request
