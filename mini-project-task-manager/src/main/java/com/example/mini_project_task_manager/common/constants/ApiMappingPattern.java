@@ -39,16 +39,17 @@ public class ApiMappingPattern {
 
     public static final class Tasks {
         private Tasks() {}
-        public static final String ROOT = BASE + "/projects/{projectId}";
-        public static final String ALL = ROOT + "/tasks";
-        public static final String BY_ID = ROOT + ALL+ "/{taskId}";
 
-        // ROOT                 "/api/v1/projects/{projectId}"
-        // Task 조회 (전체조회)   "/api/v1/projects/{projectId}/tasks"
-        // Task 조회 (단건조회)   "/api/v1/projects/{projectId}/tasks/{taskId}"
-        // Task 수정             "/api/v1/projects/{projectId}/tasks/{taskId}"
-        // Task 삭제             "/api/v1/projects/{projectId}/tasks/{taskId}"
-    }
+        public static final String ROOT = BASE + "/projects/{projectId}/tasks";
+        public static final String BY_ID = BASE + "/{taskId}";
+        public static final String TASK = BASE + "/tasks";
+        public static final String TASK_BY_ID = TASK + BY_ID;
+
+        // Task에서 Tag 생성
+        public static final String TASK_TAG = BASE + "/projects/{projectId}/tasks/{taskId}/tags";
+
+        // 필터링(status, priority - @RequestParam)
+        public static final String FILTER_OPTION = "/filtering";
 
     public static final class Tags{
         private Tags() {}

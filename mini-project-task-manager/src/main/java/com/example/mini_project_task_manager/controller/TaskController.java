@@ -39,7 +39,7 @@ public class TaskController {
 
     // Task 조회 (전체 조회) - @PreAuthorize 쓰는 방법
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping(ApiMappingPattern.Tasks.ALL)
+    @GetMapping
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks() {
         ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks();
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -47,7 +47,7 @@ public class TaskController {
 
     // Task 조회 (단건 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping(ApiMappingPattern.Tasks.BY_ID)
+    @GetMapping(ApiMappingPattern.Tasks.TASK_BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
             @PathVariable Long taskId
     ) {
@@ -57,7 +57,7 @@ public class TaskController {
 
     // Task 수정 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PutMapping(ApiMappingPattern.Tasks.BY_ID)
+    @PutMapping(ApiMappingPattern.Tasks.TASK_BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse>> updateTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
@@ -70,7 +70,7 @@ public class TaskController {
 
     // Task 삭제 - 인증된 사용자만
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @DeleteMapping(ApiMappingPattern.Tasks.BY_ID)
+    @DeleteMapping(ApiMappingPattern.Tasks.TASK_BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
