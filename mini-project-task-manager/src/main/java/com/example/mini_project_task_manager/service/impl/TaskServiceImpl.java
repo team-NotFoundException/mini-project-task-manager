@@ -39,14 +39,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long taskId) {
-        return null;
-    }
-
-    @Override
     public ResponseDto<List<TaskResponse.TaskListResponse>> getTasksByFiltering(Long projectId, Status status, Priority priority) {
         return null;
     }
+    @Override
+    public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long projectId, Long taskId) {
+        return null;
+    }
+
 
     @Override
     public ResponseDto<TaskResponse.TaskDetailResponse> updateTask(UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
