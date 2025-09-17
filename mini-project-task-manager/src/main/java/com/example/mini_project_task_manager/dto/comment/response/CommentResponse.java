@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
             return new CommentResponse(
                     comment.getId(),
                     comment.getTask() != null ? comment.getTask().getId() : null,
-                    comment.getContent(),
+                    comment.getComment(),
                     comment.getUser() != null ? comment.getUser().getNickname() : null,
                     comment.getCreatedAt(),
                     comment.getUpdatedAt()
@@ -39,7 +39,7 @@ import java.time.LocalDateTime;
 
                 return new CommentListResponse(
                         comment.getTask() != null? comment.getTask().getId() : null,
-                        comment.getContent(),
+                        comment.getComment(),
                         comment.getUser() != null? comment.getUser().getNickname() : null
                 );
             }

@@ -28,18 +28,18 @@ public class Comment extends BaseTimeEntity {
 
     @NotNull
     @Column(name = "content")
-    private String content;
+    private String comment;
 
 
     // 메서드 //
     public Comment (String content) {
-        this.content = content;
+        this.comment = content;
     }
 
     // 생성 메서드 //
     public static Comment create(String content) {
         Comment comment = new Comment();
-        comment.content = content;
+        comment.comment = content;
         return  comment;
     }
 
@@ -49,6 +49,6 @@ public class Comment extends BaseTimeEntity {
 
     // 수정 메서드 //
     public void changeContent(String content) {
-        this.content = content;
+        this.comment = content;
     }
 }

@@ -19,6 +19,4 @@ public interface TagService {
     ResponseDto<List<TagResponse.TagNameResponse>> getAllTags();
 
     ResponseDto<List<TagResponse.TagNameResponse>> getTagByTagId(long tagId);
-
-    ResponseDto<TagResponse> createTagByTag(TagRequest.@Valid TagCreateRequest dto);
 }
