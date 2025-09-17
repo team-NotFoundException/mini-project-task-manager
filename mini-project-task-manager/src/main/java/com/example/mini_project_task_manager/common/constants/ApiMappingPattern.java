@@ -37,7 +37,8 @@ public class ApiMappingPattern {
     }
 
     public static final class Tasks {
-        private Tasks() {}
+        private Tasks() {
+        }
 
         public static final String ROOT = BASE + "/projects/{projectId}/tasks";
         public static final String BY_ID = BASE + "/{taskId}";
@@ -49,6 +50,8 @@ public class ApiMappingPattern {
 
         // 필터링(status, priority - @RequestParam)
         public static final String FILTER_OPTION = "/filtering";
+
+    }
 
     public static final class Tags{
         private Tags() {}
@@ -83,7 +86,7 @@ public class ApiMappingPattern {
         public static final String SEARCH_AUTHOR = "/search-author";
 
         // 수정, 삭제
-        public static final String BY_ID = "/{commnetId}";
+        public static final String BY_ID = "/{commentId}";
     }
 
     public static final class Admin {
