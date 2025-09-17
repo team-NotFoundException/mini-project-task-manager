@@ -39,16 +39,22 @@ public class ApiMappingPattern {
     public static final class Tasks {
         private Tasks() {}
 
+        // ProjectTaskController
         public static final String ROOT = BASE + "/projects/{projectId}/tasks";
-        public static final String BY_ID = BASE + "/{taskId}";
-        public static final String TASK = BASE + "/tasks";
-        public static final String TASK_BY_ID = TASK + BY_ID;
+        public static final String BY_ID = "/{taskId}";
+
+        // TaskController
+        // Task 단건 조회/수정/삭제 시에는 projectdId 필요없음.
+        // public static final String TASK = BASE + "/tasks";
+        // public static final String TASK_BY_ID = TASK + BY_ID;
+
+
+        // 필터링(status, priority - @RequestParam)
+        public static final String FILTER_OPTION = "/filtering";
 
         // Task에서 Tag 생성
         public static final String TASK_TAG = BASE + "/projects/{projectId}/tasks/{taskId}/tags";
 
-        // 필터링(status, priority - @RequestParam)
-        public static final String FILTER_OPTION = "/filtering";
     }
 
     public static final class Tags{

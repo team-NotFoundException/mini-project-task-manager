@@ -20,11 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tasks.FILTER_OPTION;
-import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tasks.TASK_BY_ID;
+import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tasks.*;
 
 @RestController
-@RequestMapping(ApiMappingPattern.Tasks.ROOT)
+@RequestMapping(ApiMappingPattern.Tasks.ROOT) // api/v1/projects/{projectId}/tasks
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
@@ -65,17 +64,18 @@ public class TaskController {
 
     // Task 조회 (단건 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping(TASK_BY_ID)
+    @GetMapping(BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
-            @PathVariable Long taskId
+            @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
+            @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId
     ) {
-        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.getTaskById(taskId);
+        ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.getTaskById(projectId, taskId);
         return ResponseEntity.ok().body(response);
     }
 
     // Task 수정 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PutMapping(TASK_BY_ID)
+    @PutMapping(BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> updateTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
@@ -88,7 +88,7 @@ public class TaskController {
 
     // Task 삭제 - 인증된 사용자만
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @DeleteMapping(TASK_BY_ID)
+    @DeleteMapping(BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
