@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
 
+import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
 import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects/{projectId}")
+@RequestMapping(ApiMappingPattern.Tasks.ROOT)
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
@@ -38,7 +39,7 @@ public class TaskController {
 
     // Task 조회 (전체 조회) - @PreAuthorize 쓰는 방법
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/all")
+    @GetMapping(ApiMappingPattern.Tasks.ALL)
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks() {
         ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks();
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -46,7 +47,7 @@ public class TaskController {
 
     // Task 조회 (단건 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/tasks/{taskId}")
+    @GetMapping(ApiMappingPattern.Tasks.BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
             @PathVariable Long taskId
     ) {
@@ -56,7 +57,7 @@ public class TaskController {
 
     // Task 수정 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PutMapping("/tasks/{taskId}")
+    @PutMapping(ApiMappingPattern.Tasks.BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse>> updateTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
@@ -69,7 +70,7 @@ public class TaskController {
 
     // Task 삭제 - 인증된 사용자만
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @DeleteMapping("/tasks/{taskId}")
+    @DeleteMapping(ApiMappingPattern.Tasks.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,

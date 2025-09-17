@@ -25,9 +25,16 @@ public class ApiMappingPattern {
 
     public static final class Tasks {
         private Tasks() {}
-        public static final String ROOT = BASE +"/tasks";
+        public static final String ROOT = BASE +"/projects/{projectId}";
+        public static final String ALL = ROOT + "/tasks";
+        public static final String BY_ID = ROOT + ALL+ "/{taskId}";
 
 
+        // ROOT                 "/api/v1/projects/{projectId}"
+        // Task 조회 (전체조회)   "/api/v1/projects/{projectId}/tasks"
+        // Task 조회 (단건조회)   "/api/v1/projects/{projectId}/tasks/{taskId}"
+        // Task 수정             "/api/v1/projects/{projectId}/tasks/{taskId}"
+        // Task 삭제             "/api/v1/projects/{projectId}/tasks/{taskId}"
     }
 
     public static final class Tags{
