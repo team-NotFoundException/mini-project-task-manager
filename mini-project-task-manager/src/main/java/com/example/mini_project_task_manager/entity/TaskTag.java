@@ -30,13 +30,13 @@ public class TaskTag{
     )
     private Task task;
 
-    // @MapsId("tagName") @MapsId는 해당 엔티티의 PK값을 참조할때만 사용
+
+    @MapsId("tagId") // @MapsId는 해당 엔티티의 PK값을 참조할때만 사용
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "tag_name",
+            name = "tag_id",
             nullable = false,
-            referencedColumnName = "tag_name", // 대상 엔티티가 PK가 아닌 컬럼을 FK로 참조!
-            foreignKey = @ForeignKey(name = "fk_task_tags_tag_name")
+            foreignKey = @ForeignKey(name = "fk_task_tags_tag_id")
     )
     private Tag tag;
 
@@ -45,7 +45,7 @@ public class TaskTag{
         this.tag = tag;
 
         Long taskId = task.getId();
-        String tagName = tag.getTag_name();
-        this.id = new TaskTagId(taskId, tagName);
+        Long tagId = tag.getId();
+        this.id = new TaskTagId(taskId, tagId);
     }
 }

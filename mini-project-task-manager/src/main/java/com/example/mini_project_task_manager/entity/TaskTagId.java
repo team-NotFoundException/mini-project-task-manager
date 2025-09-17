@@ -21,11 +21,11 @@ public class TaskTagId implements Serializable {
     @Column(name = "task_id", nullable = false)
     private Long taskId;
 
-    @Column(name = "tag_name", length = 30, nullable = false)
-    private String tagName;
+    @Column(name = "tag_id", length = 30, nullable = false)
+    private Long tagId;
 
-    public TaskTagId(Long taskId, String tagName) {
+    public TaskTagId(Long taskId, Long tagId) {
         this.taskId = taskId;
-        this.tagName = tagName;
+        this.tagId = tagId;
     }
 }
