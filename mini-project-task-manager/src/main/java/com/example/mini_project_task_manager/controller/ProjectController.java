@@ -60,15 +60,15 @@ public class ProjectController {
         return ResponseEntity.ok().body(response);
     }
 
-    // 4) 프로젝트 조회 (프로젝트 이름으로 단건 조회)
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/{title}")
-    public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> getProjectById(
-            @PathVariable String title
-    ) {
-        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.getProjectById();
-        return ResponseEntity.ok().body(response);
-    }
+    // 4) 프로젝트 조회 (프로젝트 이름으로 단건 조회) - 키워드 조회로 병합
+//    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+//    @GetMapping("/{title}")
+//    public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> getProjectByTitle(
+//            @PathVariable String title
+//    ) {
+//        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.getProjectByTitle(title);
+//        return ResponseEntity.ok().body(response);
+//    }
 
     // 5) 프로젝트 조회 (키워드 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
@@ -76,7 +76,7 @@ public class ProjectController {
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByKeyword(
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword
     ) {
-        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword();
+        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword(keyword);
         return ResponseEntity.ok().body(response);
 
     }

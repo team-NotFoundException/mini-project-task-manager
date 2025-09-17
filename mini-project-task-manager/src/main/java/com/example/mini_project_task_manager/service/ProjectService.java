@@ -17,9 +17,9 @@ public interface ProjectService {
 
     ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId);
 
-    ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectById();
+//    ResponseDto<ProjectResponse.ProjectDetailResponse> getProjectByTitle(String title);
 
-    ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword();
+    ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword);
 
     ResponseDto<Void> deleteProject(UserPrincipal principal, Long id);
 
