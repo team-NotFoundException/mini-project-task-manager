@@ -13,8 +13,6 @@ public interface CommentService {
 
     ResponseDto<List<CommentResponse.CommentListResponse>> getAllComment();
 
-    ResponseDto<List<CommentResponse.CommentListResponse>> getCommentByTaskId(Long taskId);
-
     ResponseDto<List<CommentResponse.CommentListResponse>> searchCommentByKeyword(String keyword);
 
     ResponseDto<List<CommentResponse.CommentListResponse>> getCommentsByAuthor(String author);

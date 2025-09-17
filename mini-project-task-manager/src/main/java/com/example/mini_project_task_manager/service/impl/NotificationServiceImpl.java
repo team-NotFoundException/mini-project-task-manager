@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long notiId) {
+    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long notificationId) {
         return null;
     }
 
@@ -37,7 +37,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public ResponseDto<Void> deleteNotification(Long notiId) {
+    public ResponseDto<Void> deleteNotification(Long notificationId) {
         return null;
     }
 }

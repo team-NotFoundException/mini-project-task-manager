@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
 
+import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.notification.request.NotiRequest;
 import com.example.mini_project_task_manager.dto.notification.response.NotiResponse;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/notifications")
+@RequestMapping(ApiMappingPattern.Notifications.ROOT)
 @RequiredArgsConstructor
 public class NotificationController {
     private final NotificationService notificationService;
@@ -50,23 +51,23 @@ public class NotificationController {
 //    }
 
     // 공지 조회(전체) 
-    @GetMapping("/api/v1/notifications/all")
+    @GetMapping
     public ResponseEntity<ResponseDto<List<NotiResponse.NotiListResponse>>> getAllNotifications() {
         ResponseDto<List<NotiResponse.NotiListResponse>> response = notificationService.getAllNotifications();
         return ResponseEntity.ok(response);
     }
 
     // 공지 단건 조회
-    @GetMapping("/api/v1/notifications/{notiId}")
+    @GetMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<NotiResponse.NotiDetailResponse>> getNotificationById(
-            @PathVariable Long notiId
+            @PathVariable Long notificationId
     ) {
-        ResponseDto<NotiResponse.NotiDetailResponse> response = notificationService.getNotificationById(notiId);
+        ResponseDto<NotiResponse.NotiDetailResponse> response = notificationService.getNotificationById(notificationId);
         return ResponseEntity.ok(response);
     }
     
     // 특정 키워드 포함 공지 조회
-    @GetMapping("/search-notification")
+    @GetMapping(ApiMappingPattern.Notifications.SEARCH_CONTENT)
     public ResponseEntity<ResponseDto<List<NotiResponse.NotiListResponse>>> getNotificationByKeyword(
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 ㅅ 없습니다.") String keyword
     ) {
@@ -75,12 +76,12 @@ public class NotificationController {
     }
 
     // 공지 삭제
-    @DeleteMapping("/api/v1/notification/{notiId}")
+    @DeleteMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteNotification(
             @AuthenticationPrincipal UserPrincipal principal,
-            @PathVariable("notiId") @Positive(message = "notiId는 1 이상이어야합니다.") Long notiId
+            @PathVariable("notificationId") @Positive(message = "notificationId는 1 이상이어야합니다.") Long notificationId
             ) {
-        ResponseDto<Void> response = notificationService.deleteNotification(notiId);
+        ResponseDto<Void> response = notificationService.deleteNotification(notificationId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

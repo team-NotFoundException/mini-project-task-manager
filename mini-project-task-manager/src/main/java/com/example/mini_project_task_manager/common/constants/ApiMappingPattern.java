@@ -77,10 +77,10 @@ public class ApiMappingPattern {
         public static final String ROOT = BASE + "/tasks/{taskId}/comments";
 
         // 내용으로 댓글 검색
-        public static final String SEARCH_CONTENT = ROOT + "/search-content";
+        public static final String SEARCH_CONTENT = "/search-content";
 
         // 작성자별 댓글 검색
-        public static final String SEARCH_AUTHOR = ROOT + "/search-author";
+        public static final String SEARCH_AUTHOR = "/search-author";
 
         // 수정, 삭제
         public static final String BY_ID = "/{commnetId}";
