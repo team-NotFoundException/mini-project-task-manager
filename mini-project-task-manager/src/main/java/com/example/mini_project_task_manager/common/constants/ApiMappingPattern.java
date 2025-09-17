@@ -33,6 +33,9 @@ public class ApiMappingPattern {
     public static final class Tags{
         private Tags() {}
         public static final String ROOT = BASE + "/tags";
+        public static final String All = ROOT + "/all";
+        public static final String TAGID = ROOT + "/{tagid}";
+
 
     }
 
