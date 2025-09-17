@@ -20,29 +20,20 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
     private final AdminService adminService;
 
-    @PutMapping("/roles/replace")
-    public ResponseEntity<ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse>> replaceRoles(
-            @AuthenticationPrincipal UserPrincipal principal,
+    @PutMapping("/roles/users")
+    public ResponseEntity<ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse>> usersRoles(
+            @AuthenticationPrincipal UserPrincipal Principal,
             @Valid @RequestBody AdminAuthRoleRequest.UpdateRolesRequest req ) {
-        ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse> response = adminService.replaceRoles(principal, req);
+        ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse> response = adminService.usersRoles(Principal, req);
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/roles/add")
-    public ResponseEntity<ResponseDto<AdminAuthRoleResponse.AddRoleResponse>> addRole(
-            @AuthenticationPrincipal UserPrincipal principal,
-            @Valid @RequestBody AdminAuthRoleRequest.AddRoleRequest req
-    ) {
-        ResponseDto<AdminAuthRoleResponse.AddRoleResponse> response = adminService.addRole(principal, req);
-        return ResponseEntity.ok().body(response);
-    }
-
-    @PostMapping("/roles/remove")
-    public ResponseEntity<ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse>> removeRole(
+    @PostMapping("/roles/manager")
+    public ResponseEntity<ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse>> managerRoles(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody AdminAuthRoleRequest.RemoveRoleRequest req
     ) {
-        ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> response = adminService.removeRole(principal, req);
+        ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> response = adminService.managerRoles(principal, req);
         return ResponseEntity.ok().body(response);
     }
 }

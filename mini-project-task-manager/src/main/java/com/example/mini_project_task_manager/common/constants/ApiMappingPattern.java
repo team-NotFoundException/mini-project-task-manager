@@ -10,8 +10,8 @@ public class ApiMappingPattern {
     public static final class Auth{
         private Auth() {}
         public static final String ROOT = BASE + "/auth";
-        public static final String SIGN_UP = ROOT + "/sign_up";
-        public static final String SIGN_IN = ROOT + "/sign_in";
+        public static final String SIGN_UP = ROOT + "/sign-up";
+        public static final String SIGN_IN = ROOT + "/sign-in";
 
 
     }
@@ -19,8 +19,10 @@ public class ApiMappingPattern {
     public static final class Users {
         private Users() {}
         public static final String ROOT = BASE + "/users";
-        public static final String MY_PROFILE = ROOT + "/my_profile";
-        public static final String UPDATE_PROFILE = ROOT + "/update_profile";
+
+        // 로그인 한 유저의 본인 데이터 활용 (조회/수정/삭제 등)
+        public static final String MY_PROFILE = ROOT + "/me";
+
 
     }
 
@@ -88,10 +90,12 @@ public class ApiMappingPattern {
 
     public static final class Admin {
         private Admin () {}
-        public static final String ROOT = BASE + "/Admin";
-        public static final String REPLACE = ROOT + "/roles/replace";
-        public static final String ADD = ROOT + "/roles/add";
-        public static final String REMOVE = ROOT + "/roles/remove";
+        public static final String ROOT = BASE + "/admin";
+
+        public static final String USERS = ROOT + "/users";
+        public static final String USER_ROLES = USERS + "/{userId}/roles";
+        public static final String USER_ROLE_MANAGER = USER_ROLES + "/MANAGER";
+
     }
 
 }

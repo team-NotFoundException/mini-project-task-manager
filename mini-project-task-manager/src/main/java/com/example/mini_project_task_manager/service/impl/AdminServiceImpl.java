@@ -20,18 +20,14 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+
     @Override
-    public ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse> replaceRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid UpdateRolesRequest req) {
+    public ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse> usersRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid UpdateRolesRequest req) {
         return null;
     }
 
     @Override
-    public ResponseDto<AdminAuthRoleResponse.AddRoleResponse> addRole(UserPrincipal principal, AdminAuthRoleRequest.@Valid AddRoleRequest req) {
-        return null;
-    }
-
-    @Override
-    public ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> removeRole(UserPrincipal principal, AdminAuthRoleRequest.@Valid RemoveRoleRequest req) {
+    public ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> managerRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid RemoveRoleRequest req) {
         return null;
     }
 }
