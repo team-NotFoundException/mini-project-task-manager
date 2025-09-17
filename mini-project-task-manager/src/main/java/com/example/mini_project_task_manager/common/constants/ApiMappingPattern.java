@@ -51,10 +51,6 @@ public class ApiMappingPattern {
         public static final String FILTER_OPTION = "/filtering";
     }
 
-
-
-    }
-
     public static final class Tags{
         private Tags() {}
 
