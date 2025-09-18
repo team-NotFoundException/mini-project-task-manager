@@ -34,11 +34,9 @@ public class TaskResponse {
             LocalDateTime updatedAt
     ) {
 
-        // Task 엔티티 >> TaskDetailResponseDto 로 변환
         public static TaskDetailResponse from(Task task) {
             if (task == null) return null;
 
-            // Comment 엔티티 가져오기
             List<Comment> comments
                     = task.getContents() != null ? task.getContents() : Collections.emptyList();
 
@@ -47,15 +45,12 @@ public class TaskResponse {
                     .map(CommentResponse.CommentListResponse::from)
                     .toList();
 
-            // TaskTag 엔티티 가져오기
             Set<TaskTag> tags
                     = task.getTaskTags() != null? task.getTaskTags() : Collections.emptySet();
 
             Set<TaskTagResponse> taskTagsDtos = tags.stream()
                     .filter(Objects::nonNull)
                     .map(TaskTagResponse::from)
-                    // , 나 # 띄워쓰기로 구분? 문자열로 출력?
-                    //.collect(Collectors.joining("# "));
                     .collect(Collectors.toSet());
 
             return new TaskDetailResponse(
