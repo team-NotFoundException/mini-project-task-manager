@@ -29,7 +29,7 @@ public class TaskResponse {
             Status status,
             Priority priority,
             Set<TaskTagResponse> tags,
-            List<CommentResponse.CommentListResponse> comments,
+            List<CommentsResponse.CommentListResponse> comments,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
