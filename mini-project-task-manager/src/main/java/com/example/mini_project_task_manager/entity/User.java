@@ -1,7 +1,7 @@
 package com.example.mini_project_task_manager.entity;
 
 import com.example.mini_project_task_manager.common.enums.Gender;
-import com.example.mini_project_task_manager.common.enums.Auth;
+import com.example.mini_project_task_manager.common.enums.RoleType;
 import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -64,7 +63,7 @@ public class User extends BaseTimeEntity {
 
     /** 생성 편의 메서드 */
     @Builder
-    private User(String username, String password, String email, String nickname, Gender gender, Set<Auth> roles){
+    private User(String username, String password, String email, String nickname, Gender gender, Set<RoleType> roles){
         this.username = username;
         this.password = password;
         this.email = email;
@@ -93,7 +92,7 @@ public class User extends BaseTimeEntity {
          public void revokeRole(Role role) {
         userRoles.removeIf(userRole -> userRole.getRole().equals(role));
     }
-    public Set<Auth> getRoleTypes() {
+    public Set<RoleType> getRoleTypes() {
         return userRoles.stream()
                 .map(userRole -> userRole.getRole().getName())
                 .collect(Collectors.toUnmodifiableSet());

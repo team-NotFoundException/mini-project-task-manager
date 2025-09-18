@@ -1,5 +1,5 @@
 package com.example.mini_project_task_manager.common.enums;
 
-public enum Auth {
+public enum RoleType {
     USER, ADMIN, MANAGER
 }

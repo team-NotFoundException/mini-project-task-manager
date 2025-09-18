@@ -1,6 +1,6 @@
 package com.example.mini_project_task_manager.entity;
 
-import com.example.mini_project_task_manager.common.enums.Auth;
+import com.example.mini_project_task_manager.common.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +38,7 @@ public class UserRole  {
         this.role = role;
 
         Long userId = user.getId();
-        Auth roleName = role.getName();
+        RoleType roleName = role.getName();
         this.id = new UserRoleId(userId, roleName);
     }
 
