@@ -17,7 +17,6 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-
     @NotNull @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_comments_task_id"))
     private Task task;
@@ -30,13 +29,10 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "content")
     private String comment;
 
-
-    // 메서드 //
     public Comment (String content) {
         this.comment = content;
     }
 
-    // 생성 메서드 //
     public static Comment create(String content) {
         Comment comment = new Comment();
         comment.comment = content;
@@ -47,7 +43,6 @@ public class Comment extends BaseTimeEntity {
         this.task = task;
     }
 
-    // 수정 메서드 //
     public void changeContent(String content) {
         this.comment = content;
     }

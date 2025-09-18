@@ -13,6 +13,5 @@ public class NotificationsRequest {
             @NotBlank(message = "내용 입력은 필수에요.")
             @Size(max = 1000, message = "내용은 1000자 이하여야해요.")
             String content
-
     ) {}
 }

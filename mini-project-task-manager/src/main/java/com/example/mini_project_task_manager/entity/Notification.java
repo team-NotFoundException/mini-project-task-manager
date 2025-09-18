@@ -30,7 +30,6 @@ public class Notification {
             foreignKey = @ForeignKey(name = "fk_notifications_author_id"))
     private User user;
 
-
     /** 제목 */
     @Column(name = "title")
     private String title;
@@ -45,20 +44,11 @@ public class Notification {
     private LocalDateTime createdAt;
 
 
-
-    @Builder
-    private Notification(String title, String content) {
+    public Notification create(String title, String content) {
+        Notification notification = new Notification();
         this.title = title;
         this.content = content;
+
+        return notification;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-
 }
