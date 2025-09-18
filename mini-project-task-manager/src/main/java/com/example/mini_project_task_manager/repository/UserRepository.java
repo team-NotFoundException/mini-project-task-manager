@@ -23,21 +23,21 @@ public interface UserRepository extends JpaRepository<User, Long> {
      WHERE u.username = :loginId
 
   """)
-    Optional<User> findWithRolesByUsername(@Param("username") String userName);
+    Optional<User> findWithRolesByUsername(@Param("username") String username);
 
     @EntityGraph(attributePaths = "roles")
-    Optional<User> findByUserName(@Param("username") String username);
+    Optional<User> findByUsername(@Param("username") String username);
 
-    @EntityGraph(attributePaths = "roles")
-    Optional<Object> findWithRolesByName(
-            @NotNull(message = "username은 필수입니다.")
-            @Positive(message = "username은 양수여야 합니다.")
-            Long username
-    );
+//    @EntityGraph(attributePaths = "roles")
+//    Optional<Object> findWithRolesByUsername(
+//            @NotNull(message = "username은 필수입니다.")
+//            @Positive(message = "username은 양수여야 합니다.")
+//            String username
+//    );
 
     boolean existsByUsername(String userName);
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
 
-  Optional<Object> findByUsername(String username);
+//  Optional<Object> findByUsername(String username);
 }

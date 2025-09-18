@@ -6,20 +6,20 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NotiResponse{
+public class NotificationsResponse{
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record NotiDetailResponse(
+    public record NotificationDetailResponse(
             Long id,
             String title,
             String content,
             String author,
             LocalDateTime createdAt
     ) {
-        public static NotiDetailResponse from(Notification notification) {
+        public static NotificationDetailResponse from(Notification notification) {
             if (notification == null) return null;
 
-            return new NotiDetailResponse(
+            return new NotificationDetailResponse(
                     notification.getId(),
                     notification.getTitle(),
                     notification.getContent(),
@@ -29,15 +29,16 @@ public class NotiResponse{
         }
     }
 
-    public record NotiListResponse(
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record NotificationListResponse(
             Long id,
             String title,
             LocalDateTime createdAt
         ) {
-        public static NotiListResponse from(Notification notification) {
+        public static NotificationListResponse from(Notification notification) {
             if (notification == null) return null;
 
-            return new NotiListResponse(
+            return new NotificationListResponse(
                     notification.getId(),
                     notification.getTitle(),
                     notification.getCreatedAt()

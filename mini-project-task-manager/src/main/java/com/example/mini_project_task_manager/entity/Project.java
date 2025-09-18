@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-// 엔티티 설계 완료
+
 @Entity
 @Table(
         name = "projects",
@@ -45,7 +45,7 @@ public class Project extends BaseTimeEntity {
         this.content = content;
     }
 
-    // Task 생성시 Project에도 적용시키기
+    /** Task 생성시 Project에 적용 */
     @OneToMany(mappedBy = "project")
     private List<Task> tasks = new ArrayList<>();
     public void addTask(Task task) {
@@ -61,8 +61,7 @@ public class Project extends BaseTimeEntity {
         task.setProject(null);
     }
 
-    // Tag 생성
-    // List에도 관계를 명시해줘야함 (손태경 0917 수정함)
+    /** Tag 생성 */
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tags = new ArrayList<>();
     public void addTag(Tag tag) {
@@ -73,7 +72,7 @@ public class Project extends BaseTimeEntity {
         }
     }
 
-    // Tag 삭제
+    /** Tag 삭제 */
     public void removeTag(Tag tag) {
         tags.remove(tag);
         tag.setProject(null);

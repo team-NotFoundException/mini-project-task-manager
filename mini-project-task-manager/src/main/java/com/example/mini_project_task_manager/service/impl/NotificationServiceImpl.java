@@ -1,8 +1,8 @@
 package com.example.mini_project_task_manager.service.impl;
 
 import com.example.mini_project_task_manager.dto.ResponseDto;
-import com.example.mini_project_task_manager.dto.notification.request.NotiRequest;
-import com.example.mini_project_task_manager.dto.notification.response.NotiResponse;
+import com.example.mini_project_task_manager.dto.notification.request.NotificationsRequest;
+import com.example.mini_project_task_manager.dto.notification.response.NotificationsResponse;
 import com.example.mini_project_task_manager.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,22 +17,22 @@ import java.util.List;
 public class NotificationServiceImpl implements NotificationService {
 
     @Override
-    public ResponseDto<NotiResponse.NotiDetailResponse> NotiDetailResponse(NotiRequest.@Valid NotiCreateRequest dto) {
+    public ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationDetailResponse(NotificationsRequest.@Valid NotificationCreateRequest dto) {
         return null;
     }
 
     @Override
-    public ResponseDto<List<NotiResponse.NotiListResponse>> getAllNotifications() {
+    public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getAllNotifications() {
         return null;
     }
 
     @Override
-    public ResponseDto<NotiResponse.NotiDetailResponse> getNotificationById(Long notificationId) {
+    public ResponseDto<NotificationsResponse.NotificationDetailResponse> getNotificationById(Long notificationId) {
         return null;
     }
 
     @Override
-    public ResponseDto<List<NotiResponse.NotiListResponse>> getNotificationByKeyword(String keyword) {
+    public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getNotificationByKeyword(String keyword) {
         return null;
     }
 

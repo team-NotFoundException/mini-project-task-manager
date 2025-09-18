@@ -2,18 +2,16 @@ package com.example.mini_project_task_manager.service.impl;
 
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
-import com.example.mini_project_task_manager.dto.comment.response.CommentResponse;
+import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
 import com.example.mini_project_task_manager.entity.Comment;
 import com.example.mini_project_task_manager.entity.Task;
 import com.example.mini_project_task_manager.repository.CommentsRepository;
 import com.example.mini_project_task_manager.repository.TasksRepository;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public ResponseDto<CommentResponse> createComment(Long taskId, CommentRequest.CommentCreateRequest dto) {
+    public ResponseDto<CommentsResponse.CommentResponse> createComment(Long taskId, CommentRequest.CommentCreateRequest dto) {
         Task task = tasksRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없습니다."));
         Comment comment = Comment.create(dto.comment());
@@ -36,17 +34,17 @@ public class CommentServiceImpl implements CommentService {
         task.addComment(comment);
 
         Comment saved = commentsRepository.save((comment));
-        return ResponseDto.setSuccess("SUCCESS", CommentResponse.from(saved));
+        return ResponseDto.setSuccess("SUCCESS", CommentsResponse.CommentResponse.from(saved));
     }
 
     @Override
-    public ResponseDto<List<CommentResponse.CommentListResponse>> getAllComment() {
+    public ResponseDto<List<CommentsResponse.CommentListResponse>> getAllComment() {
         // 1. List를 담을 그릇 만들기
-        List<CommentResponse.CommentListResponse> data = null;
+        List<CommentsResponse.CommentListResponse> data = null;
 
         // 2. 전체 순환하면서 그릇에 담기
         data = commentsRepository.findAll().stream()
-                .map(CommentResponse.CommentListResponse::from)
+                .map(CommentsResponse.CommentListResponse::from)
                 .toList();
 
         // 출력해주기
@@ -55,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public ResponseDto<List<CommentResponse.CommentListResponse>> searchCommentByKeyword(String keyword) {
+    public ResponseDto<List<CommentsResponse.CommentListResponse>> searchCommentByKeyword(String keyword) {
         // 1. 내용값을 입력받는다
         String searchKeyword = (keyword == null)? "" : keyword.trim();
 
@@ -69,8 +67,8 @@ public class CommentServiceImpl implements CommentService {
         // 3. 해당 keyword를 가지고 있는 댓글이 있는지 확인한다
         var rows = commentsRepository.findByCommentKeyword(searchKeyword);
         // 4. 순환하면서 찾는다
-        List<CommentResponse.CommentListResponse> result = rows.stream()
-                .map(CommentResponse.CommentListResponse::from).toList();
+        List<CommentsResponse.CommentListResponse> result = rows.stream()
+                .map(CommentsResponse.CommentListResponse::from).toList();
         // 5. 담는다
 
         return ResponseDto.setSuccess("SUCCESS", result);
@@ -78,16 +76,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ResponseDto<List<CommentResponse.CommentListResponse>> getCommentsByAuthor(String author) {
+    public ResponseDto<List<CommentsResponse.CommentListResponse>> getCommentsByAuthor(String author) {
         List<Comment> comments = commentsRepository.findByAuthor(author);
-        List<CommentResponse.CommentListResponse> result = comments.stream()
-                .map(CommentResponse.CommentListResponse::from).toList();
+        List<CommentsResponse.CommentListResponse> result = comments.stream()
+                .map(CommentsResponse.CommentListResponse::from).toList();
         return ResponseDto.setSuccess("SUCCESS", result);
     }
 
     @Override
     @Transactional
-    public ResponseDto<CommentResponse> updateComment(Long taskId, Long commentId, CommentRequest.CommentUpdateRequest dto) {
+    public ResponseDto<CommentsResponse.CommentResponse> updateComment(Long taskId, Long commentId, CommentRequest.CommentUpdateRequest dto) {
         Comment comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 댓글을 찾을 수 없어요"));
 
@@ -96,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         comment.changeContent(dto.comment());
-        return ResponseDto.setSuccess("SUCCESS", CommentResponse.from(comment));
+        return ResponseDto.setSuccess("SUCCESS", CommentsResponse.CommentResponse.from(comment));
 
     }
 
