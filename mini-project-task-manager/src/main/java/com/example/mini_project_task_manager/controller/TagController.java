@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
 
+import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
 import com.example.mini_project_task_manager.dto.tag.request.TagRequest;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tags.FROM_TAG;
+import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tags.FROM_TASK;
+
 @RestController
-@RequestMapping("/api/v1/tags")
+@RequestMapping(ApiMappingPattern.Tags.ROOT)
 @RequiredArgsConstructor
 public class TagController {
 
@@ -29,7 +33,7 @@ public class TagController {
 
     // PROJECT에서  태그 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping("/api/v1/project/{projectid}/tags")
+    @PostMapping(ApiMappingPattern.Tags.TAG_ID)
     public ResponseEntity<ResponseDto<TagResponse>> createTagByProject(
             @PathVariable("projId") @Positive(message = "projId는 1 이상이여야합니다.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
@@ -40,7 +44,7 @@ public class TagController {
 
     // Task에서 tag 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping("/api/v1/project/{projectid}/tasks/{taskid}/tags")
+    @PostMapping(FROM_TASK)
     public ResponseEntity<ResponseDto<TagResponse>> createTagByTask(
             @PathVariable("projId") @Positive(message = "projId는 1 이상이여야합니다.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
@@ -51,7 +55,7 @@ public class TagController {
 
     // Tag에서 tag 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping("/api/v1/tags")
+    @PostMapping(FROM_TAG)
     public ResponseEntity<ResponseDto<TagResponse>> createTagByTag(
 
             @Valid @RequestBody TagRequest.TagCreateRequest dto
