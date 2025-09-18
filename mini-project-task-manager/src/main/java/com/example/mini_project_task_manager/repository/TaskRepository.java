@@ -19,7 +19,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
         where t.project.id = :projectId
         order by t.id desc
     """)
-    List<Task> findAllByProjectIdOrderByIdDesc(@Param("projectId") Long projectId);
+    List<Task> findAllOrderByIdDesc(@Param("projectId") Long projectId);
 
     // 할일 조회 + 댓글, 태그 까지 즉시 로딩
     @Query("""
