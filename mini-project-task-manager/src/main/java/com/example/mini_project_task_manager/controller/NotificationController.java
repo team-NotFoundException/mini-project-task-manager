@@ -3,14 +3,12 @@ package com.example.mini_project_task_manager.controller;
 
 import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
-import com.example.mini_project_task_manager.dto.notification.request.NotiRequest;
-import com.example.mini_project_task_manager.dto.notification.response.NotiResponse;
+import com.example.mini_project_task_manager.dto.notification.request.NotificationsRequest;
+import com.example.mini_project_task_manager.dto.notification.response.NotificationsResponse;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.NotificationService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +29,11 @@ public class NotificationController {
 
     // 공지 생성
     @PostMapping
-    public ResponseEntity<ResponseDto<NotiResponse.NotiDetailResponse>> createNotification(
+    public ResponseEntity<ResponseDto<NotificationsResponse.NotificationDetailResponse>> createNotification(
             @AuthenticationPrincipal UserPrincipal principal,
-            @Valid @RequestBody NotiRequest.NotiCreateRequest dto
+            @Valid @RequestBody NotificationsRequest.NotificationCreateRequest dto
     ) {
-        ResponseDto<NotiResponse.NotiDetailResponse> response = notificationService.NotiDetailResponse(dto);
+        ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.NotificationDetailResponse(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -52,26 +50,26 @@ public class NotificationController {
 
     // 공지 조회(전체) 
     @GetMapping
-    public ResponseEntity<ResponseDto<List<NotiResponse.NotiListResponse>>> getAllNotifications() {
-        ResponseDto<List<NotiResponse.NotiListResponse>> response = notificationService.getAllNotifications();
+    public ResponseEntity<ResponseDto<List<NotificationsResponse.NotificationListResponse>>> getAllNotifications() {
+        ResponseDto<List<NotificationsResponse.NotificationListResponse>> response = notificationService.getAllNotifications();
         return ResponseEntity.ok(response);
     }
 
     // 공지 단건 조회
     @GetMapping(ApiMappingPattern.Notifications.BY_ID)
-    public ResponseEntity<ResponseDto<NotiResponse.NotiDetailResponse>> getNotificationById(
+    public ResponseEntity<ResponseDto<NotificationsResponse.NotificationDetailResponse>> getNotificationById(
             @PathVariable Long notificationId
     ) {
-        ResponseDto<NotiResponse.NotiDetailResponse> response = notificationService.getNotificationById(notificationId);
+        ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.getNotificationById(notificationId);
         return ResponseEntity.ok(response);
     }
     
     // 특정 키워드 포함 공지 조회
     @GetMapping(ApiMappingPattern.Notifications.SEARCH_CONTENT)
-    public ResponseEntity<ResponseDto<List<NotiResponse.NotiListResponse>>> getNotificationByKeyword(
-            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 ㅅ 없습니다.") String keyword
+    public ResponseEntity<ResponseDto<List<NotificationsResponse.NotificationListResponse>>> getNotificationByKeyword(
+            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 수 없어요.") String keyword
     ) {
-        ResponseDto<List<NotiResponse.NotiListResponse>> response = notificationService.getNotificationByKeyword(keyword);
+        ResponseDto<List<NotificationsResponse.NotificationListResponse>> response = notificationService.getNotificationByKeyword(keyword);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -79,7 +77,7 @@ public class NotificationController {
     @DeleteMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteNotification(
             @AuthenticationPrincipal UserPrincipal principal,
-            @PathVariable("notificationId") @Positive(message = "notificationId는 1 이상이어야합니다.") Long notificationId
+            @PathVariable("notificationId") @Positive(message = "notificationId는 1 이상이어야 해요.") Long notificationId
             ) {
         ResponseDto<Void> response = notificationService.deleteNotification(notificationId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
