@@ -17,9 +17,9 @@ public interface ProjectService {
 
     ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword);
 
-    ResponseDto<Void> deleteProject(UserPrincipal principal, Long id);
+    ResponseDto<Void> deleteProject(UserPrincipal principal, Long projectId);
 
-    ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject(UserPrincipal principal, Long id, ProjectRequest.@Valid ProjectUpdateRequest request);
+    ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject(UserPrincipal principal, Long projectId, ProjectRequest.@Valid ProjectUpdateRequest request);
 
 
 }

@@ -9,6 +9,7 @@ import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,9 +50,9 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.MY_PROJECT)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByAuthorId(
-            @PathVariable Long author_id
+            @PathVariable("authorId") @Positive(message = "authorId는 1이상이어야 합니다.") Long authorId
     ) {
-        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByAuthorId(author_id);
+        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByAuthorId(authorId);
         return ResponseEntity.ok().body(response);
     }
 
@@ -60,7 +61,7 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.SEARCH)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByKeyword(
-            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword
+            @RequestParam("keyword") @NotBlank(message = "검색 키워드를 입력해주세요.") String keyword
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword(keyword);
         return ResponseEntity.ok().body(response);
@@ -71,10 +72,10 @@ public class ProjectController {
     @PutMapping(ApiMappingPattern.Projects.BY_ID)
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> updateProject(
             @AuthenticationPrincipal UserPrincipal principal,
-            @PathVariable Long id,
+            @PathVariable("projectId") @Positive(message = "projectId는 1이상이어야 합니다.") Long projectId,
             @Valid @RequestBody ProjectRequest.ProjectUpdateRequest request
             ) {
-        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject(principal, id, request);
+        ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject(principal, projectId, request);
         return ResponseEntity.ok().body(response);
     }
 
@@ -83,9 +84,9 @@ public class ProjectController {
     @DeleteMapping(ApiMappingPattern.Projects.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteProject(
             @AuthenticationPrincipal UserPrincipal principal,
-            @PathVariable Long id
+            @PathVariable("projectId") Long projectId
     ) {
-        ResponseDto<Void> response = projectService.deleteProject(principal, id);
+        ResponseDto<Void> response = projectService.deleteProject(principal, projectId);
         return ResponseEntity.ok().body(response);
     }
 }
