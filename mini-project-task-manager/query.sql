@@ -119,10 +119,10 @@ CREATE TABLE IF NOT EXISTS `tags`(
 DROP TABLE IF EXISTS `task_tags`;
 CREATE TABLE IF NOT EXISTS `task_tags` (
     task_id     BIGINT NOT NULL,
-    tag_name   VARCHAR(100) NOT NULL,
-    PRIMARY KEY (task_id, tag_name),
+    tag_id   BIGINT NOT NULL,
+    PRIMARY KEY (task_id, tag_id),
     CONSTRAINT `fk_task_tags_task_id` FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_task_tags_tag_name` FOREIGN KEY (tag_name) REFERENCES tags(tag_name) ON DELETE CASCADE
+    CONSTRAINT `fk_task_tags_tag_id` FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 )   ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci

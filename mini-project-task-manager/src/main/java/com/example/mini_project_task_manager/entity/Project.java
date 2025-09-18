@@ -62,6 +62,8 @@ public class Project extends BaseTimeEntity {
     }
 
     // Tag 생성
+    // List에도 관계를 명시해줘야함 (손태경 0917 수정함)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tag> tags = new ArrayList<>();
     public void addTag(Tag tag) {
         if (tag == null) return;

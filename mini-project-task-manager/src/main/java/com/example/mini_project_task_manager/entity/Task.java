@@ -115,7 +115,10 @@ public class Task extends BaseTimeEntity {
     void setProject(Project project) {
         this.project = project;
     }
-
+    
+    // List<> ### new ######<>() 에도 @OneToMany 같은 관계형이 선언되어야함
+    // 0917  손태경 수정함
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> contents = new ArrayList<>();
     // 팀장 - addComment 메서드 생성하러 왔습니다!
     public void addComment(Comment comment) {
