@@ -33,7 +33,7 @@ public class NotificationController {
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody NotificationsRequest.NotificationCreateRequest dto
     ) {
-        ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.NotificationDetailResponse(dto);
+        ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.NotificationcreateResponse(principal, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -3,6 +3,7 @@ package com.example.mini_project_task_manager.service;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.notification.request.NotificationsRequest;
 import com.example.mini_project_task_manager.dto.notification.response.NotificationsResponse;
+import com.example.mini_project_task_manager.security.UserPrincipal;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -10,7 +11,7 @@ import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 public interface NotificationService {
-    ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationDetailResponse(NotificationsRequest.@Valid NotificationCreateRequest dto);
+    ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(UserPrincipal principal, NotificationsRequest.@Valid NotificationCreateRequest dto);
 
     ResponseDto<List<NotificationsResponse.NotificationListResponse>> getAllNotifications();
 
