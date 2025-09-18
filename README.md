@@ -53,79 +53,91 @@
 
 ```mermaid
 erDiagram
-    USERS ||--o{ USER_ROLES : "has"
-    USERS ||--o{ PROJECTS : "owns"
-    USERS ||--o{ TASKS : "authors"
-    USERS ||--o{ COMMENTS : "writes"
-
-    ROLES ||--o{ USER_ROLES : "maps"
-    
-    PROJECTS ||--o{ TASKS : "contains"
-    PROJECTS ||--o{ NOTIFICATIONS : "announces"
-
-    TASKS ||--o{ COMMENTS : "has"
-    TASKS ||--o{ TASK_TAGS : "tagged"
-    TAGS ||--o{ TASK_TAGS : "maps"
-
     USERS {
-        bigint id PK
-        varchar username
-        varchar email
-        varchar nickname
-        varchar gender
+        BIGINT id PK
+        VARCHAR username UK
+        VARCHAR password
+        VARCHAR nickname UK
+        VARCHAR email UK
+        VARCHAR gender
+        DATETIME created_at
+        DATETIME updated_at
     }
 
     ROLES {
-        varchar role_name PK
+        VARCHAR role_name PK
     }
 
     USER_ROLES {
-        bigint id PK
-        bigint user_id FK
-        varchar role
+        BIGINT user_id FK
+        VARCHAR role_name FK
     }
 
     PROJECTS {
-        bigint id PK
-        bigint owner_id FK
-        varchar title
-        varchar content
+        BIGINT id PK
+        BIGINT author_id FK
+        VARCHAR title UK
+        VARCHAR content
+        DATETIME created_at
+        DATETIME updated_at
     }
 
     TASKS {
-        bigint id PK
-        bigint project_id FK
-        bigint author_id FK
-        varchar title
-        text content
-        varchar status
-        varchar priority
-        date due_date
-    }
-
-    COMMENTS {
-        bigint id PK
-        bigint task_id FK
-        bigint author_id FK
-        text content
-    }
-
-    NOTIFICATIONS {
-        bigint id PK
-        bigint project_id FK
-        varchar title
-        text content
+        BIGINT id PK
+        BIGINT project_id FK
+        BIGINT author_id FK
+        VARCHAR title
+        LONGTEXT content
+        VARCHAR status
+        VARCHAR priority
+        DATE due_date
+        DATETIME created_at
+        DATETIME updated_at
     }
 
     TAGS {
-        bigint id PK
-        varchar tag_name
+        BIGINT id PK
+        VARCHAR tag_name UK
+        BIGINT project_id FK
     }
 
     TASK_TAGS {
-        bigint id PK
-        bigint task_id FK
-        bigint tag_id FK
+        BIGINT task_id FK
+        BIGINT tag_id FK
     }
 
+    COMMENTS {
+        BIGINT id PK
+        BIGINT task_id FK
+        BIGINT author_id FK
+        TEXT content
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    NOTIFICATIONS {
+        BIGINT id PK
+        BIGINT author_id FK
+        VARCHAR title
+        TEXT content
+        DATETIME created_at
+    }
+
+    %% 관계 정의
+
+    USERS ||--o{ USER_ROLES : "has"
+    ROLES ||--o{ USER_ROLES : "has"
+
+    USERS ||--o{ PROJECTS : "creates"
+    PROJECTS ||--o{ TASKS : "has"
+    USERS ||--o{ TASKS : "writes"
+
+    PROJECTS ||--o{ TAGS : "has"
+    TASKS ||--o{ TASK_TAGS : "tagged"
+    TAGS ||--o{ TASK_TAGS : "tagged"
+
+    TASKS ||--o{ COMMENTS : "has"
+    USERS ||--o{ COMMENTS : "writes"
+
+    USERS ||--o{ NOTIFICATIONS : "creates"
 
