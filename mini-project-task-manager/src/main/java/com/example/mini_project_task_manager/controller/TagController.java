@@ -35,7 +35,7 @@ public class TagController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping(ApiMappingPattern.Tags.TAG_ID)
     public ResponseEntity<ResponseDto<TagResponse>> createTagByProject(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이여야합니다.") Long projId,
+            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
             ){
         ResponseDto<TagResponse> response = tagService.createTag(projId, dto);
@@ -46,7 +46,7 @@ public class TagController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping(FROM_TASK)
     public ResponseEntity<ResponseDto<TagResponse>> createTagByTask(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이여야합니다.") Long projId,
+            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
             ){
         ResponseDto<TagResponse> response = tagService.createTag(projId, dto);
@@ -72,7 +72,7 @@ public class TagController {
 //        return ResponseEntity.status(HttpStatus.OK).body(response);
     // Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/api/v1/tags/all/asc")
+    @GetMapping("tags/all/asc")
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTags() {
         ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTags();
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -80,7 +80,7 @@ public class TagController {
 
     // Tag 단건 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("/api/v1/tags/{tagId}")
+    @GetMapping("{tagId}")
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getTagByTagId(
             @PathVariable Long Tag_id
     ){
@@ -93,10 +93,10 @@ public class TagController {
 
     // Tag 삭제
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @DeleteMapping( "/api/v1/tags/{tagId}")
+    @DeleteMapping( "{tagId}")
     public ResponseEntity<ResponseDto<TagResponse>> deleteTag(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이여야합니다") Long projId,
-            @PathVariable("tagId") @Positive(message = "tagId는 1이상이여야합니다") Long tagId
+            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
+            @PathVariable("tagId") @Positive(message = "tagId는 1 이상이어야 해요.") Long tagId
             ){
         ResponseDto<TagResponse> response = tagService.deleteTag(projId,tagId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
