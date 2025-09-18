@@ -1,9 +1,9 @@
 package com.example.mini_project_task_manager.service.impl;
 
 import com.example.mini_project_task_manager.dto.ResponseDto;
-import com.example.mini_project_task_manager.dto.user.request.SignRequest;
+import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
 import com.example.mini_project_task_manager.dto.user.request.UserProfileUpdateRequest;
-import com.example.mini_project_task_manager.dto.user.response.SignInResponse;
+import com.example.mini_project_task_manager.dto.Auth.response.SignInResponse;
 import com.example.mini_project_task_manager.dto.user.response.UserProfileResponse;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.UserService;
