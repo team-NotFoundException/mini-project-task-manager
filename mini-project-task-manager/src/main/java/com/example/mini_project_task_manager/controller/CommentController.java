@@ -4,7 +4,7 @@ package com.example.mini_project_task_manager.controller;
 import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
-import com.example.mini_project_task_manager.dto.comment.response.CommentResponse;
+import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -26,19 +26,19 @@ public class CommentController {
     // 댓글 생성
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<ResponseDto<CommentResponse>> createComment(
+    public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> createComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
             @RequestBody CommentRequest.CommentCreateRequest dto
             ) {
-        ResponseDto<CommentResponse> response = commentService.createComment(taskId, dto);
+        ResponseDto<CommentsResponse.CommentResponse> response = commentService.createComment(taskId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     // 댓글 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping
-    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> getAllComment() {
-        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.getAllComment();
+    public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> getAllComment() {
+        ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.getAllComment();
         return ResponseEntity.ok(response);
     }
 
@@ -46,32 +46,32 @@ public class CommentController {
     // comment 키워드 댓글 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_CONTENT)
-    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> searchCommentByKeyword (
+    public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> searchCommentByKeyword (
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 수 없어요") String keyword
     ) {
-        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.searchCommentByKeyword(keyword);
+        ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.searchCommentByKeyword(keyword);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 특정 작성자의 모든 댓글 조회
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_AUTHOR)
-    public ResponseEntity<ResponseDto<List<CommentResponse.CommentListResponse>>> getCommentsByAuthor(
+    public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> getCommentsByAuthor(
             @RequestParam("author") @NotBlank(message = "작성자는 비어있을 수 없습니다.") String author
     ) {
-        ResponseDto<List<CommentResponse.CommentListResponse>> response = commentService.getCommentsByAuthor(author);
+        ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.getCommentsByAuthor(author);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 댓글 수정
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PutMapping(ApiMappingPattern.Comments.BY_ID)
-    public ResponseEntity<ResponseDto<CommentResponse>> updateComment(
+    public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> updateComment(
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
             @PathVariable("commentId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentId,
             @RequestBody CommentRequest.CommentUpdateRequest dto
     ) {
-        ResponseDto<CommentResponse> response = commentService.updateComment(taskId, commentId, dto);
+        ResponseDto<CommentsResponse.CommentResponse> response = commentService.updateComment(taskId, commentId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

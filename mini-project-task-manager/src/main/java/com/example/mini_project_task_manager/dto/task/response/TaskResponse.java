@@ -2,7 +2,7 @@ package com.example.mini_project_task_manager.dto.task.response;
 
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
-import com.example.mini_project_task_manager.dto.comment.response.CommentResponse;
+import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
 import com.example.mini_project_task_manager.dto.tasktag.response.TaskTagResponse;
 import com.example.mini_project_task_manager.entity.Comment;
 import com.example.mini_project_task_manager.entity.Task;
@@ -28,7 +28,7 @@ public class TaskResponse {
             Status status,
             Priority priority,
             Set<TaskTagResponse> tags, // 여기 좀 찾아봐야함.
-            List<CommentResponse.CommentListResponse> comments,
+            List<CommentsResponse.CommentListResponse> comments,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
@@ -41,9 +41,9 @@ public class TaskResponse {
             List<Comment> comments
                     = task.getContents() != null ? task.getContents() : Collections.emptyList();
 
-            List<CommentResponse.CommentListResponse> commentDtos = comments.stream()
+            List<CommentsResponse.CommentListResponse> commentDtos = comments.stream()
                     .filter(Objects::nonNull)
-                    .map(CommentResponse.CommentListResponse::from)
+                    .map(CommentsResponse.CommentListResponse::from)
                     .toList();
 
             // TaskTag 엔티티 가져오기
