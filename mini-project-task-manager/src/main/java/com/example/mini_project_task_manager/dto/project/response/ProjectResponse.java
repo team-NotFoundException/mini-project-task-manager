@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProjectResponse {
 
     /** 프로젝트 요약 응답 */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public record ProjectSummaryResponse(
             Long id,
             String title,
@@ -30,6 +30,7 @@ public class ProjectResponse {
     }
 
     /** 프로젝트 상세 응답 */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public record ProjectDetailResponse(
             Long id,
             String title,
