@@ -40,12 +40,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject(UserPrincipal principal, Long id, ProjectRequest.@Valid ProjectUpdateRequest request) {
+    public ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject(UserPrincipal principal, Long projectId, ProjectRequest.@Valid ProjectUpdateRequest request) {
         return null;
     }
 
     @Override
-    public ResponseDto<Void> deleteProject(UserPrincipal principal, Long id) {
+    public ResponseDto<Void> deleteProject(UserPrincipal principal, Long projectId) {
         return null;
     }
 

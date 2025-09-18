@@ -27,7 +27,7 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> createComment(
-            @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
+            @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId,
             @RequestBody CommentRequest.CommentCreateRequest dto
             ) {
         ResponseDto<CommentsResponse.CommentResponse> response = commentService.createComment(taskId, dto);
@@ -47,7 +47,7 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_CONTENT)
     public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> searchCommentByKeyword (
-            @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 수 없어요") String keyword
+            @RequestParam("keyword") @NotBlank(message = "검색 키워드를 입력해주세요") String keyword
     ) {
         ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.searchCommentByKeyword(keyword);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -57,7 +57,7 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_AUTHOR)
     public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> getCommentsByAuthor(
-            @RequestParam("author") @NotBlank(message = "작성자는 비어있을 수 없습니다.") String author
+            @RequestParam("author") @NotBlank(message = "작성자를 입력해주세요.") String author
     ) {
         ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.getCommentsByAuthor(author);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -67,8 +67,8 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PutMapping(ApiMappingPattern.Comments.BY_ID)
     public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> updateComment(
-            @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야합니당") Long taskId,
-            @PathVariable("commentId") @Positive(message = "commentId는 1 이상이어야합니당") Long commentId,
+            @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId,
+            @PathVariable("commentId") @Positive(message = "commentId는 1 이상이어야 합니다.") Long commentId,
             @RequestBody CommentRequest.CommentUpdateRequest dto
     ) {
         ResponseDto<CommentsResponse.CommentResponse> response = commentService.updateComment(taskId, commentId, dto);
