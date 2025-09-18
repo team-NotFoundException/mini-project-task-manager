@@ -3,7 +3,6 @@ package com.example.mini_project_task_manager.entity;
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -37,19 +36,19 @@ public class Task extends BaseTimeEntity {
 
     /** 내용 */
     @Lob
-    @JdbcTypeCode(SqlTypes.LONGVARCHAR) // MySql LONGTEXT와 호환
+    @JdbcTypeCode(SqlTypes.LONGVARCHAR)
     @Column(name = "content", nullable = false)
     private String content;
 
     /** 상태 */
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
-    private Status status = Status.TODO;        // 디폴트 값 설정
+    private Status status = Status.TODO;
 
     /** 우선 순위 */
     @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false, length = 50)
-    private Priority priority = Priority.MEDIUM;// 디폴트 값 설정
+    private Priority priority = Priority.MEDIUM;
 
     /** 마감 기한 */
     @Column(name = "due_date", nullable = false)
@@ -72,9 +71,9 @@ public class Task extends BaseTimeEntity {
     /** 연관관계 편의 메서드 */
     public void addTag(Tag tag) {
         if (tag == null) return;
-        TaskTag taskTag = new TaskTag(this, tag); // 중간 엔티티 생성
-        this.taskTags.add(taskTag);                   // Task & TaskTag 관계 세팅
-        tag.getTaskTags().add(taskTag);               // Tag & TaskTag 관계 세팅
+        TaskTag taskTag = new TaskTag(this, tag);
+        this.taskTags.add(taskTag);
+        tag.getTaskTags().add(taskTag);
     }
 
     public static Task createTask(
@@ -87,7 +86,6 @@ public class Task extends BaseTimeEntity {
         task.status = (status != null) ? status : Status.TODO;
         task.priority = (priority != null) ? priority : Priority.MEDIUM;
         task.dueDate = dueDate;
-
         return task;
     }
 
