@@ -7,21 +7,21 @@ import java.util.Set;
 
 public class AdminAuthRoleResponse {
     public record UpdateRolesResponse (
-            Long username,
+            String username,
             String loginId,
             Set<RoleType> roles,
             LocalDateTime updatedAt
     ) {}
     public record AddRoleResponse (
-            Long username,
+            String username,
             String loginId,
             Set<RoleType> roles,
             LocalDateTime updatedAt
     ) {}
     public record RemoveRoleResponse (
-            Long username,
+            String username,
             String loginId,
-            Set<RoleType> roles,
+            RoleType role, Set<RoleType> roles,
             LocalDateTime updatedAt
     ) {}
 }

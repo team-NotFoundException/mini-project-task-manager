@@ -9,8 +9,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 // 엔티티 설계 완료
 @Entity
 @Table(name = "users",
@@ -68,5 +71,31 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.gender = gender;
     }
-    
+
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void changeProfile(String nickname, Gender gender) {
+        this.nickname = nickname;
+        this.gender = gender;
+    }
+
+        /** 권한 부여/회수 편의 메서드 */
+         public void grantRole (Role role) {
+             boolean exists = userRoles.stream().allMatch(ur -> ur.getRole().equals(role));
+             if (!exists) {
+
+                 userRoles.add(new UserRole(this, role));
+             }
+         }
+         public void revokeRole(Role role) {
+        userRoles.removeIf(userRole -> userRole.getRole().equals(role));
+    }
+    public Set<RoleType> getRoleTypes() {
+        return userRoles.stream()
+                .map(userRole -> userRole.getRole().getName())
+                .collect(Collectors.toUnmodifiableSet());
+    }
 }

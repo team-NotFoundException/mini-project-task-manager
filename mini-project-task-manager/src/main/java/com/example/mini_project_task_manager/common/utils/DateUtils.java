@@ -3,10 +3,8 @@ package com.example.mini_project_task_manager.common.utils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-
 public class DateUtils {
     private static final ZoneId ZONE_KST = ZoneId.of("Asia/Seoul");
-
     private static final DateTimeFormatter KST_FORMAT
             = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -16,15 +14,12 @@ public class DateUtils {
    public static String toKstString(LocalDateTime utcLocalDateTime){
         if (utcLocalDateTime == null) return null;
         ZonedDateTime zdtUtc = utcLocalDateTime.atZone(ZoneId.of("UTC"));
-
         ZonedDateTime zdtKst = zdtUtc.withZoneSameInstant(ZONE_KST);
-
         return zdtKst.format(KST_FORMAT);
     }
 
     public static String toUtcString(LocalDateTime utcLocalDateTime) {
         if (utcLocalDateTime == null) return null;
-
         OffsetDateTime odt = utcLocalDateTime.atOffset(ZoneOffset.UTC);
         return ISO_UTC.format(odt);
     }
@@ -35,7 +30,4 @@ public class DateUtils {
                 .withZoneSameInstant(ZoneOffset.UTC)
                 .toLocalDateTime();
     }
-
-
-
 }
