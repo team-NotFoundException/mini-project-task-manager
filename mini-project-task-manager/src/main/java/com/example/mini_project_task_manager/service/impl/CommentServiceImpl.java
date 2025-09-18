@@ -6,7 +6,7 @@ import com.example.mini_project_task_manager.dto.comment.response.CommentsRespon
 import com.example.mini_project_task_manager.entity.Comment;
 import com.example.mini_project_task_manager.entity.Task;
 import com.example.mini_project_task_manager.repository.CommentsRepository;
-import com.example.mini_project_task_manager.repository.TasksRepository;
+import com.example.mini_project_task_manager.repository.TaskRepository;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +21,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CommentServiceImpl implements CommentService {
     private final CommentsRepository commentsRepository;
-    private final TasksRepository tasksRepository;
+    private final TaskRepository taskRepository;
 
 
     @Override
     @Transactional
     public ResponseDto<CommentsResponse.CommentResponse> createComment(Long taskId, CommentRequest.CommentCreateRequest dto) {
-        Task task = tasksRepository.findById(taskId)
+        Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없습니다."));
         Comment comment = Comment.create(dto.comment());
 

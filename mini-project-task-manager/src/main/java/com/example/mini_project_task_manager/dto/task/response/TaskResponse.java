@@ -38,7 +38,7 @@ public class TaskResponse {
             if (task == null) return null;
 
             List<Comment> comments
-                    = task.getContents() != null ? task.getContents() : Collections.emptyList();
+                    = task.getComments() != null ? task.getComments() : Collections.emptyList();
 
             List<CommentsResponse.CommentListResponse> commentDtos = comments.stream()
                     .filter(Objects::nonNull)
