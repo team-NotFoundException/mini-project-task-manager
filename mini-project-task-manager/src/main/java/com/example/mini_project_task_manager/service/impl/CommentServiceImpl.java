@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
     public ResponseDto<CommentResponse> createComment(Long taskId, CommentRequest.CommentCreateRequest dto) {
         Task task = tasksRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없습니다."));
-        Comment comment = Comment.create(dto.content());
+        Comment comment = Comment.create(dto.comment());
 
         task.addComment(comment);
 
@@ -95,7 +95,7 @@ public class CommentServiceImpl implements CommentService {
             throw new IllegalArgumentException("해당 댓글이 Task 안에 포함되어있지 않아요");
         }
 
-        comment.changeContent(dto.content());
+        comment.changeContent(dto.comment());
         return ResponseDto.setSuccess("SUCCESS", CommentResponse.from(comment));
 
     }
