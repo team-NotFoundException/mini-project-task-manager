@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TasksRepository extends JpaRepository<Task, Long> {
+public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // 전체 할일 조회(댓글 제외)
     @Query("""
@@ -25,7 +25,7 @@ public interface TasksRepository extends JpaRepository<Task, Long> {
     @Query("""
         select distinct t
         from Task t
-            left join fetch t.contents c
+            left join fetch t.comments c
             left join fetch t.taskTags tt
             left join fetch tt.tag tag
         where t.id = :id
@@ -34,8 +34,3 @@ public interface TasksRepository extends JpaRepository<Task, Long> {
 
     // 전체 할일 조회 (projectId + (status || priority) or status && priority
 }
-
-/*
-    쿼리문 안 쓰고도 대부분 CRUD는 가능하고,
-    복잡한 연관관계 조회/조인/즉시로딩 할때는 @Query 쓰자.
- */
