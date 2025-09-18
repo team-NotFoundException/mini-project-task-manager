@@ -39,6 +39,7 @@ public class Notification {
     @Column(name = "content")
     private String content;
 
+    /** 생성시간 */
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME(6)")
     private LocalDateTime createdAt;
