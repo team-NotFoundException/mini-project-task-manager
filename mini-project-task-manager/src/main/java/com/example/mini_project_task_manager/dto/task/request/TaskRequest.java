@@ -15,45 +15,36 @@ public class TaskRequest {
     /** 할일 생성 요청 Dto */
     public record TaskCreateRequest(
 
-//            // @NotBlank는 String만 가능
-//            @NotNull
-//            Long projectId, --> controller에서 @PathVariable받으니 포함x
-
-            @NotBlank(message = "제목 입력은 필수입니다.")
-            @Size(max = 200, message = "제목은 200자 이하여야 합니다.")
+            @NotBlank(message = "제목을 작성해주세요.")
+            @Size(max = 200, message = "제목은 200자 이하로 작성해주세요.")
             String title,
 
-            @NotBlank(message = "내용을 입력해주세요.")
+            @NotBlank(message = "내용을 작성해주세요.")
             String content,
 
-            @NotNull(message = "마감기한을 정해주세요.")
+            @NotNull(message = "마감기한을 작성해주세요.")
             LocalDate dueDate,
 
-            // 선택하지 않아도 기본값 설정
-            // 스프링이 JSON 문자열을 Enum 으로 자동 변환 해줌.
             Priority priority,
             Status status,
-
             Set<String> tagNames
-
     ) {}
 
     /** 할일 수정 요청 Dto */
     public record TaskUpdateRequest(
 
-            @NotBlank(message = "제목 입력은 필수입니다.")
-            @Size(max = 200, message = "제목은 200자 이하여야 합니다.")
+            @NotBlank(message = "수정할 제목을 작성해주세요.")
+            @Size(max = 200, message = "제목은 200자 이하로 작성해주세요.")
             String title,
 
-            @NotBlank(message = "내용을 입력해주세요.")
+            @NotBlank(message = "수정할 내용을 작성해주세요.")
             String content,
 
-            @NotBlank(message = "마감기한을 정해주세요.")
+            @NotNull(message = "마감기한을 작성해주세요.")
             LocalDate dueDate,
 
             Priority priority,
             Status status,
-            
             Set<String> tagNames
     ) {}
 }
