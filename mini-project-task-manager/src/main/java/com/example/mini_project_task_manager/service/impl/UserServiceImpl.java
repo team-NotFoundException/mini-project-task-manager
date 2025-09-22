@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                 .nickname(req.nickname())
                 .build();
 
-        Role defaultRole = roleRepository.getReferenceByUsername(RoleType.USER);
+        Role defaultRole = roleRepository.getReferenceById(RoleType.USER);
         user.grantRole(defaultRole);
         userRepository.save(user);
     }

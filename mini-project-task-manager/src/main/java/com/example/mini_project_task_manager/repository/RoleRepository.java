@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, RoleType> {
-    Role getReferenceByUsername(RoleType roleType);
 }
