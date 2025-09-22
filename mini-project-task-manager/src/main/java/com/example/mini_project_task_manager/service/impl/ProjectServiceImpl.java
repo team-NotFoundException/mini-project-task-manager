@@ -30,9 +30,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         validateTitle(request.title());
 
-        final String loginId = principal.getUsername();
-        User author = userRepository.findByUsername(loginId)
-                .orElseThrow(() -> new IllegalArgumentException("AUTHOR_NOT_FOUND"));
+        User author = userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Project project = Project.builder()
                 .title(request.title())
@@ -54,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
 
-        return ResponseDto.setSuccess("프로젝트 목록: ", result);
+        return ResponseDto.setSuccess("조회 완료", result);
     }
 
 
@@ -101,6 +100,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject(UserPrincipal principal, Long projectId, ProjectRequest.@Valid ProjectUpdateRequest request) {
         validateTitle(request.title());
 
+        User author = userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
         if (projectId == null) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
 
         Project project = projectRepository.findProjectById(projectId)
@@ -119,6 +121,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public ResponseDto<Void> deleteProject(UserPrincipal principal, Long projectId) {
 
+        User author = userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
         if (projectId == null) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
 
         Project project = projectRepository.findProjectById(projectId)
@@ -130,6 +135,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private void validateTitle(String title) {
-        throw new IllegalArgumentException("TITLE_REQUIRED");
+        throw new IllegalArgumentException("제목을 입력해주세요");
     }
 }
