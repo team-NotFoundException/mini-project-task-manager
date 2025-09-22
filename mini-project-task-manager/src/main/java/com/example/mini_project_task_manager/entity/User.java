@@ -3,6 +3,7 @@ package com.example.mini_project_task_manager.entity;
 import com.example.mini_project_task_manager.common.enums.Gender;
 import com.example.mini_project_task_manager.common.enums.RoleType;
 import com.example.mini_project_task_manager.entity.base.BaseTimeEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,8 +19,8 @@ import java.util.stream.Collectors;
 @Table(name = "users",
         uniqueConstraints = {
             @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
-            @UniqueConstraint(name = "uk_users_email", columnNames = "email"),
-            @UniqueConstraint(name = "uk_users_nickname", columnNames = "nickname")
+            @UniqueConstraint(name = "uq_users_email", columnNames = "email"),
+            @UniqueConstraint(name = "uq_users_nickname", columnNames = "nickname")
         }
 )
 @Getter
@@ -58,7 +59,9 @@ public class User extends BaseTimeEntity {
 
 //    private Set<RoleType> roles = new HashSet<>();
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
     /** 생성 편의 메서드 */
