@@ -26,7 +26,7 @@ public class UserSignController {
     }
     /** 로그인 */
     @PostMapping("/sign-in")
-    public ResponseEntity<ResponseDto<SignRequest.SignInRequest>> signIn(@Valid @RequestBody SignRequest.SignInRequest req){
+    public ResponseEntity<ResponseDto<SignInResponse>> signIn(@Valid @RequestBody SignRequest.SignInRequest req){
         ResponseDto<SignInResponse> response = userService.signIn(req);
         return ResponseEntity.ok
                 (ResponseDto.setSuccess("로그인이 완료되었습니다.",null));

@@ -33,7 +33,7 @@ public class NotificationController {
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody NotificationsRequest.NotificationCreateRequest dto
     ) {
-        ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.NotificationDetailResponse(dto);
+        ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.NotificationcreateResponse(principal, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -79,7 +79,7 @@ public class NotificationController {
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("notificationId") @Positive(message = "notificationId는 1 이상이어야 해요.") Long notificationId
             ) {
-        ResponseDto<Void> response = notificationService.deleteNotification(notificationId);
+        ResponseDto<Void> response = notificationService.deleteNotification(principal, notificationId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
