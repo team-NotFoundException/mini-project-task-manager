@@ -9,10 +9,12 @@ import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -67,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
 
-        if (result.isEmpty()) throw new IllegalArgumentException("프로젝트가 없습니다.");
+        if (result.isEmpty()) throw new EntityNotFoundException("프로젝트가 없습니다.");
 
         return ResponseDto.setSuccess("조회 완료", result);
     }
@@ -135,6 +137,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private void validateTitle(String title) {
-        throw new IllegalArgumentException("제목을 입력해주세요");
+        if (!StringUtils.hasText(title)) {
+            throw new IllegalArgumentException("제목을 입력해주세요");
+        }
     }
 }
