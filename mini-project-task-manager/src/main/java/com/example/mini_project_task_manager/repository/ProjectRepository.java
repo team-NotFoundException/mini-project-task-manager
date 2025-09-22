@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.repository;
 
+import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
 import com.example.mini_project_task_manager.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>, ProjectRepositoryCustom {
@@ -43,7 +45,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, Project
 	order by 
 		p.created_at asc
     """, nativeQuery = true)
-    List<Project> findProjectsByAuthorId(@Param("authorId") String authorId);
+    List<Project> findProjectsByAuthorId(@Param("authorId") Long authorId);
 
 
     // 키워드 검색 (제목+개요)
@@ -62,4 +64,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, Project
     """, nativeQuery = true)
     List<Project> searchProjectsByKeyword(@Param("searchKeyword") String searchKeyword) ;
 
+	Optional<Project> findProjectById(Long projectId);
 }
