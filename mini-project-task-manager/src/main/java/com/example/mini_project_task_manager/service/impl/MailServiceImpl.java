@@ -3,12 +3,9 @@ package com.example.mini_project_task_manager.service.impl;
 import com.example.mini_project_task_manager.dto.Mail.MailRequest;
 import com.example.mini_project_task_manager.provider.JwtProvider;
 import com.example.mini_project_task_manager.service.MailService;
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
@@ -35,7 +32,7 @@ public class MailServiceImpl implements MailService {
 
         String body = """
                     <h3>이메일 인증링크 입니다.</3>
-                    <a href="http://localhost:8080/api/v1/auth/verify?token=%s">여기를 클릭하여 인증 완료해주세요.</a>
+                    <a href="http://localhost:8080/api/v1/auth/verify?token=%s">여기를 클릭하여 인증 완료해주세요.</h3>
                 """.formatted(token);
         message.setText(body, "UTF-8", "html");
 
@@ -45,7 +42,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendEmail(MailRequest.@Valid SendMail req) {
         try {
-            String token = jwtProvider.generateJwtToken(req.email());
+            String token = jwtProvider.generateEmailJwtToken(req.email());
             MimeMessage message = createEmail(req.email(), token);
 
             javaMailSender.send(message);
@@ -58,12 +55,10 @@ public class MailServiceImpl implements MailService {
 
     }
 
-    private MimeMessage createEmail(@NotBlank @Email String email, String token) {
-    }
 
     @Override
     public void verifyEmail(String token) {
-        String email = jwtProvider.getUsernameFromJwt(token);
+        String email = jwtProvider.getEmailFromJwt(token);
         System.out.println("이메일 인증이 완료되었습니다. 이메일: " + email);
     }
 
