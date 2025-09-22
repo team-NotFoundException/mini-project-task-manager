@@ -9,9 +9,9 @@ import com.example.mini_project_task_manager.dto.user.response.UserProfileRespon
 import com.example.mini_project_task_manager.entity.Role;
 import com.example.mini_project_task_manager.entity.User;
 import com.example.mini_project_task_manager.provider.JwtProvider;
+import com.example.mini_project_task_manager.repository.RoleRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
-import com.example.mini_project_task_manager.service.RoleRepository;
 import com.example.mini_project_task_manager.service.UserService;
 import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
