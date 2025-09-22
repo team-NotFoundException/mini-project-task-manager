@@ -51,7 +51,10 @@ public class Notification {
         this.content = content;
     }
 
-    public static Notification create(String title, String content) {
-        return new Notification(title, content);
+    public Notification(String title, String content, String author) {
+    }
+
+    public static Notification create(String title, String content, String author) {
+        return new Notification(title, content, author);
     }
 }
