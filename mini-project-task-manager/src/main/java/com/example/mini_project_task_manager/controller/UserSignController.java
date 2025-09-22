@@ -2,7 +2,9 @@ package com.example.mini_project_task_manager.controller;
 
 import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
 import com.example.mini_project_task_manager.dto.Auth.response.SignInResponse;
+import com.example.mini_project_task_manager.dto.Mail.MailRequest;
 import com.example.mini_project_task_manager.dto.ResponseDto;
+import com.example.mini_project_task_manager.service.MailService;
 import com.example.mini_project_task_manager.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserSignController {
     private final UserService userService;
+    private final MailService mailService;
 
     /** 회원가입 */
     @PostMapping("/sign-up")
