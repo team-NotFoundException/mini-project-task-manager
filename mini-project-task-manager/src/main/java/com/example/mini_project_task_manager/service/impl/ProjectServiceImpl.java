@@ -61,15 +61,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId) {
-        List<Project> projects = projectRepository.findProjectsByAuthorId(authorId);
 
         if (authorId == null) throw new IllegalArgumentException("로그인 후 이용해주세요.");
+
+        List<Project> projects = projectRepository.findProjectsByAuthorId(authorId);
 
         List<ProjectResponse.ProjectSummaryResponse> result = projects.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
 
-        if (result.isEmpty()) throw new EntityNotFoundException("프로젝트가 없습니다.");
+        if (result.isEmpty()) throw new IllegalArgumentException("프로젝트가 없습니다.");
 
         return ResponseDto.setSuccess("조회 완료", result);
     }
