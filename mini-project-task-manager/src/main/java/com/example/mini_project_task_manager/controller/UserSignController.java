@@ -7,10 +7,7 @@ import com.example.mini_project_task_manager.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -31,5 +28,18 @@ public class UserSignController {
         return ResponseEntity.ok
                 (ResponseDto.setSuccess("로그인이 완료되었습니다.",null));
     }
+    /** 이메일 전송 */
+    @PostMapping("/send-email")
+    public ResponseEntity<ResponseDto<Void>> sendEmail(@Valid @RequestBody MailRequest.SendMail req) {
+        mailService.sendEmail(req);
+        return ResponseEntity.noContent().build();
+    }
+    /** 이메일 인증 */
+    @GetMapping("/verify")
+    public ResponseEntity<ResponseDto<Void>> verifyEmail(@RequestParam String token) {
+        mailService.verifyEmail(token);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
