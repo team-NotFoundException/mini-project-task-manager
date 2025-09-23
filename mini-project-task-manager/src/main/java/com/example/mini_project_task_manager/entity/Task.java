@@ -72,7 +72,7 @@ public class Task extends BaseTimeEntity {
     /** 연관관계 편의 메서드 */
     public void addTag(Tag tag) {
         if (tag == null) return;
-        TaskTag taskTag = new TaskTag(this, tag);
+        TaskTag taskTag = new TaskTag(this,tag);
         this.taskTags.add(taskTag);
         tag.getTaskTags().add(taskTag);
     }

@@ -10,7 +10,7 @@ import com.example.mini_project_task_manager.entity.Tag;
 import com.example.mini_project_task_manager.entity.Task;
 import com.example.mini_project_task_manager.entity.User;
 import com.example.mini_project_task_manager.repository.ProjectRepository;
-import com.example.mini_project_task_manager.repository.TagsRepository;
+import com.example.mini_project_task_manager.repository.TagRepository;
 import com.example.mini_project_task_manager.repository.TaskRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
@@ -21,9 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +31,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
+    private final TagRepository tagRepository;
 
     @Override
     @Transactional
@@ -53,21 +52,29 @@ public class TaskServiceImpl implements TaskService {
                 dto.priority(),
                 dto.dueDate());
 
-
-
         project.addTask(task);
+        // === 여기 까지는 Task 생성하고 project에 적용시키기
 
-//        task.addTag(dto.tagName());
+        /** 직접 입력한 태그 처리 하기 */
+        // === 여러 태그 처리 ===
+        if (dto.tagNames() != null && !dto.tagNames().isEmpty()){
+            for (String tagName : dto.tagNames()) {
+                if (tagName == null || tagName.isBlank()) continue;
 
-        /** 태그 등록
-         * 1. Project에 귀속된 Tag가 있다면, 선택해서 TaskTag에 추가 할 수도 있고 x
-         * 2. Task 생성시에 새로운 Tag를 만들어서도 사용 가능
-         * */
+                // 1. DB에서 기존 Tag 찾아서 없으면 새로만들기.
+                Tag tag = tagRepository.findByTagName("#"+tagName.trim())
+                        .orElseGet(() -> {
+                            // 2. 없으면 새 Tag 생성 후 저장
+                            Tag newTag = new Tag("#"+tagName.trim());
+                            return tagRepository.save(newTag);
+                        });
 
-        // # 붙여서 findbyName 하고
-        // # 떼서 addTag 해야됨.
+                // 3. Task에 Tag 추가 (TaskTag도 자동 생성)
+                task.addTag(tag);
+            }
+        }
+
         Task saved = taskRepository.save(task);
-
 
         return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(saved));
     }
@@ -87,6 +94,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ResponseDto<List<TaskResponse.TaskListResponse>> getTasksByFiltering(
             Long projectId, Status status, Priority priority) {
+
         return null;
     }
 
@@ -114,7 +122,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         task.changeContent(dto.title(), dto.content(),dto.status(), dto.priority(), dto.dueDate());
-        task.addTag(dto.tagName());
+//        task.addTag(dto.tagName());
 
         return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(task));
     }

@@ -25,8 +25,8 @@ public class Tag {
 
     /** 태그 이름 */
     @NotNull
-    @Column
-    private String tag_name;
+    @Column(name = "tag_name")
+    private String tagName;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -37,14 +37,14 @@ public class Tag {
     public Tag (
             @NotNull String tag_name
     ){
-        this.tag_name = tag_name;
+        this.tagName = tag_name;
     }
 
 
     // 태그 생성
     public static Tag create(@NotNull String tag_name){
         Tag tag = new Tag();
-        tag.tag_name = tag_name;
+        tag.tagName = tag_name;
         return tag;
     }
 
@@ -55,7 +55,7 @@ public class Tag {
     }
 
     void setTag(Tag tag) {
-        this.tag_name = tag_name;
+        this.tagName = tagName;
     }
 
     // Tag : Task = N:N -> TaskTag 중간 테이블

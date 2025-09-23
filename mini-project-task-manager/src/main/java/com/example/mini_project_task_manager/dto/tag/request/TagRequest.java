@@ -9,7 +9,7 @@ public class TagRequest {
     public record TagCreateRequest(
         @NotBlank(message = "태그를 입력해주세요")
         @Size(max = 100, message = "태그는 100자 이하로 작성해주세요")
-        String tag_name
+        String tagName
     ) {}
 
 
