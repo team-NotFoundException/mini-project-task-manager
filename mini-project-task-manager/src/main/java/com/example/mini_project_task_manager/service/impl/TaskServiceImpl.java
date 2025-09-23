@@ -33,7 +33,6 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
-    private final TagsRepository tagsRepository;
 
     @Override
     @Transactional
@@ -46,29 +45,29 @@ public class TaskServiceImpl implements TaskService {
         User user = userRepository.findById(principal.getId())
                 .orElseThrow(()-> new EntityNotFoundException("로그인 사용자를 찾을 수 없습니다."));
 
-//        Tag tag = tagsRepository.findById()
-//                .orElseThrow(() -> new EntityNotFoundException("등록된 태그가 없습니다. 등록하세요.");
+        Task task = Task.createTask(
+                dto.title().trim(),
+                dto.content().trim(),
+                user,
+                dto.status(),
+                dto.priority(),
+                dto.dueDate());
 
-        String title = dto.title().trim();
-        String content = dto.content().trim();
-        Status status = dto.status();
-        Priority priority = dto.priority();
-        LocalDate dueDate = dto.dueDate();
 
-        Task task = Task.createTask(title, content, user, status, priority, dueDate);
+
         project.addTask(task);
-//        task.addTag();
-        Task saved = taskRepository.save(task);
+
+//        task.addTag(dto.tagName());
 
         /** 태그 등록
-         * 1. Project에 귀속된 Tag가 있다면, 선택해서 TaskTag에 추가 할 수도 있고
+         * 1. Project에 귀속된 Tag가 있다면, 선택해서 TaskTag에 추가 할 수도 있고 x
          * 2. Task 생성시에 새로운 Tag를 만들어서도 사용 가능
          * */
 
-        // 해당 project에 Tag 가 등록되어있다면, 거기서 골라서 쓰게 해서 TaskTag에 추가해야됨.
+        // # 붙여서 findbyName 하고
+        // # 떼서 addTag 해야됨.
+        Task saved = taskRepository.save(task);
 
-        //if (project.getTags())
-        //TaskTag taskTag = new TaskTag(task, TaskTag)
 
         return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(saved));
     }
@@ -115,8 +114,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         task.changeContent(dto.title(), dto.content(),dto.status(), dto.priority(), dto.dueDate());
-
-        // 여기도 역시나 Tag 관련 있어야함.
+        task.addTag(dto.tagName());
 
         return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(task));
     }
