@@ -61,7 +61,6 @@ public class User extends BaseTimeEntity {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private Set<UserRole> userRoles = new HashSet<>();
 
     /** 생성 편의 메서드 */

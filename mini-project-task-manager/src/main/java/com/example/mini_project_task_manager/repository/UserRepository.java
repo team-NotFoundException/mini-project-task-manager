@@ -22,15 +22,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
      SELECT u
      FROM User u
        LEFT JOIN FETCH u.userRoles
-     WHERE u.username = :loginId
+     WHERE u.username = :username
 
   """)
   Optional<User> findWithRolesByUsername(@Param("username") String username);
 
-  @EntityGraph(attributePaths = "roles")
+  @EntityGraph(attributePaths = "userRoles")
   Optional<User> findByUsername (String username);
 
-  boolean existsByUsername(String userName);
+  boolean existsByUsername(String username);
   boolean existsByEmail(String email);
   boolean existsByNickname(String nickname);
 

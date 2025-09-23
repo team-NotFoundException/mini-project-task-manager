@@ -15,6 +15,7 @@ public class UserRole  {
     private UserRoleId id;
 
     @MapsId("userId")
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "user_id",
@@ -22,9 +23,12 @@ public class UserRole  {
             foreignKey = @ForeignKey(name = "fk_user_roles_user")
     )
     private User user;
-    @JsonIgnore
+
+
+
     @MapsId("roleName")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+
     @JoinColumn(
             name = "role_name",
             nullable = false,
