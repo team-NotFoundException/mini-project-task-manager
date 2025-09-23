@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>, ProjectRepositoryCustom {
@@ -62,4 +63,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, Project
     """, nativeQuery = true)
     List<Project> searchProjectsByKeyword(@Param("searchKeyword") String searchKeyword) ;
 
+	Optional<Project> findProjectById(Long projId);
 }
