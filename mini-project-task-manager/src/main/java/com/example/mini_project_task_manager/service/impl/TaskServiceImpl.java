@@ -140,6 +140,7 @@ public class TaskServiceImpl implements TaskService {
         if (!task.getProject().getId().equals(projectId)){
             throw new IllegalArgumentException("해당 Task가 프로젝트 내에 속해있지 않습니다. ");
         }
+        taskRepository.delete(task);
 
         Project project = task.getProject();
         project.removeTask(task);
