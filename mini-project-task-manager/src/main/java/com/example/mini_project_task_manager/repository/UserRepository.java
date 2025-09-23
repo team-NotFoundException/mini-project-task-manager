@@ -2,6 +2,8 @@ package com.example.mini_project_task_manager.repository;
 
 import java.util.Optional;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -20,18 +22,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
      SELECT u
      FROM User u
        LEFT JOIN FETCH u.userRoles
-     WHERE u.username = :loginId
+     WHERE u.username = :username
 
   """)
   Optional<User> findWithRolesByUsername(@Param("username") String username);
 
-  @EntityGraph(attributePaths = "roles")
-  Optional<User> findByUsername(@Param("username") String username);
+  @EntityGraph(attributePaths = "userRoles")
+  Optional<User> findByUsername (String username);
 
-  boolean existsByUsername(String userName);
-
+  boolean existsByUsername(String username);
   boolean existsByEmail(String email);
-
   boolean existsByNickname(String nickname);
+
+  Optional<User> findByEmail(@NotBlank @Email String email);
+
 
 }
