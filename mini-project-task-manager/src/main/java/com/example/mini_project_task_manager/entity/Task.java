@@ -97,7 +97,6 @@ public class Task extends BaseTimeEntity {
         this.status = status;
         this.priority = priority;
         this.dueDate = dueDate;
-
     }
 
     /** Task 생성시 Project에 적용 */

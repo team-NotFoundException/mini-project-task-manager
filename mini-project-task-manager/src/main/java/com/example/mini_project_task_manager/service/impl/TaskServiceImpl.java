@@ -44,7 +44,7 @@ public class TaskServiceImpl implements TaskService {
                         .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
 
         User user = userRepository.findById(principal.getId())
-                .orElseThrow(()-> new EntityNotFoundException("작성자를 찾을 수 없습니다."));
+                .orElseThrow(()-> new EntityNotFoundException("로그인 사용자를 찾을 수 없습니다."));
 
 //        Tag tag = tagsRepository.findById()
 //                .orElseThrow(() -> new EntityNotFoundException("등록된 태그가 없습니다. 등록하세요.");
@@ -57,14 +57,13 @@ public class TaskServiceImpl implements TaskService {
 
         Task task = Task.createTask(title, content, user, status, priority, dueDate);
         project.addTask(task);
-
+//        task.addTag();
         Task saved = taskRepository.save(task);
 
         /** 태그 등록
-         * 1. Project에 귀속된 Tag가 있다면 불러와서 입력 가능
-         * 2. Task 생성시에 Tag를 만들어서도 사용 가능
+         * 1. Project에 귀속된 Tag가 있다면, 선택해서 TaskTag에 추가 할 수도 있고
+         * 2. Task 생성시에 새로운 Tag를 만들어서도 사용 가능
          * */
-
 
         // 해당 project에 Tag 가 등록되어있다면, 거기서 골라서 쓰게 해서 TaskTag에 추가해야됨.
 
@@ -87,7 +86,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseDto<List<TaskResponse.TaskListResponse>> getTasksByFiltering(Long projectId, Status status, Priority priority) {
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getTasksByFiltering(
+            Long projectId, Status status, Priority priority) {
         return null;
     }
 
@@ -101,7 +101,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public ResponseDto<TaskResponse.TaskDetailResponse> updateTask(UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
+    public ResponseDto<TaskResponse.TaskDetailResponse> updateTask(
+            UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
 
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(()-> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
