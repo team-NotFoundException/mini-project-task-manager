@@ -148,9 +148,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
 DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
     id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
-	author_id    	BIGINT NOT NULL,
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
+    author_id    	BIGINT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     
 	CONSTRAINT `fk_notifications_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
