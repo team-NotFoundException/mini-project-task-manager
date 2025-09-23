@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.dto.notification.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class NotificationsRequest {
@@ -12,6 +13,9 @@ public class NotificationsRequest {
 
             @NotBlank(message = "내용 입력은 필수에요.")
             @Size(max = 1000, message = "내용은 1000자 이하여야해요.")
-            String content
+            String content,
+
+            @NotNull
+            String author
     ) {}
 }

@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.entity;
 
 import com.example.mini_project_task_manager.common.enums.RoleType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class UserRole  {
     private UserRoleId id;
 
     @MapsId("userId")
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "user_id",
@@ -22,8 +24,11 @@ public class UserRole  {
     )
     private User user;
 
+
+
     @MapsId("roleName")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+
     @JoinColumn(
             name = "role_name",
             nullable = false,
