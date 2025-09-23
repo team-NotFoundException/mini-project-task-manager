@@ -19,10 +19,9 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     public List<Project> findAllProjectsByCreatedAt(boolean sortedBy) {
 
         StringBuilder jpql = new StringBuilder(
-            "SELECT DISTINCT p.id, p.title, u.nickname, p.createdAt" +
-            "FROM Project p" +
-                    "LEFT JOIN p.user u" +
-                    "ON p.user.id = u.id" +
+            "SELECT DISTINCT p " +
+            "FROM Project p " +
+                    "JOIN FETCH p.user u " +
             "WHERE 1 = 1"
         );
 

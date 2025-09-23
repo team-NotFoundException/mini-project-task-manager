@@ -21,8 +21,8 @@ public class ApiMappingPattern {
     public static final class Projects {
         private Projects () {}
         public static final String ROOT = BASE + "/projects";
-        public static final String SORTED = "/sorted";
-        public static final String MY_PROJECT = "/me";
+        public static final String SORTED = "sorted";
+        public static final String MY_PROJECT = "/me/{authorId}";
         public static final String SEARCH = "/search";
         public static final String BY_ID = "/{projectId}";
         public static final String PROJECT_TAG = "/{projectId}/tag";

@@ -64,7 +64,7 @@ public class ProjectController {
             @RequestParam("keyword") @NotBlank(message = "검색 키워드를 입력해주세요.") String keyword
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword(keyword);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 5) 프로젝트 수정

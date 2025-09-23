@@ -38,6 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = Project.builder()
                 .title(request.title())
                 .content(request.content())
+                .user(author)
                 .build();
 
         Project saved = projectRepository.save(project);
@@ -89,9 +90,13 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("검색 키워드는 100자 이하여야 합니다.");
         }
 
+        if (!clean.contains(keyword)) {
+            throw new IllegalArgumentException("일치하는 결과가 없습니다.");
+        }
+
         var rows = projectRepository.searchProjectsByKeyword(clean);
 
-        List<ProjectResponse.ProjectSummaryResponse> result = rows.stream()
+         List<ProjectResponse.ProjectSummaryResponse> result = rows.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
 
@@ -112,7 +117,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
 
         project.setTitle(request.title().trim());
-        project.setContent(request.content().trim());
+        project.setContent(request.content() == null ? "" :request.content().trim());
 
         projectRepository.flush();
         ProjectResponse.ProjectDetailResponse data = ProjectResponse.ProjectDetailResponse.from(project);
