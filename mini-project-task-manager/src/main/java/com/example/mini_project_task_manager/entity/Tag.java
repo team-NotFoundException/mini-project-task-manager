@@ -50,7 +50,7 @@ public class Tag {
 
 
     // tag 생성/삭제 시 project에 공유
-    void setProject(Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
@@ -60,6 +60,6 @@ public class Tag {
 
     // Tag : Task = N:N -> TaskTag 중간 테이블
     // TaskTag 안에 tag 필드
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tag")
     private Set<TaskTag> taskTags = new HashSet<>();
 }
