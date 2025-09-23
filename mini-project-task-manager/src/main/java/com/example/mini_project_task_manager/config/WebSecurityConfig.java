@@ -1,6 +1,9 @@
 package com.example.mini_project_task_manager.config;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 import com.example.mini_project_task_manager.filter.JwtAuthenticationFilter;
 import com.example.mini_project_task_manager.handler.JsonAccessDeniedHandler;
 import com.example.mini_project_task_manager.handler.JsonAuthenticationEntryPoint;
