@@ -24,17 +24,19 @@ public class Notification {
     private Long id;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "author_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_notifications_author_id"))
     private User user;
 
     /** 제목 */
+    @NotNull
     @Column(name = "title")
     private String title;
 
     /** 내용 */
+    @NotNull
     @Column(name = "content")
     private String content;
 
@@ -44,11 +46,15 @@ public class Notification {
     private LocalDateTime createdAt;
 
 
-    public Notification create(String title, String content) {
-        Notification notification = new Notification();
+    private Notification(String title, String content) {
         this.title = title;
         this.content = content;
+    }
 
-        return notification;
+    public Notification(String title, String content, String author) {
+    }
+
+    public static Notification create(String title, String content, String author) {
+        return new Notification(title, content, author);
     }
 }
