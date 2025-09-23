@@ -8,7 +8,6 @@ import com.example.mini_project_task_manager.dto.notification.response.Notificat
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.NotificationService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class NotificationController {
     @PostMapping
     public ResponseEntity<ResponseDto<NotificationsResponse.NotificationDetailResponse>> createNotification(
             @AuthenticationPrincipal UserPrincipal principal,
-            @Valid @RequestBody NotificationsRequest.NotificationCreateRequest dto
+            @RequestBody NotificationsRequest.NotificationCreateRequest dto
     ) {
         ResponseDto<NotificationsResponse.NotificationDetailResponse> response = notificationService.NotificationcreateResponse(principal, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
