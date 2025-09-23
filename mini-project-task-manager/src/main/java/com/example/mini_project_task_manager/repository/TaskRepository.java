@@ -33,4 +33,16 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<Task> findByIdWithCommentsAndTaskTags(@Param("id") Long id);
 
     // 전체 할일 조회 (projectId + (status || priority) or status && priority
+
+    // 태그이름으로 태스크 검색
+    @Query(value = """
+        select task.*
+            from tasks t
+            join task_tags tt on t.id = tt.task_id
+            join tags tg on tg.id = tt.tag_id
+        where tg.tag_name = :tagName
+""", nativeQuery = true)
+    List<Task> findTaskByTagName(@Param("tagName") String tagName);
+
+
 }

@@ -3,8 +3,10 @@ package com.example.mini_project_task_manager.service.impl;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.tag.request.TagRequest;
 import com.example.mini_project_task_manager.dto.tag.response.TagResponse;
+import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
 import com.example.mini_project_task_manager.entity.Project;
 import com.example.mini_project_task_manager.entity.Tag;
+import com.example.mini_project_task_manager.entity.Task;
 import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.TagRepository;
 import com.example.mini_project_task_manager.repository.TaskRepository;
@@ -23,6 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
 public class TagServiceImpl implements TagService {
+
+
     private final TagRepository tagRepository;
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
@@ -90,6 +94,18 @@ public class TagServiceImpl implements TagService {
     private Long requirePositiveId(Long id){
         if (id == null || id <= 0) throw new IllegalArgumentException("ID는 반드시 양수여야 해요.");
         return id;
+    }
+
+
+    // 태그이름 검색 -> 태그가 포함된 task(태스크) 조회
+    @Override
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(String tagName) {
+        List<Task> task = taskRepository.findTaskByTagName(tagName);
+        List<TaskResponse.TaskListResponse> result = task.stream()
+                .map(TaskResponse.TaskListResponse::from)
+                .toList();
+
+        return ResponseDto.setSuccess("태그가 포함된 Task 조회", result);
     }
 
 }

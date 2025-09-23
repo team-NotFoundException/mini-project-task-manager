@@ -6,12 +6,15 @@ import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
 import com.example.mini_project_task_manager.dto.tag.request.TagRequest;
 import com.example.mini_project_task_manager.dto.tag.response.TagResponse;
+import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
 import com.example.mini_project_task_manager.entity.Tag;
 import com.example.mini_project_task_manager.repository.TagRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.TagService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -80,6 +83,19 @@ public class TagController {
         ResponseDto<TagResponse.TagNameResponse> response = tagService.getTagByTagId(tagId);
 
         return ResponseEntity.ok().body(response);
+    }
+
+    // Tag 명을 통해 Task 조회
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    @GetMapping("tags/{tagName}")
+    public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getTaskByTagName(
+            @PathVariable("tagName") @NotBlank(message = "tagName은 공백이 안되요.")
+            @Size(max= 100, message = "tagName은 최대 100자까지 가능해요")
+            String tagName
+            ){
+        ResponseDto<List<TaskResponse.TaskListResponse>> response = tagService.getTaskByTagName(tagName);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 

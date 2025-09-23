@@ -3,8 +3,11 @@ package com.example.mini_project_task_manager.service;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.tag.request.TagRequest;
 import com.example.mini_project_task_manager.dto.tag.response.TagResponse;
+import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -20,5 +23,8 @@ public interface TagService {
     ResponseDto<List<TagResponse.TagNameResponse>> getAllTags();
 
     ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long tagId);
+
+
+    ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(@NotBlank(message = "tagName은 공백이 안되요.") @Size(max= 100, message = "tagName은 최대 100자까지 가능해요") String tagName);
 }
 
