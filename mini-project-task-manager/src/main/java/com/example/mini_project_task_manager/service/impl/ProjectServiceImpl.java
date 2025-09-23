@@ -9,7 +9,6 @@ import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -80,18 +79,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword) {
 
-        String clean = (keyword == null) ? " " : keyword.trim();
+        String clean = (keyword == null) ? "" : keyword.trim();
 
         if (clean.isEmpty()) {
             throw new IllegalArgumentException("검색 키워드는 비어 있을 수 없습니다.");
         }
 
-        if (clean.length() > 100) {
-            throw new IllegalArgumentException("검색 키워드는 100자 이하여야 합니다.");
-        }
-
-        if (!clean.contains(keyword)) {
-            throw new IllegalArgumentException("일치하는 결과가 없습니다.");
+        if (clean.length() > 10) {
+            throw new IllegalArgumentException("검색 키워드는 10자 이하여야 합니다.");
         }
 
         var rows = projectRepository.searchProjectsByKeyword(clean);
@@ -99,6 +94,10 @@ public class ProjectServiceImpl implements ProjectService {
          List<ProjectResponse.ProjectSummaryResponse> result = rows.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
+
+         if (result.isEmpty()) {
+             throw new IllegalArgumentException("일치하는 결과가 없습니다.");
+         }
 
         return ResponseDto.setSuccess("조회 완료", result);
     }
