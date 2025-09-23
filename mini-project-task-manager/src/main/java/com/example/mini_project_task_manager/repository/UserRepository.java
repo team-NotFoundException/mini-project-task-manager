@@ -21,7 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("""
      SELECT u
      FROM User u
-       LEFT JOIN FETCH u.userRoles
+       LEFT JOIN FETCH u.userRoles ur
+       LEFT JOIN FETCH ur.role
      WHERE u.username = :username
 
   """)
