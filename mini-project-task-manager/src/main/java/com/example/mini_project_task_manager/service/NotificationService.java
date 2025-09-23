@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 public interface NotificationService {
-    ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(UserPrincipal principal, NotificationsRequest.@Valid NotificationCreateRequest dto);
+    ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(UserPrincipal principal, NotificationsRequest.NotificationCreateRequest dto);
 
     ResponseDto<List<NotificationsResponse.NotificationListResponse>> getAllNotifications();
 
