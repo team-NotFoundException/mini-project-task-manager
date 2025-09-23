@@ -36,9 +36,9 @@ public class TagController {
 
     // PROJECT에서  태그 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping(ApiMappingPattern.Tags.TAG_ID)
+    @PostMapping(ApiMappingPattern.Tags.FROM_TAG)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> createTagByProject(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
+            @PathVariable("projectId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
             ){
         ResponseDto<TagResponse.TagNameResponse> response = tagService.createTagByProject(projId, dto);
@@ -49,7 +49,7 @@ public class TagController {
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping(FROM_TASK)
     public ResponseEntity<ResponseDto<TagResponse>> createTagByTask(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
+            @PathVariable("projectId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
             ){
         ResponseDto<TagResponse> response = tagService.createTagByTask(projId, dto);
@@ -73,11 +73,11 @@ public class TagController {
 
     // Tag 단건 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("{tagId}")
+    @GetMapping("tagId/{tagId}")
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> getTagByTagId(
-            @PathVariable Long Tag_id
+            @PathVariable ("tagId") @Positive(message = "tagId는 1 이상이어야 해요.") Long tagId
     ){
-        ResponseDto<TagResponse.TagNameResponse> response = tagService.getTagByTagId(Tag_id);
+        ResponseDto<TagResponse.TagNameResponse> response = tagService.getTagByTagId(tagId);
 
         return ResponseEntity.ok().body(response);
     }
@@ -87,9 +87,9 @@ public class TagController {
 
     // Tag 삭제
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @DeleteMapping( "{tagId}")
+    @DeleteMapping( "tagId/{tagId}")
     public ResponseEntity<ResponseDto<TagResponse>> deleteTag(
-            @PathVariable("projId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
+            @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 해요.") Long projId,
             @PathVariable("tagId") @Positive(message = "tagId는 1 이상이어야 해요.") Long tagId
             ){
         ResponseDto<TagResponse> response = tagService.deleteTag(projId,tagId);

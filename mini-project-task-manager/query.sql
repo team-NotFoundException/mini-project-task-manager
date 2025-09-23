@@ -38,6 +38,12 @@ CREATE TABLE IF NOT EXISTS `users` (
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자';
 
+INSERT INTO `users` (username, password, nickname,email,gender) VALUES
+	('aaaaaaaa','bbbbbbbbbb','실험용A','bbbbb@naver.com','MALE');
+
+
+
+
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
     role_name	VARCHAR(30) PRIMARY KEY
@@ -45,6 +51,12 @@ CREATE TABLE IF NOT EXISTS `roles` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '권한';
+
+select * from `users`;
+select * from `tags`;
+
+insert into `roles` VALUE ('ADMIN');
+insert into `user_roles` VALUE (3,'ADMIN');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
@@ -59,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자 권한';
+
 
 DROP TABLE IF EXISTS `projects`;
 CREATE TABLE IF NOT EXISTS `projects`(
@@ -76,6 +89,15 @@ CREATE TABLE IF NOT EXISTS `projects`(
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '프로젝트';
+
+INSERT INTO `projects` (author_id, title, content) VALUES
+	(1,'USER','으어어어어ㅓ어어어어어어');
+
+select * from `projects`;
+
+
+
+
 
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks`(
@@ -115,6 +137,11 @@ CREATE TABLE IF NOT EXISTS `tags`(
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '태그';
+
+insert into `tags` ( project_id,tag_name) VALUES
+	(3,'실험1');
+
+select * from `tags`;
 
 DROP TABLE IF EXISTS `task_tags`;
 CREATE TABLE IF NOT EXISTS `task_tags` (
