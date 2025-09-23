@@ -5,7 +5,6 @@ import java.util.Optional;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findWithRolesByUsername(@Param("username") String username);
 
   @EntityGraph(attributePaths = "userRoles")
-  Optional<User> findByUsername (String username);
+  Optional<User> findByUsername (@NotNull String username);
 
   boolean existsByUsername(String username);
   boolean existsByEmail(String email);
@@ -38,4 +37,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByEmail(@NotBlank @Email String email);
 
 
+  @NotNull Long id(Long id);
 }

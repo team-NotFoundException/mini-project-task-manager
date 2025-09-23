@@ -3,6 +3,7 @@ package com.example.mini_project_task_manager.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,7 +35,8 @@ public class Tag {
     private Project project;
 
     // 메서드 //
-    public Tag (
+    @Builder
+    private Tag (
             @NotNull String tag_name
     ){
         this.tag_name = tag_name;
