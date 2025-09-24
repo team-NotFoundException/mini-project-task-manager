@@ -1,6 +1,8 @@
 package com.example.mini_project_task_manager.service.impl;
 
 import com.example.mini_project_task_manager.common.enums.RoleType;
+import com.example.mini_project_task_manager.dto.Auth.request.FindUsernameRequest;
+import com.example.mini_project_task_manager.dto.Auth.response.FindUsernameResponse;
 import com.example.mini_project_task_manager.dto.Mail.MailRequest;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
@@ -13,19 +15,21 @@ import com.example.mini_project_task_manager.provider.JwtProvider;
 import com.example.mini_project_task_manager.repository.RoleRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
+import com.example.mini_project_task_manager.security.util.PrincipalUtils;
 import com.example.mini_project_task_manager.service.UserService;
 import io.jsonwebtoken.Claims;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -80,8 +84,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
+    @Transactional
     public ResponseDto<SignInResponse> signIn(SignRequest.@Valid SignInRequest req) {
 
         Authentication auth = authenticationManager.authenticate(
@@ -108,17 +112,72 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal) {
-        return null;
+        PrincipalUtils.requiredActive(principal);
+
+        User user = userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() ->
+                        new EntityNotFoundException
+                                ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
+
+        UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getNickname(),
+                user.getGender()
+
+        );
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
-    public ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, UserProfileUpdateRequest request) {
-        return null;
+    @Transactional
+    public ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo
+            (UserPrincipal principal, UserProfileUpdateRequest request
+            ) {
+        PrincipalUtils.requiredActive(principal);
+
+        User user = userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() ->
+                        new EntityNotFoundException
+                                ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
+        user.changeProfile(request.nickname(), request.gender());
+        userRepository.flush();
+
+        UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getNickname(),
+                user.getGender()
+        );
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
+    @Transactional
     public void resetPassword(MailRequest.@Valid PasswordReset req) {
+        if (!req.newPassword().equals(req.confirmPassword()))
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 
+        User user = userRepository.findByEmail(req.email())
+                .orElseThrow(() -> new IllegalStateException("가입된 이메일이 아닙니다."));
+        String encoded = passwordEncoder.encode(req.newPassword());
+
+        user.changePassword(encoded);
+
+        userRepository.save(user);
     }
+
+    @Override
+    public ResponseDto<FindUsernameResponse> findUsername(FindUsernameRequest req) {
+        FindUsernameResponse response = userRepository.findIdByNicknameAndEmail(req.nickname(), req.email())
+                .orElseThrow(() -> new IllegalArgumentException("해당 닉네임/이메일로 사용자를 찾을 수 없습니다."));
+
+        return ResponseDto.setSuccess("SUCCESS", response);
+    }
+
 }
