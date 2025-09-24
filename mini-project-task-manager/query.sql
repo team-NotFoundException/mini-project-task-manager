@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS `users`;
 -- users -> roles -> user_roles -> projects -> tasks -> tags -> task_tags -> comments -> notifications
 
 insert into `roles` values('MANAGER');
-insert into user_roles (user_id, role_name) values(3,'MANAGER')
+insert into user_roles (user_id, role_name) values(3,'MANAGER');
 
 
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '권한';
 
-select * from `users`;
+select * from `roles`;
 select * from `tags`;
 
 insert into `roles` VALUE ('ADMIN');

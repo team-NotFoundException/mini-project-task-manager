@@ -47,17 +47,6 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public ResponseDto<TagResponse> createTagByTask(Long taskId, TagRequest.@Valid TagCreateRequest dto) {
-        // task 안에 tag를 넣는다고 가정을 해보자
-        // project는 바로 검색이 가능하게 되었지만
-        // projectId도 검색, taskId도 검색? taskId만 검색하기?
-
-
-        return null;
-    }
-
-
-    @Override
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     @Transactional
     public ResponseDto<TagResponse> deleteTag(Long projId, Long tagId) {
@@ -99,13 +88,37 @@ public class TagServiceImpl implements TagService {
 
     // 태그이름 검색 -> 태그가 포함된 task(태스크) 조회
     @Override
-    public ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(String tagName) {
-        List<Task> task = taskRepository.findTaskByTagName(tagName);
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(Long projectId, String tagName) {
+        List<Task> task = taskRepository.findTaskByTagName(projectId, tagName);
         List<TaskResponse.TaskListResponse> result = task.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
+        if (result.isEmpty()){
+            throw new EntityNotFoundException("검색된 태스크가 없어요");
+        }
 
         return ResponseDto.setSuccess("태그가 포함된 Task 조회", result);
     }
 
+    // Task에 속한 tag 전체 검색
+    @Override
+    public ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByTask(Long taskId) {
+        List<Tag> tags = tagRepository.findTaskTagsAll(taskId);
+        List<TagResponse.TagNameResponse> result = tags.stream()
+                .map(TagResponse.TagNameResponse::from)
+                .toList();
+
+        return ResponseDto.setSuccess("전체 태그 조회", result);
+    }
+
+    @Override
+    public ResponseDto<TagResponse.TagNameResponse> getTaskTag(Long taskId, Long tagId) {
+        Long staskId = requirePositiveId(taskId);
+        Long stagId = requirePositiveId(tagId);
+
+        Tag tag = tagRepository.findTaskTag(staskId, stagId)
+                .orElseThrow(()-> new EntityNotFoundException("해당 id의 태그를 찾을 수 없어요."));
+
+        return ResponseDto.setSuccess("태그 조회 완료", TagResponse.TagNameResponse.from(tag));
+    }
 }

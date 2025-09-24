@@ -14,9 +14,6 @@ import java.util.List;
 public interface TagService {
     ResponseDto<TagResponse.TagNameResponse> createTagByProject(@Positive(message = "projId는 1 이상이여야합니다.") Long projId, TagRequest.@Valid TagCreateRequest dto);
 
-    ResponseDto<TagResponse> createTagByTask(@Positive(message = "taskId는 1 이상이여야합니다.") Long taskId, TagRequest.@Valid TagCreateRequest dto);
-//    ResponseDto<TagResponse.TagNameResponse> createTag(@Positive(message = "projId는 1 이상이여야합니다.") TagRequest.@Valid TagCreateRequest dto);
-
     ResponseDto<TagResponse> deleteTag(@Positive(message = "projId는 1 이상이여야합니다.") Long projId, Long tagId);
 
 
@@ -25,6 +22,10 @@ public interface TagService {
     ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long tagId);
 
 
-    ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(@NotBlank(message = "tagName은 공백이 안되요.") @Size(max= 100, message = "tagName은 최대 100자까지 가능해요") String tagName);
+    ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(Long projectId,@NotBlank(message = "tagName은 공백이 안되요.") @Size(max= 100, message = "tagName은 최대 100자까지 가능해요") String tagName);
+
+    ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByTask(@Positive(message = "tagId는 1 이상이어야 해요.") Long taskId);
+
+    ResponseDto<TagResponse.TagNameResponse> getTaskTag(Long taskId, Long tagId);
 }
 
