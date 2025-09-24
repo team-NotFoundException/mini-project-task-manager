@@ -43,6 +43,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
         where tg.tag_name = :tagName
 """, nativeQuery = true)
     List<Task> findTaskByTagName(@Param("tagName") String tagName);
-
-
 }
