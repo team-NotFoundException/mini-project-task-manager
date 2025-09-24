@@ -42,6 +42,11 @@ public class UserSignController {
         mailService.verifyEmail(token);
         return ResponseEntity.noContent().build();
     }
-
+    /** 비밀번호 재설정 */
+    @PostMapping("/reset-password")
+    public ResponseEntity<ResponseDto<Void>> resetPassword(@Valid @RequestBody MailRequest.PasswordReset req) {
+        userService.resetPassword(req);
+        return ResponseEntity.noContent().build();
+    }
 
 }

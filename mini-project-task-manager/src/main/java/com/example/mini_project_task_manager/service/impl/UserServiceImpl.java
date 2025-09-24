@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.service.impl;
 
 import com.example.mini_project_task_manager.common.enums.RoleType;
+import com.example.mini_project_task_manager.dto.Mail.MailRequest;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
 import com.example.mini_project_task_manager.dto.user.request.UserProfileUpdateRequest;
@@ -109,5 +110,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, UserProfileUpdateRequest request) {
         return null;
+    }
+
+    @Override
+    public void resetPassword(MailRequest.@Valid PasswordReset req) {
+
     }
 }
