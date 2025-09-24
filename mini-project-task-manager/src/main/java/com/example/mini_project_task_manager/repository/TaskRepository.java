@@ -1,5 +1,8 @@
 package com.example.mini_project_task_manager.repository;
 
+
+import com.example.mini_project_task_manager.common.enums.Priority;
+import com.example.mini_project_task_manager.common.enums.Status;
 import com.example.mini_project_task_manager.entity.Tag;
 import com.example.mini_project_task_manager.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,14 +16,17 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    // 전체 할일 조회(댓글 제외)
-    @Query("""
-        select t
-        from Task t
-        where t.project.id = :projectId
-        order by t.id desc
-    """)
-    List<Task> findAllByProjectIdOrderByIdDesc(@Param("projectId") Long projectId);
+    // 전체 할일 조회 +) 상태 / 우선순위 선택여부에 따라 조회
+    List<Task> searchTasks(Long projectId, Status status, Priority priority);
+
+//    // 전체 할일 조회(댓글 제외)
+//    @Query("""
+//        select t
+//        from Task t
+//        where t.project.id = :projectId
+//        order by t.id desc
+//    """)
+//    List<Task> findAllByProjectIdOrderByIdDesc(@Param("projectId") Long projectId);
 
     // 할일 조회 + 댓글, 태그 까지 즉시 로딩
     @Query("""
@@ -33,8 +39,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     """)
     Optional<Task> findByIdWithCommentsAndTaskTags(@Param("projectId") Long projectId,@Param("id") Long id);
 
-    // 전체 할일 조회 (projectId + (status || priority) or status && priority
-
     // 태그이름으로 태스크 검색
     @Query(value = """
         select t.*
@@ -46,3 +50,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findTaskByTagName(@Param("projectId")Long projId,@Param("tagName") String tagName);
 
 }
+

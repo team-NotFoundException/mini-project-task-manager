@@ -13,9 +13,15 @@ import java.util.List;
 public interface TagRepository extends JpaRepository<Tag, Long> {
     Optional<Tag> findByTagName(String tag);
 
-    List<Tag> findAll();
+    List<Tag> findAll(); // 이거 필요없으면 지우기
     Long id(Long id);
 
+    @Query(value = """
+        select tag
+        from Tag tag
+        where tag.project.id = :projectId
+""")
+    List<Tag> findTagsByProjectId(@Param("projectId") Long projectId);
 
     @Query(value= """
     select tg.*
@@ -26,11 +32,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     order by tg.tag_name desc
 """, nativeQuery = true)
     List<Tag> findTaskTagsAll(@Param("taskId")Long taskId);
-
-
-
-
-
 
     @Query(value = """
     select tg.*
