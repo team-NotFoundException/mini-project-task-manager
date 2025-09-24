@@ -45,6 +45,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 """, nativeQuery = true)
     List<Task> findTaskByTagName(@Param("projectId")Long projId,@Param("tagName") String tagName);
 
-
-
 }

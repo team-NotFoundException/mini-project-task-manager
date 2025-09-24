@@ -17,11 +17,11 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @NotNull @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_comments_task_id"))
     private Task task;
 
-    @NotNull @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @NotNull @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_comments_author_id"))
     private User user;
 
@@ -33,9 +33,11 @@ public class Comment extends BaseTimeEntity {
         this.comment = content;
     }
 
-    public static Comment create(String content) {
+    public static Comment create(String content, User author, Task task) {
         Comment comment = new Comment();
         comment.comment = content;
+        comment.user = author;
+        comment.task = task;
         return  comment;
     }
 
