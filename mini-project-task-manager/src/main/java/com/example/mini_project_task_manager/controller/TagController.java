@@ -59,22 +59,17 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 참고 용 파일 복붙용이라 나중에 지워야함
-//    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-//    @GetMapping("/all")
-//    public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjects() {
-//        ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjects();
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-    // Tag 전체 조회
+    // Project에서 Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping("tags/all/asc")
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTags() {
         ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTags();
         return ResponseEntity.status(HttpStatus.OK).body(response);
-
     }
 
-    // Tag 단건 조회
+    // Task에서 Tag 전체 조회
+
+    // Project에서 Tag 단건 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping("tagId/{tagId}")
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> getTagByTagId(
@@ -97,9 +92,6 @@ public class TagController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-
-
 
     // 프로젝트에서 Tag 삭제
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")

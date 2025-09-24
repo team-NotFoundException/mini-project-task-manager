@@ -36,10 +36,10 @@ public class Tag {
 
     // 메서드 //
     @Builder
-    private Tag (
-            @NotNull String tagName
+    public Tag (
+            @NotNull String tag_name
     ){
-        this.tagName = tagName;
+        this.tagName = tag_name;
     }
 
 
@@ -62,6 +62,6 @@ public class Tag {
 
     // Tag : Task = N:N -> TaskTag 중간 테이블
     // TaskTag 안에 tag 필드
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tag")
     private Set<TaskTag> taskTags = new HashSet<>();
 }

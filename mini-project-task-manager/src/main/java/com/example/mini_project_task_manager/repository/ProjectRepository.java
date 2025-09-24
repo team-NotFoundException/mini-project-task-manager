@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.repository;
 
+import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
 import com.example.mini_project_task_manager.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,36 +33,32 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, Project
     // 작성자 id로 조회
     @Query(value = """
 	select 
-		p.id 			as "고유번호",
-		p.title			as "제목",
-		u.nickname 	    as "작성자",
-		p.created_at 	as "생성일"
+		projects.*
 	from 
-		projects p
-		left join  p.users u
-		on u.id = p.author_id
-	where u.id = p.author_id
+		projects
+		left join users
+		on users.id = projects.author_id
+	where users.id = :author_id
 	order by 
-		p.created_at asc
+		projects.created_at asc
     """, nativeQuery = true)
-    List<Project> findProjectsByAuthorId(@Param("authorId") String authorId);
+    List<Project> findProjectsByAuthorId(@Param("author_id") Long author_id);
 
 
     // 키워드 검색 (제목+개요)
     @Query(value = """
-	select distinct 
-	    p.id 			as "고유번호",
-		p.title			as "제목",
-	 	u.nickname 	    as "작성자",
-		p.created_at 	as "생성일"
+	select 
+		distinct projects.*
 	from 
-		projects p
-		left join  p.users u
-		on u.id = p.author_id
-	where p.content like concat('%', :searchKeyword, '%') or p.title like concat('%', :searchKeyword, '%')
-		p.created_at asc
+		projects
+		left join users
+		on users.id = projects.author_id
+	where projects.content like concat('%', :searchKeyword, '%') or projects.title like concat('%', :searchKeyword, '%')
+	order by 
+		projects.created_at asc
     """, nativeQuery = true)
     List<Project> searchProjectsByKeyword(@Param("searchKeyword") String searchKeyword) ;
+           
+	Optional<Project> findProjectById(Long projectId);
 
-	Optional<Project> findProjectById(Long projId);
 }

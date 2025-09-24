@@ -30,7 +30,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             left join fetch tt.tag tag
         where t.id = :id
     """)
-    Optional<Task> findByIdWithCommentsAndTaskTags(@Param("id") Long id);
+    Optional<Task> findByIdWithCommentsAndTaskTags(@Param("projectId") Long projectId,@Param("id") Long id);
 
     // 전체 할일 조회 (projectId + (status || priority) or status && priority
 
