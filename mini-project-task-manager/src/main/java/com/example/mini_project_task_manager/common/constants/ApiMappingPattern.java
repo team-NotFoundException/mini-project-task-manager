@@ -41,7 +41,9 @@ public class ApiMappingPattern {
         public static final String ROOT = BASE + "/projects/{projectId}";
         public static final String FROM_TASK = "/tasks/{taskId}/tags";
         public static final String FROM_TAG = "tags";
-        public static final String TAG_ID = "/tags/{tagId}";
+        public static final String TASK_TAG = FROM_TASK + "/{tagId}";
+        public static final String TAG_ID = "/tagId/{tagId}";
+        public static final String TAG_NAME = "/task/{tagName}";
     }
 
     public static final class Notifications {
