@@ -13,7 +13,12 @@ import java.util.Set;
 @Entity
 @Table(
         name = "tags",
-        uniqueConstraints = @UniqueConstraint(name = "uk_tags_tag_name", columnNames = "tag_name"))
+        uniqueConstraints = @UniqueConstraint(name = "uq_tags_tag_name_project_id", columnNames = {"tag_name", "project_id"}))
+
+/**
+ * FROM: 보민
+ * 태경님 uq 설정 잘못되있어서 같은 이름 태그가 서로 다른 프로젝트에 들어가도 들어가지질 않아요 확인해주세요
+ * */
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
