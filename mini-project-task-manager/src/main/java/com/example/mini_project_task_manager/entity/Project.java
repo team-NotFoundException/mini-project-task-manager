@@ -40,9 +40,10 @@ public class Project extends BaseTimeEntity {
     private User user;
 
     @Builder
-    private Project(@NotNull String title, String content) {
+    private Project(@NotNull String title, String content, @NotNull User user) {
         this.title = title;
         this.content = content;
+        this.user = user;
     }
 
     /** Task 생성시 Project에 적용 */
