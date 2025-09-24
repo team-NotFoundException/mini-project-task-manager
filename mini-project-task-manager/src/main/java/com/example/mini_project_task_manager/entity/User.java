@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-            @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
-            @UniqueConstraint(name = "uq_users_email", columnNames = "email"),
-            @UniqueConstraint(name = "uq_users_nickname", columnNames = "nickname")
+                @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
+                @UniqueConstraint(name = "uq_users_email", columnNames = "email"),
+                @UniqueConstraint(name = "uq_users_nickname", columnNames = "nickname")
         }
 )
 @Getter
@@ -83,17 +83,16 @@ public class User extends BaseTimeEntity {
         this.gender = gender;
     }
 
-        /** 권한 부여/회수 편의 메서드 */
-         public void grantRole (Role role) {
-             boolean exists = userRoles.stream()
-                     .anyMatch(ur -> ur.getRole().getName().equals(role.getName()));
-             if (!exists) {
-                 UserRole ur = new UserRole(this, role);
+    /** 권한 부여/회수 편의 메서드 */
+    public void grantRole (Role role) {
+        boolean exists = userRoles.stream().anyMatch(ur -> ur.getRole().equals(role));
+        if (!exists) {
+            UserRole ur = new UserRole(this, role);
 //                 userRoles.add(new UserRole(this, role));
-                 this.userRoles.add(ur);
-             }
-         }
-         public void revokeRole(Role role) {
+            this.userRoles.add(ur);
+        }
+    }
+    public void revokeRole(Role role) {
         userRoles.removeIf(userRole -> userRole.getRole().equals(role));
     }
     public Set<RoleType> getRoleTypes() {
