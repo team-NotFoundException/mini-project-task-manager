@@ -66,10 +66,10 @@ public class TaskServiceImpl implements TaskService {
                 if (tagName == null || tagName.isBlank()) continue;
 
                 // 1. DB에서 기존 Tag 찾아서 없으면 새로만들기.
-                Tag tag = tagRepository.findByTagName("#"+tagName.trim())
+                Tag tag = tagRepository.findByTagName(tagName.trim())
                         .orElseGet(() -> {
                             // 2. 없으면 새 Tag 생성 후 저장
-                            Tag newTag = new Tag("#"+tagName.trim());
+                            Tag newTag = new Tag(tagName.trim());
                             newTag.setProject(project);
                             // 새 태그 생성시, 관련 프로젝트에도 등록, public안하니까 런타임에러
                             // project 널일수없다고 나옴.
@@ -136,23 +136,29 @@ public class TaskServiceImpl implements TaskService {
 
         /** 직접 입력한 태그 처리 하기 */
         // === 여러 태그 처리 ===
-        if (dto.tagNames() != null && !dto.tagNames().isEmpty()){
-            for (String tagName : dto.tagNames()) {
-                if (tagName == null || tagName.isBlank()) continue;
+        if (dto.tagNames() != null && !dto.tagNames().isEmpty()){       // 입력된 태그가 있고, 공백이 아니라면
+            for (String tagName : dto.tagNames()) {                     // 입력된 set<string> 을 순회해
+
+                if (tagName == null || tagName.isBlank()) continue;     // 혹시라도 각 태그가 null 이거나, 블랭크라면 만들지마
 
                 // 1. DB에서 기존 Tag 찾아서 없으면 새로만들기.
-                Tag tag = tagRepository.findByTagName("#"+tagName.trim())
-                        .orElseGet(() -> {
+                Tag tag = tagRepository.findByTagName(tagName.trim())   // Tag에서 #태그 있는지 찾아
+                        .orElseGet(() -> {                                  // 있다면,
                             // 2. 없으면 새 Tag 생성 후 저장
-                            Tag newTag = new Tag("#"+tagName.trim());
-                            newTag.setProject(project);
+                            Tag newTag = new Tag(tagName.trim());   // Tag 를 새로 생성해. #붙여서
+
+                            /** 2. 기존에 "태그1" , "태그2" 가 있었다가, updateTask시에 "태그2" 만 남았다면? */
+
+
+                            newTag.setProject(project);                          // 새 Tag를 프로젝트에도 등록해줘
                             // 새 태그 생성시, 관련 프로젝트에도 등록, public안하니까 런타임에러
-                            // project 널일수없다고 나옴.
-                            return tagRepository.save(newTag);
+                            // project 널 일수없다고 나옴.
+                            return tagRepository.save(newTag);              // tag DB에 저장시켜줘
                         });
 
+
                 // 3. Task에 Tag 추가 (TaskTag도 자동 생성)
-                task.addTag(tag);
+                task.addTag(tag);                           // task에서 addTag 안에 new TaskTag하는게 있음.
             }
         }
         return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(task));
@@ -172,7 +178,7 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("해당 Task가 프로젝트 내에 속해있지 않습니다. ");
         }
 
-        // new HashSet<> 복사본 만들어서 순회
+        // new HashSet<> 방어적으로 복사본 만들어서 순회
         for (TaskTag taskTag : new HashSet<>(task.getTaskTags())){
             // TaskTag table에서는 삭제. tags에는 남아있음
             // taskTag 에서 Tag 불러와서. 그 태그에 연결된 TaskTag 삭제
