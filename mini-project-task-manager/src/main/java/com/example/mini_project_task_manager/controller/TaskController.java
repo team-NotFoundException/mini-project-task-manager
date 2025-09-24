@@ -40,25 +40,15 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Task 조회 (전체 조회) - 댓글 제외
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
+    // Task 조회 (전체 조회) + 상태, 우선 순위에 따른 조건 필터링 정렬
+    @PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks(
-            @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 해요.") Long projectId
-    ) {
-        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks(projectId);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    // Task 조회 (전체 조회) - 상태, 우선 순위에 따른 조건 필터링 정렬
-    @PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
-    @GetMapping(FILTER_OPTION)
-    public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getTasksByFiltering(
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 해요.") Long projectId,
             @RequestParam(required = false) Status status,
             @RequestParam(required = false) Priority priority
     ) {
-        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getTasksByFiltering(projectId, status, priority);
+        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks(projectId, status, priority);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
