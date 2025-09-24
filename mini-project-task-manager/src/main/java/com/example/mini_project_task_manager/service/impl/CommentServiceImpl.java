@@ -5,10 +5,14 @@ import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
 import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
 import com.example.mini_project_task_manager.entity.Comment;
 import com.example.mini_project_task_manager.entity.Task;
+import com.example.mini_project_task_manager.entity.User;
 import com.example.mini_project_task_manager.repository.CommentsRepository;
 import com.example.mini_project_task_manager.repository.TaskRepository;
+import com.example.mini_project_task_manager.repository.UserRepository;
+import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,18 +26,23 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     private final CommentsRepository commentsRepository;
     private final TaskRepository taskRepository;
-
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public ResponseDto<CommentsResponse.CommentResponse> createComment(Long taskId, CommentRequest.CommentCreateRequest dto) {
+    public ResponseDto<CommentsResponse.CommentResponse> createComment(UserPrincipal userPrincipal, Long taskId, CommentRequest.CommentCreateRequest dto) {
+
+        User author = userRepository.findByUsername(userPrincipal.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없습니다."));
-        Comment comment = Comment.create(dto.comment());
 
-        task.addComment(comment);
+        Comment comment = Comment.create(dto.comment(), author, task);
 
         Comment saved = commentsRepository.save((comment));
+
+        task.addComment(comment);
         return ResponseDto.setSuccess("SUCCESS", CommentsResponse.CommentResponse.from(saved));
     }
 
@@ -53,9 +62,9 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public ResponseDto<List<CommentsResponse.CommentListResponse>> searchCommentByKeyword(String keyword) {
+    public ResponseDto<List<CommentsResponse.CommentListResponse>> searchCommentByKeyword(String searchKeyword) {
         // 1. 내용값을 입력받는다
-        String searchKeyword = (keyword == null)? "" : keyword.trim();
+        searchKeyword = (searchKeyword == null)? "" : searchKeyword.trim();
 
         // 2. 유효한 값인지 확인한다
         if (searchKeyword.isEmpty()) {
