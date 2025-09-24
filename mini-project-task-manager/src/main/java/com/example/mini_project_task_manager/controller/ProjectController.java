@@ -8,7 +8,6 @@ import com.example.mini_project_task_manager.dto.project.response.ProjectRespons
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,10 +60,10 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.SEARCH)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByKeyword(
-            @RequestParam("keyword") @NotBlank(message = "검색 키워드를 입력해주세요.") String keyword
+            @RequestParam("keyword") String keyword
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword(keyword);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 5) 프로젝트 수정

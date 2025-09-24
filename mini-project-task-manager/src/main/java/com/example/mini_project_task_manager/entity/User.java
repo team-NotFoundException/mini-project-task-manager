@@ -85,10 +85,16 @@ public class User extends BaseTimeEntity {
 
         /** 권한 부여/회수 편의 메서드 */
          public void grantRole (Role role) {
+<<<<<<< HEAD
              boolean exists = userRoles.stream().anyMatch(ur -> ur.getRole().equals(role));
+=======
+             boolean exists = userRoles.stream()
+                     .anyMatch(ur -> ur.getRole().getName().equals(role.getName()));
+>>>>>>> feature/only-test-branch
              if (!exists) {
-
-                 userRoles.add(new UserRole(this, role));
+                 UserRole ur = new UserRole(this, role);
+//                 userRoles.add(new UserRole(this, role));
+                 this.userRoles.add(ur);
              }
          }
          public void revokeRole(Role role) {

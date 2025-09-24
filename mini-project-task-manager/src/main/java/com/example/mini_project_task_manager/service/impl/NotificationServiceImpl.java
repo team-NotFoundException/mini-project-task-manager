@@ -11,6 +11,7 @@ import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(UserPrincipal userPrincipal, NotificationsRequest.@Valid NotificationCreateRequest dto) {
+    public ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(
+            UserPrincipal userPrincipal,
+            NotificationsRequest.NotificationCreateRequest dto) {
 
-        // 유효한지
+//        // 유효한지
         if (!StringUtils.hasText(dto.title())) {
             throw new IllegalArgumentException("제목은 빌 수 없어요.");
         }
@@ -41,11 +44,10 @@ public class NotificationServiceImpl implements NotificationService {
         }
 
         // 작성자?
-        final String username = userPrincipal.getUsername();
-        User author = userRepository.findByUsername(username)
+        @NotNull User author = userRepository.findByUsername(userPrincipal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
 
-        Notification saved = notificationRepository.save(Notification.create(dto.title(), dto.content(), dto.author()));
+        Notification saved = notificationRepository.save(Notification.create(dto.title(), dto.content(), author));
         NotificationsResponse.NotificationDetailResponse data = NotificationsResponse.NotificationDetailResponse.from(saved);
         return ResponseDto.setSuccess("SUCCESS", data);
     }

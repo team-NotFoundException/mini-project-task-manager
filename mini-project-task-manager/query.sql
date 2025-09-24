@@ -38,6 +38,12 @@ CREATE TABLE IF NOT EXISTS `users` (
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자';
 
+INSERT INTO `users` (username, password, nickname,email,gender) VALUES
+	('aaaaaaaa','bbbbbbbbbb','실험용A','bbbbb@naver.com','MALE');
+
+
+
+
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
     role_name	VARCHAR(30) PRIMARY KEY
@@ -45,6 +51,12 @@ CREATE TABLE IF NOT EXISTS `roles` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '권한';
+
+select * from `users`;
+select * from `tags`;
+
+insert into `roles` VALUE ('ADMIN');
+insert into `user_roles` VALUE (3,'ADMIN');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
@@ -59,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자 권한';
+
 
 DROP TABLE IF EXISTS `projects`;
 CREATE TABLE IF NOT EXISTS `projects`(
@@ -76,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `projects`(
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '프로젝트';
+
 
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks`(
@@ -106,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `tasks`(
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tag_name    VARCHAR(100) ,
+    tag_name    VARCHAR(100) NOT NULL,
     project_id  BIGINT NOT NULL,
     CONSTRAINT `fk_tags_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     CONSTRAINT `uk_tags_tag_name` UNIQUE (tag_name)
@@ -115,6 +129,9 @@ CREATE TABLE IF NOT EXISTS `tags`(
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '태그';
+
+
+select * from `tags`;
 
 DROP TABLE IF EXISTS `task_tags`;
 CREATE TABLE IF NOT EXISTS `task_tags` (
@@ -148,9 +165,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
 DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
     id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
-	author_id    	BIGINT NOT NULL,
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
+    author_id    	BIGINT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     
 	CONSTRAINT `fk_notifications_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE

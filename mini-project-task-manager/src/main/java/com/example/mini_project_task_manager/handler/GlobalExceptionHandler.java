@@ -74,6 +74,7 @@ public class GlobalExceptionHandler {
         return list;
     }
 
+
     // === 400 Bad Request 그룹: 잘못된 인자/상태 (서비스 레벨 방어 예외 등) === //
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
     public ResponseEntity<ResponseDto<Object>> handleBadRequest(Exception e) {
