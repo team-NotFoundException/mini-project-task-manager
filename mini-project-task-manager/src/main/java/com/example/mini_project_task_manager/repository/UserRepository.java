@@ -2,9 +2,12 @@ package com.example.mini_project_task_manager.repository;
 
 import java.util.Optional;
 
+import com.example.mini_project_task_manager.dto.Auth.response.FindUsernameResponse;
+import com.example.mini_project_task_manager.dto.ResponseDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,4 +41,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
   @NotNull Long id(Long id);
+
+  @Query("""
+    SELECT u.username
+    FROM User u
+    WHERE u.nickname = :nickname and u.email = :email
+""")
+  Optional<FindUsernameResponse> findIdByNicknameAndEmail(
+          @Param("nickname") String nickname,
+          @Param("email") String email
+  );
 }
