@@ -101,7 +101,7 @@ public class TagController {
 
 
 
-    // Tag 삭제
+    // 프로젝트에서 Tag 삭제
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @DeleteMapping( "tagId/{tagId}")
     public ResponseEntity<ResponseDto<TagResponse>> deleteTag(
@@ -112,7 +112,6 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
-
 
 
 }
