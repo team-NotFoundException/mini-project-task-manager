@@ -24,6 +24,8 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
 
+    // gg
+
     // 1) 프로젝트 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
