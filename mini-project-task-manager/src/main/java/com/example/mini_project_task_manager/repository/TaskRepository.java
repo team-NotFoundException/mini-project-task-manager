@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.repository;
 
+
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
 import com.example.mini_project_task_manager.entity.Tag;
@@ -40,11 +41,13 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // 태그이름으로 태스크 검색
     @Query(value = """
-        select task.*
+        select t.*
             from tasks t
             join task_tags tt on t.id = tt.task_id
             join tags tg on tg.id = tt.tag_id
-        where tg.tag_name = :tagName
+        where tg.tag_name = :tagName AND t.project_id =:projectId
 """, nativeQuery = true)
-    List<Task> findTaskByTagName(@Param("tagName") String tagName);
+    List<Task> findTaskByTagName(@Param("projectId")Long projId,@Param("tagName") String tagName);
+
 }
+

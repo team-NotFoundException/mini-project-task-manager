@@ -9,6 +9,7 @@ import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,8 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectResponse.ProjectSummaryResponse> result = projects.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
+
+        if (result.isEmpty()) throw new EntityNotFoundException("프로젝트가 없습니다.");
 
         return ResponseDto.setSuccess("조회 완료", result);
     }

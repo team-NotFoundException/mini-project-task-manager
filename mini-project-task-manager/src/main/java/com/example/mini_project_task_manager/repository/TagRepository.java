@@ -22,4 +22,25 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
         where tag.project.id = :projectId
 """)
     List<Tag> findTagsByProjectId(@Param("projectId") Long projectId);
+
+    @Query(value= """
+    select tg.*
+        from tags tg
+        join task_tags tt on tg.id = tt.tag_id
+        join tasks t on t.id = tt.task_id
+    where t.id = :taskId
+    order by tg.tag_name desc
+""", nativeQuery = true)
+    List<Tag> findTaskTagsAll(@Param("taskId")Long taskId);
+
+    @Query(value = """
+    select tg.*
+        from tags tg
+        join task_tags tt on tg.id = tt.tag_id
+        join tasks t on t.id = tt.task_id
+    where t.id = :taskId and tg.id = :tagId
+    order by tg.tag_name desc
+""", nativeQuery = true)
+    Optional<Tag> findTaskTag(@Param("taskId")Long taskId, @Param("tagId")Long tagId);
+
 }
