@@ -34,7 +34,7 @@ public class TagServiceImpl implements TagService {
         Project project = projectRepository.findProjectById((projId))
                 .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없어요."));
 
-        Tag tag = Tag.create(dto.tag_name());
+        Tag tag = Tag.create(dto.tagName());
         project.addTag(tag);
         Tag saved = tagRepository.save(tag);
 
