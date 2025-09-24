@@ -15,7 +15,6 @@ public class UserRole  {
     private UserRoleId id;
 
     @MapsId("userId")
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "user_id",
@@ -28,7 +27,6 @@ public class UserRole  {
 
     @MapsId("roleName")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-
     @JoinColumn(
             name = "role_name",
             nullable = false,

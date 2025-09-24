@@ -66,10 +66,15 @@ public class UserServiceImpl implements UserService {
                 .password(encoded)
                 .email(req.email())
                 .nickname(req.nickname())
+                .gender(req.gender())
                 .build();
 
-        Role defaultRole = roleRepository.getReferenceById(RoleType.USER);
-        user.grantRole(defaultRole);
+        User save = userRepository.save(user);
+
+        Role defaultRole = roleRepository.findById(RoleType.USER)
+                .orElseThrow(() -> new IllegalStateException("ROLE USER is not present in roles table"));
+
+        save.grantRole(defaultRole);
         userRepository.save(user);
     }
 
