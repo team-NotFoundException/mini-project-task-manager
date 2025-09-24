@@ -58,6 +58,7 @@ public class Task extends BaseTimeEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
 
+    /** 작성자 */
     @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
@@ -71,10 +72,19 @@ public class Task extends BaseTimeEntity {
     /** 연관관계 편의 메서드 */
     public void addTag(Tag tag) {
         if (tag == null) return;
-        TaskTag taskTag = new TaskTag(this, tag);
+        TaskTag taskTag = new TaskTag(this,tag);
         this.taskTags.add(taskTag);
         tag.getTaskTags().add(taskTag);
     }
+//
+//    public void removeTag(TaskTag taskTag){
+//        this.taskTags.remove(taskTag);
+//        if (taskTag.getTag() != null) {
+//            taskTag.getTag().getTaskTags().remove(taskTag);
+//        }
+//        taskTag.setTask(null);
+//        taskTag.setTag(null);
+//    }
 
     public static Task createTask(
             @NotNull String title, @NotNull String content, User user, Status status, Priority priority, LocalDate dueDate
@@ -90,12 +100,12 @@ public class Task extends BaseTimeEntity {
     }
 
     /** 변경(수정) 메서드 */
-    public void changeContent(String title, String content, Status status, Priority priority, Set<TaskTag> tag){
+    public void changeContent(String title, String content, Status status, Priority priority, LocalDate dueDate){
         this.title = title;
         this.content = content;
         this.status = status;
         this.priority = priority;
-        this.taskTags = tag;
+        this.dueDate = dueDate;
     }
 
     /** Task 생성시 Project에 적용 */

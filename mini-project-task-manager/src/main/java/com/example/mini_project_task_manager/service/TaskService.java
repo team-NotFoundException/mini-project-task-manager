@@ -19,8 +19,4 @@ public interface TaskService {
     ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long projectId, Long taskId);
     ResponseDto<TaskResponse.TaskDetailResponse> updateTask(UserPrincipal principal, @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId, TaskRequest.@Valid TaskUpdateRequest dto);
     ResponseDto<Void> deleteTask(UserPrincipal principal, @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId);
-
-
-
-
 }
