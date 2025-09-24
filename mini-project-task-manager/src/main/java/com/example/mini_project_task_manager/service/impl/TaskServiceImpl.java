@@ -145,7 +145,7 @@ public class TaskServiceImpl implements TaskService {
                 Tag tag = tagRepository.findByTagName(tagName.trim())   // Tag에서 #태그 있는지 찾아
                         .orElseGet(() -> {                                  // 있다면,
                             // 2. 없으면 새 Tag 생성 후 저장
-                            Tag newTag = new Tag(tagName.trim());   // Tag 를 새로 생성해. #붙여서
+                         Tag newTag = new Tag(tagName.trim());   // Tag 를 새로 생성해. #붙여서
 
                             /** 2. 기존에 "태그1" , "태그2" 가 있었다가, updateTask시에 "태그2" 만 남았다면? */
 

@@ -36,7 +36,7 @@ public class Tag {
 
     // 메서드 //
     @Builder
-    private Tag (
+    public Tag (
             @NotNull String tag_name
     ){
         this.tagName = tag_name;
