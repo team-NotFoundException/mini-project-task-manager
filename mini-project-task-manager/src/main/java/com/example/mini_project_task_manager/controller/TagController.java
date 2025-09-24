@@ -69,6 +69,9 @@ public class TagController {
 
     // Task에서 Tag 전체 조회
 
+
+    // Task에서 Tag 단건 조회
+
     // Project에서 Tag 단건 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping("tagId/{tagId}")
@@ -102,7 +105,6 @@ public class TagController {
             ){
         ResponseDto<TagResponse> response = tagService.deleteTag(projId,tagId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
-
     }
 
 
