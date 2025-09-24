@@ -90,14 +90,6 @@ CREATE TABLE IF NOT EXISTS `projects`(
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '프로젝트';
 
-INSERT INTO `projects` (author_id, title, content) VALUES
-	(1,'USER','으어어어어ㅓ어어어어어어');
-
-select * from `projects`;
-
-
-
-
 
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks`(
@@ -128,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `tasks`(
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tag_name    VARCHAR(100) ,
+    tag_name    VARCHAR(100) NOT NULL,
     project_id  BIGINT NOT NULL,
     CONSTRAINT `fk_tags_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     CONSTRAINT `uk_tags_tag_name` UNIQUE (tag_name)
@@ -138,8 +130,6 @@ CREATE TABLE IF NOT EXISTS `tags`(
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '태그';
 
-insert into `tags` ( project_id,tag_name) VALUES
-	(3,'실험1');
 
 select * from `tags`;
 
