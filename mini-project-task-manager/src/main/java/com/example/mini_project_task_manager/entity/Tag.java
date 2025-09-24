@@ -52,7 +52,7 @@ public class Tag {
 
 
     // tag 생성/삭제 시 project에 공유
-    void setProject(Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
