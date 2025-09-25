@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/my-profile")
+    @GetMapping(ApiMappingPattern.Users.MY_PROFILE)
     public ResponseEntity<
             ResponseDto<UserProfileResponse.MyPageResponse>> getMyInfo(@AuthenticationPrincipal UserPrincipal principal
             ) {
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/update-profile")
+    @PutMapping(ApiMappingPattern.Users.UPDATE_PROFILE)
     public ResponseEntity<ResponseDto<UserProfileResponse.MyPageResponse>> updateMyInfo(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody UserProfileUpdateRequest request
