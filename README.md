@@ -1,25 +1,31 @@
-# mini-project-task-manager
-
 # 📌 Mini Project Task Manager
 
 팀 프로젝트 협업을 위한 **웹 기반 프로젝트 & 태스크 관리 시스템**입니다.  
-사용자는 프로젝트를 생성하고, 태스크를 등록/관리하며, 댓글과 공지를 통해 소통할 수 있습니다.  
-또한 **권한(Role)** 기반 접근 제어를 통해 안전하고 체계적인 협업 환경을 제공합니다.  
+사용자는 역할(Role)에 따라 프로젝트 생성, 태스크 관리, 댓글/공지 작성 등 다양한 기능을 수행할 수 있습니다.  
+본 프로젝트는 **권한(Role) 기반 접근 제어**를 통해 안전하고 체계적인 Task Manager 환경을 제공합니다.  
 
 ---
 
-## 🚀 주요 기능
+## 🚀 개요
 
-- 회원가입 및 로그인 (JWT 기반 인증)
-- 프로젝트 생성 및 관리
-- 태스크(Task) 등록, 수정, 삭제
-- 댓글 및 공지 작성
-- 태그(Tag) 기반 태스크 분류
-- 권한(Role) 기반 접근 제어 (USER / AUTHOR / OWNER / ADMIN)
+- **MANAGER**: 프로젝트 생성, 태스크 등록/관리, 댓글 작성 가능  
+- **ADMIN**: 프로젝트 생성, 태스크 등록/관리, 댓글 및 공지 작성 가능  
+- **USER**: 댓글 작성만 가능  
 
 ---
 
-## 🛠 기술 스택
+## 🛠 주요 기능
+
+- 회원가입 및 로그인 (**JWT 기반 인증**)  
+- 프로젝트 생성 및 관리  
+- Task 등록, 수정, 삭제 및 조회  
+- 댓글 및 공지 작성  
+- 태그(Tag) 기반 태스크 분류  
+- 권한(Role) 기반 접근 제어 (**USER / MANAGER / ADMIN**)  
+
+---
+
+## ⚙️ 기술 스택
 
 ### Backend
 - **Java 17**
@@ -28,27 +34,133 @@
 - **JPA (Hibernate)**
 - **MySQL**
 
-
 ---
-
 
 ## 🗄 데이터베이스 구조
 
-본 프로젝트는 **MySQL**을 기반으로 하며, 총 **9개 주요 테이블**로 구성되어 있습니다.  
+본 프로젝트는 **MySQL** 기반으로, 총 **9개 주요 테이블**로 구성됩니다.  
 
-### 📌 테이블 목록
-1. **users** – 사용자 계정 정보  
-2. **roles** – 권한 코드 (USER, AUTHOR, OWNER, ADMIN 등)  
-3. **user_roles** – 사용자와 권한 매핑  
-4. **projects** – 프로젝트 정보  
-5. **tasks** – 프로젝트 내 할일(Task)  
-6. **tags** – 태그  
-7. **task_tags** – 태스크-태그 매핑 (N:M 관계)  
-8. **comments** – 댓글  
-9. **notifications** – 프로젝트 공지  
+- **users** – 사용자 계정 정보  
+- **roles** – 권한 코드 (USER, MANAGER, ADMIN)  
+- **user_roles** – 사용자-권한 매핑  
+- **projects** – 프로젝트 정보  
+- **tasks** – 프로젝트 내 할일(Task)  
+- **tags** – 태그  
+- **task_tags** – 태스크-태그 매핑 (N:M 관계)  
+- **comments** – 댓글  
+- **notifications** – 프로젝트 공지  
+
+👉 테이블 생성 SQL은 `/resources/schema.sql` 참고  
 
 ---
 
+## 📌 사용 방법
+
+1. **DB 생성 및 테이블 초기화**
+   ```sql
+   CREATE DATABASE `mini-project-task-manager`
+       CHARACTER SET utf8mb4
+       COLLATE utf8mb4_unicode_ci;
+   USE `mini-project-task-manager`;
+이후 제공된 schema.sql을 실행하여 테이블 생성
+
+초기 권한(roles) 데이터 입력
+
+sql
+코드 복사
+INSERT INTO roles (role_name) VALUES ('USER');
+INSERT INTO roles (role_name) VALUES ('MANAGER');
+INSERT INTO roles (role_name) VALUES ('ADMIN');
+애플리케이션 실행
+
+Spring Boot 실행 (IntelliJ / VS Code / Terminal 등)
+
+기본 포트: http://localhost:8080
+
+회원가입 후 권한 부여
+
+최초 회원가입 시 USER 권한 부여
+
+필요 시 user_roles 테이블 또는 Admin API를 통해 권한 추가
+
+📡 API 명세
+Admin
+POST /api/v1/admin/roles/add → 권한 부여
+
+POST /api/v1/admin/roles/remove → 권한 삭제
+
+Auth
+POST /api/v1/auth/sign-up → 회원가입
+
+POST /api/v1/auth/sign-in → 로그인
+
+POST /api/v1/auth/find-id → 아이디 찾기
+
+POST /api/v1/auth/reset-password → 비밀번호 재설정
+
+Users
+GET /api/users/me → 내 정보 조회
+
+Projects
+POST /api/v1/projects → 프로젝트 생성
+
+GET /api/v1/projects/sorted?sortedBy= → 프로젝트 전체 조회
+
+GET /api/v1/projects/me/{authorId} → 내 프로젝트 조회
+
+GET /api/v1/projects/search/?keyword= → 키워드 검색
+
+PUT /api/v1/projects/:projectId → 프로젝트 수정
+
+DELETE /api/v1/projects/:projectId → 프로젝트 삭제
+
+Tasks
+POST /api/v1/projects/:projectId/tasks → 태스크 생성
+
+GET /api/v1/projects/{projectId}/tasks?status=&priority=&from=&to=&dueFrom=&dueTo= → 태스크 조회 (필터링 가능)
+
+GET /api/v1/projects/:projectId/tasks/:taskId → 태스크 단건 조회
+
+PUT /api/v1/projects/:projectId/tasks/:taskId → 태스크 수정
+
+DELETE /api/v1/projects/:projectId/tasks/:taskId → 태스크 삭제
+
+Tags
+POST /api/v1/projects/:projectId/tags → 태그 생성 (프로젝트)
+
+GET /api/v1/projects/:projectId/tags → 태그 전체 조회 (프로젝트)
+
+GET /api/v1/projects/:projectId/tagId/:tagId → 태그 단건 조회 (프로젝트)
+
+DELETE /api/v1/projects/:projectId/tagId/:tagId → 태그 삭제 (프로젝트)
+
+GET /api/v1/projects/:projectId/tasks/:taskId/tags → 태그 전체 조회 (태스크)
+
+GET /api/v1/projects/:projectId/tasks/by-tag/:tagName → 태그명으로 태스크 조회
+
+GET /api/v1/projects/:projectId/tasks/:taskId/tags/:tagId → 태그 단건 조회 (태스크)
+
+Comments
+POST /api/v1/tasks/:taskId/comments → 댓글 작성
+
+PUT /api/v1/tasks/:taskId/comments/:commentId → 댓글 수정
+
+GET /api/v1/tasks/:taskId/comments/search-content?searchKeyword= → 댓글 내용 검색
+
+GET /api/v1/tasks/:taskId/comments/search-author?author= → 댓글 작성자 검색
+
+DELETE /api/v1/tasks/:taskId/comments/:commentId → 댓글 삭제
+
+Notifications (옵션)
+POST /api/v1/notifications → 공지 생성
+
+GET /api/v1/notifications → 공지 조회
+
+GET /api/v1/notifications/search-content?keyword= → 공지 키워드 조회
+
+GET /api/v1/notifications/:notificationId → 공지 단건 조회
+
+DELETE /api/v1/notifications/:notificationId → 공지 삭제
 ### 📊 ERD 다이어그램
 
 ```mermaid
