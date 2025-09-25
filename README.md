@@ -10,7 +10,7 @@
 
 - **MANAGER**: 프로젝트 생성, 태스크 등록/관리, 댓글 작성 가능  
 - **ADMIN**: 프로젝트 생성, 태스크 등록/관리, 댓글 및 공지 작성 가능  
-- **USER**: 댓글 작성만 가능  
+- **USER**: 프로젝트 및 태스크 조회, 댓글 작성 가능  
 
 ---
 
@@ -50,7 +50,7 @@
 - **comments** – 댓글  
 - **notifications** – 프로젝트 공지  
 
-👉 테이블 생성 SQL은 `/resources/schema.sql` 참고  
+👉 테이블 생성 SQL은 `/mini-project-task-manager/query.sql` 참고  
 
 ---
 
@@ -62,7 +62,7 @@
        CHARACTER SET utf8mb4
        COLLATE utf8mb4_unicode_ci;
    USE `mini-project-task-manager`;
-이후 제공된 schema.sql을 실행하여 테이블 생성
+이후 제공된 query.sql을 실행하여 테이블 생성
 
 초기 권한(roles) 데이터 입력
 
