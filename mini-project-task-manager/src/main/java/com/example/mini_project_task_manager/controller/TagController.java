@@ -44,11 +44,13 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Project에서 Tag 전체 조회
+    // ProjectId 검색후 Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Tags.FROM_TAG)
-    public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTags() {
-        ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTags();
+    public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTagsByProjectId(
+            @PathVariable("projectId") @Positive(message = "projectId는 1이상이어야 해요.") Long projectId
+    ) {
+        ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTagsByProjectId(projectId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

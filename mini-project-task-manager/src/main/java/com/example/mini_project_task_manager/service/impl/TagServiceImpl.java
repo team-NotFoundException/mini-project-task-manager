@@ -23,7 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class TagServiceImpl implements TagService {
 
 
@@ -32,6 +32,7 @@ public class TagServiceImpl implements TagService {
     private final TaskRepository taskRepository;
 
     @Override
+    @Transactional
     public ResponseDto<TagResponse.TagNameResponse> createTagByProject(Long projId, TagRequest.@Valid TagCreateRequest dto) {
         // 프로젝트에서 태그 생성
         // project의 아이디를 찾을수 없습니다 -> 프로젝트의 부재시 보내야할 메시지 필요
@@ -59,18 +60,18 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
-    public ResponseDto<List<TagResponse.TagNameResponse>> getAllTags() {
-        List<Tag> tags = tagRepository.findAll();
+    public ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByProjectId(Long projectId) {
+        List<String> tags = tagRepository.findAllTagsByProjectId(projectId);
         List<TagResponse.TagNameResponse> result = tags.stream()
                 .map(TagResponse.TagNameResponse::from)
                 .toList();
+        // 위에서 tag 목록을 일단 다 가져온 다음에 저기서 tag_name만 추출하는 식으로 가도 될까
 
-        return ResponseDto.setSuccess("전체 태그 조회", result);
+        return ResponseDto.setSuccess("검색된 프로젝트에 포함된 전체 태그 조회", result);
     }
 
     @Override
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
-    @Transactional
     public ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long tagId) {
         Long stagId = requirePositiveId(tagId);
 
@@ -85,9 +86,9 @@ public class TagServiceImpl implements TagService {
         return id;
     }
 
-
     // 태그이름 검색 -> 태그가 포함된 task(태스크) 조회
     @Override
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(Long projectId, String tagName) {
         List<Task> task = taskRepository.findTaskByTagName(projectId, tagName);
         List<TaskResponse.TaskListResponse> result = task.stream()
@@ -102,6 +103,7 @@ public class TagServiceImpl implements TagService {
 
     // Task에 속한 tag 전체 검색
     @Override
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByTask(Long taskId) {
         List<Tag> tags = tagRepository.findTaskTagsAll(taskId);
         List<TagResponse.TagNameResponse> result = tags.stream()
@@ -112,6 +114,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<TagResponse.TagNameResponse> getTaskTag(Long taskId, Long tagId) {
         Long staskId = requirePositiveId(taskId);
         Long stagId = requirePositiveId(tagId);

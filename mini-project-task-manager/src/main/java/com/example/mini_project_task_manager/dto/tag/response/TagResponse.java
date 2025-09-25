@@ -14,13 +14,10 @@ public class TagResponse {
                     tag.getTagName().toString()
             );
         }
+        public static TagNameResponse from(String tagName){
+            if (tagName == null) return null;
+
+            return new TagNameResponse(tagName);
+        }
     }
-
-    public record Detailresponse(
-            Long id,
-            String name
-
-    ){}
-
-
 }

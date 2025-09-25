@@ -17,7 +17,7 @@ public interface TagService {
     ResponseDto<TagResponse> deleteTag(@Positive(message = "projId는 1 이상이여야합니다.") Long projId, Long tagId);
 
 
-    ResponseDto<List<TagResponse.TagNameResponse>> getAllTags();
+    ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByProjectId(Long projectId);
 
     ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long tagId);
 

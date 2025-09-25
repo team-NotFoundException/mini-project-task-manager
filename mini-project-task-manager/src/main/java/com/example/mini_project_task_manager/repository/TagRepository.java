@@ -23,6 +23,18 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 """)
     List<Tag> findTagsByProjectId(@Param("projectId") Long projectId);
 
+    // 프로젝트에 속해있는 모든 태그명 검색
+    @Query(value = """
+        select tg.tag_name
+        from tags tg
+        join projects pj on pj.id = tg.project_id
+        where tg.project_id = :projectId
+""", nativeQuery = true)
+    List<String> findAllTagsByProjectId(@Param("projectId") Long projectId);
+    // 에러나면 tag로 고치기
+
+
+
     @Query(value= """
     select tg.*
         from tags tg
@@ -42,5 +54,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     order by tg.tag_name desc
 """, nativeQuery = true)
     Optional<Tag> findTaskTag(@Param("taskId")Long taskId, @Param("tagId")Long tagId);
+
 
 }
