@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.dto.notification.response;
 
+import com.example.mini_project_task_manager.common.utils.DateUtils;
 import com.example.mini_project_task_manager.entity.Notification;
 import com.example.mini_project_task_manager.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,7 +16,8 @@ public class NotificationsResponse{
             String title,
             String content,
             String username,
-            LocalDateTime createdAt
+            String createdAtKst,
+            String createdAtUtcIso
     ) {
         public static NotificationDetailResponse from(Notification notification) {
             if (notification == null) return null;
@@ -25,7 +27,8 @@ public class NotificationsResponse{
                     notification.getTitle(),
                     notification.getContent(),
                     notification.getAuthor().getUsername() != null ? notification.getAuthor().getUsername() : null,
-                    notification.getCreatedAt()
+                    DateUtils.toKstString(notification.getCreatedAt()),
+                    DateUtils.toUtcString(notification.getCreatedAt())
             );
         }
     }
