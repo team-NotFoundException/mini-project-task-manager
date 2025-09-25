@@ -29,13 +29,11 @@ import static com.example.mini_project_task_manager.common.constants.ApiMappingP
 @RequestMapping(ApiMappingPattern.Tags.ROOT)
 @RequiredArgsConstructor
 public class TagController {
-    private final TagRepository tagRepository;
     // Tag 생성 - 인증된 사용자만
     private final TagService tagService;
-
     // PROJECT에서  태그 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping(ApiMappingPattern.Tags.FROM_TAG)
+    @PostMapping(FROM_TAG)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> createTagByProject(
             @PathVariable("projectId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
             @Valid @RequestBody TagRequest.TagCreateRequest dto
@@ -44,17 +42,19 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Project에서 Tag 전체 조회
+    // ProjectId 검색후 Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping(ApiMappingPattern.Tags.FROM_TAG)
-    public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTags() {
-        ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTags();
+    @GetMapping(FROM_TAG)
+    public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTagsByProjectId(
+            @PathVariable("projectId") @Positive(message = "projectId는 1이상이어야 해요.") Long projectId
+    ) {
+        ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTagsByProjectId(projectId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // Task에서 Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping(ApiMappingPattern.Tags.FROM_TASK)
+    @GetMapping(FROM_TASK)
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTagsByTask(
             @PathVariable("taskId") @Positive(message = "taskId는 1이상이어야 해요.") Long taskId) {
         ResponseDto<List<TagResponse.TagNameResponse>> response = tagService.getAllTagsByTask(taskId);
@@ -78,9 +78,10 @@ public class TagController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Tags.TAG_ID)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> getTagByTagId(
+            @PathVariable ("projectId") @Positive(message = "projectId는 1 이상이어야 해요.") Long projectId,
             @PathVariable ("tagId") @Positive(message = "tagId는 1 이상이어야 해요.") Long tagId
     ){
-        ResponseDto<TagResponse.TagNameResponse> response = tagService.getTagByTagId(tagId);
+        ResponseDto<TagResponse.TagNameResponse> response = tagService.getTagByTagId(projectId, tagId);
 
         return ResponseEntity.ok().body(response);
     }
