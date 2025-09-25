@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.service.impl;
 
+import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.request.ProjectRequest;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
@@ -49,7 +50,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAt(boolean sortedBy) {
+    public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAt(String sortedBy) {
         List<Project> projects = projectRepository.findAllProjectsByCreatedAt(sortedBy);
 
         List<ProjectResponse.ProjectSummaryResponse> result = projects.stream()
@@ -65,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId) {
 
-        if (authorId == null) throw new IllegalArgumentException("로그인 후 이용해주세요.");
+        if (authorId == null || authorId <= 0) throw new IllegalArgumentException("ID는 양수여야 합니다.");
 
         List<Project> projects = projectRepository.findProjectsByAuthorId(authorId);
 
@@ -113,7 +114,7 @@ public class ProjectServiceImpl implements ProjectService {
         User author = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        if (projectId == null) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
+        if (projectId == null || projectId <= 0) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
 
         Project project = projectRepository.findProjectById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
@@ -134,7 +135,7 @@ public class ProjectServiceImpl implements ProjectService {
         User author = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-        if (projectId == null) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
+        if (projectId == null || projectId <= 0) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
 
         Project project = projectRepository.findProjectById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
