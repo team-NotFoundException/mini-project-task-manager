@@ -37,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         Project project = Project.builder()
-                .title(request.title())
+                .title(request.title().trim())
                 .content(request.content())
                 .user(author)
                 .build();

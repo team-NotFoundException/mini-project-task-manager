@@ -88,7 +88,7 @@ public class TagController {
 
     // Tag 명을 통해 Task 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping("task/by-tag/{tagName}")
+    @GetMapping("tasks/by-tag/{tagName}")
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getTaskByTagName(
             @PathVariable("projectId") @Positive(message = "projId는 1 이상이어야 해요.") Long projectId,
             @PathVariable("tagName") @NotNull String tagName

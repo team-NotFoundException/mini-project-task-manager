@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.controller;
 
+import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.Auth.request.FindUsernameRequest;
 import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
 import com.example.mini_project_task_manager.dto.Auth.response.FindUsernameResponse;
@@ -14,20 +15,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(ApiMappingPattern.Auth.ROOT)
 @RequiredArgsConstructor
 public class UserSignController {
     private final UserService userService;
     private final MailService mailService;
 
     /** 회원가입 */
-    @PostMapping("/sign-up")
+    @PostMapping(ApiMappingPattern.Auth.SIGN_UP)
     public ResponseEntity<ResponseDto<Void>> sigUp(@Valid @RequestBody SignRequest.SingUpRequest req){
         userService.signUp(req);
         return ResponseEntity.ok(ResponseDto.setSuccess("회원가입이 완료되었습니다.",null));
     }
     /** 로그인 */
-    @PostMapping("/sign-in")
+    @PostMapping(ApiMappingPattern.Auth.SIGN_IN)
     public ResponseEntity<ResponseDto<SignInResponse>> signIn(@Valid @RequestBody SignRequest.SignInRequest req){
         ResponseDto<SignInResponse> response = userService.signIn(req);
         return ResponseEntity.ok().body(response);
@@ -52,7 +53,7 @@ public class UserSignController {
     }
 
     /** 아이디 찾기 */
-    @PostMapping("/find-id")
+    @PostMapping("/find-username")
     public ResponseDto<FindUsernameResponse> findUsername(@Valid @RequestBody FindUsernameRequest request) {
         return userService.findUsername(request);
     }
