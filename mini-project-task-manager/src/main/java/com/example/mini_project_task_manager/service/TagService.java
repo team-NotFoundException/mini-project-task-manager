@@ -19,7 +19,7 @@ public interface TagService {
 
     ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByProjectId(Long projectId);
 
-    ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long tagId);
+    ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long projectId, long tagId);
 
 
     ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(Long projectId,@NotBlank(message = "tagName은 공백이 안되요.") @Size(max= 100, message = "tagName은 최대 100자까지 가능해요") String tagName);

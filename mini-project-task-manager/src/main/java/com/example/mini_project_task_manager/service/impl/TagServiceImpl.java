@@ -11,6 +11,7 @@ import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.TagRepository;
 import com.example.mini_project_task_manager.repository.TaskRepository;
 import com.example.mini_project_task_manager.service.TagService;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -62,23 +63,41 @@ public class TagServiceImpl implements TagService {
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<List<TagResponse.TagNameResponse>> getAllTagsByProjectId(Long projectId) {
         List<String> tags = tagRepository.findAllTagsByProjectId(projectId);
+        Project project = projectRepository.findProjectById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없습니다."));
+
+        if (tags.isEmpty()){
+            throw new EntityNotFoundException("해당 프로젝트에 태그가 존재하지 않습니다");
+        }
+
         List<TagResponse.TagNameResponse> result = tags.stream()
                 .map(TagResponse.TagNameResponse::from)
                 .toList();
-        // 위에서 tag 목록을 일단 다 가져온 다음에 저기서 tag_name만 추출하는 식으로 가도 될까
 
         return ResponseDto.setSuccess("검색된 프로젝트에 포함된 전체 태그 조회", result);
     }
 
+
+    // 프로젝트 Id에 속한 tagId 검색
     @Override
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
-    public ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long tagId) {
+    public ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long projectId, long tagId) {
+        Long sprojectId = requirePositiveId(projectId);
         Long stagId = requirePositiveId(tagId);
 
-        Tag tag = tagRepository.findById(stagId)
-                .orElseThrow(()-> new EntityNotFoundException("해당 id의 태그를 찾을 수 없어요."));
 
-        return ResponseDto.setSuccess("태그 조회 완료", TagResponse.TagNameResponse.from(tag));
+        Project project = projectRepository.findProjectById(sprojectId)
+                .orElseThrow(()-> new EntityNotFoundException("해당 프로젝트를 찾을 수 없습니다."));
+
+        Tag tag = tagRepository.findById(stagId)
+                .orElseThrow(()-> new EntityNotFoundException("해당 태그를 찾을 수 없어요"));
+
+        String tagName = tagRepository.findTagsByTagId(sprojectId, stagId)
+                .orElseThrow(() -> new EntityNotFoundException("태그는 존재하나 현재 프로젝트에 존재하지 않습니다"));
+
+        TagResponse.TagNameResponse result = TagResponse.TagNameResponse.from(tagName);
+
+        return ResponseDto.setSuccess("태그 조회 완료", result);
     }
 
     private Long requirePositiveId(Long id){
