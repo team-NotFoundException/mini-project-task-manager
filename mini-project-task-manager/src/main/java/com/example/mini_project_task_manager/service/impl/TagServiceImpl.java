@@ -41,6 +41,7 @@ public class TagServiceImpl implements TagService {
         // project의 아이디를 찾을수 없습니다 -> 프로젝트의 부재시 보내야할 메시지 필요
         Project project = projectRepository.findProjectById((projId))
                 .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없어요."));
+
        String clean = (dto.tagName() == null) ? "" : dto.tagName().trim();
 
        if (clean.isEmpty() || clean == null){
@@ -114,6 +115,7 @@ public class TagServiceImpl implements TagService {
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(Long projectId, String tagName) {
         String clean = (tagName == null) ? "" : tagName.trim();
+        Long sprojectId = requirePositiveId(projectId);
 
         if (clean.isEmpty()){
             throw new IllegalArgumentException("태그명은 비어 있을 수 없어요.");
@@ -121,6 +123,8 @@ public class TagServiceImpl implements TagService {
         if (clean.length() > 100){
             throw new IllegalArgumentException("태그명은 최대 100자까지에요.");
         }
+        Project project = projectRepository.findProjectById(sprojectId)
+                .orElseThrow(()-> new EntityNotFoundException("해당 프로젝트를 찾을 수 없습니다."));
 
         List<Task> task = taskRepository.findTaskByTagName(projectId, tagName);
         List<TaskResponse.TaskListResponse> result = task.stream()
