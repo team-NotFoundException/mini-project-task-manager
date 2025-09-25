@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new EntityNotFoundException
                                 ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
-        user.changeProfile(request.nickname(), request.gender());
+        user.changeProfile(request.nickname(), request.email(), request.gender());
         userRepository.flush();
 
         UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
