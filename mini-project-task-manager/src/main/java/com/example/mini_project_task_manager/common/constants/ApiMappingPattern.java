@@ -10,6 +10,8 @@ public class ApiMappingPattern {
         public static final String ROOT = BASE + "/auth";
         public static final String SIGN_UP =  "/sign-up";
         public static final String SIGN_IN =  "/sign-in";
+        public static final String SEND_EMAIL =  "/send-email";
+        public static final String VERIFY =  "/verify";
     }
 
     public static final class Users {
