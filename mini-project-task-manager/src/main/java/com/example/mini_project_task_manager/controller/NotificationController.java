@@ -8,6 +8,7 @@ import com.example.mini_project_task_manager.dto.notification.response.Notificat
 import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.NotificationService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,7 @@ public class NotificationController {
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 수 없어요.") String keyword
     ) {
         ResponseDto<List<NotificationsResponse.NotificationListResponse>> response = notificationService.getNotificationByKeyword(keyword);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.ok(response);
     }
 
     // 공지 삭제

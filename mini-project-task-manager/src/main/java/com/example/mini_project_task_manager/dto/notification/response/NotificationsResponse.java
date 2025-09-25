@@ -37,7 +37,8 @@ public class NotificationsResponse{
     public record NotificationListResponse(
             Long id,
             String title,
-            LocalDateTime createdAt
+            String createdAtKst,
+            String createdAtUtcIso
         ) {
         public static NotificationListResponse from(Notification notification) {
             if (notification == null) return null;
@@ -45,7 +46,8 @@ public class NotificationsResponse{
             return new NotificationListResponse(
                     notification.getId(),
                     notification.getTitle(),
-                    notification.getCreatedAt()
+                    DateUtils.toKstString(notification.getCreatedAt()),
+                    DateUtils.toUtcString(notification.getCreatedAt())
             );
         }
     }
