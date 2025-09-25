@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.dto.comment.response;
 
+import com.example.mini_project_task_manager.common.utils.DateUtils;
 import com.example.mini_project_task_manager.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,8 +15,12 @@ import java.time.LocalDateTime;
                 Long taskId,
                 String content,
                 String author,
-                LocalDateTime createdAt,
-                LocalDateTime updatedAt
+
+                String createdAtKst,
+                String updatedAtKst,
+
+                String createdAtUtcIso,
+                String updatedAtUtcIso
         ) {
             public static CommentResponse from(Comment comment) {
                 if (comment == null) return null;
@@ -25,8 +30,11 @@ import java.time.LocalDateTime;
                         comment.getTask() != null ? comment.getTask().getId() : null,
                         comment.getComment(),
                         comment.getUser() != null ? comment.getUser().getNickname() : null,
-                        comment.getCreatedAt(),
-                        comment.getUpdatedAt()
+                        DateUtils.toKstString(comment.getCreatedAt()),
+                        DateUtils.toKstString(comment.getUpdatedAt()),
+                        DateUtils.toUtcString(comment.getCreatedAt()),
+                        DateUtils.toUtcString(comment.getUpdatedAt())
+
                 );
             }
         }

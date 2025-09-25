@@ -3,13 +3,14 @@ package com.example.mini_project_task_manager.repository;
 
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
-import com.example.mini_project_task_manager.entity.Tag;
 import com.example.mini_project_task_manager.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // 전체 할일 조회 +) 상태 / 우선순위 선택여부에 따라 조회
-    List<Task> searchTasks(Long projectId, Status status, Priority priority);
+    List<Task> searchTasks(Long projectId, Status status, Priority priority, LocalDateTime fromUtc, LocalDateTime toUtc, LocalDate dueFrom, LocalDate dueTo);
 
 //    // 전체 할일 조회(댓글 제외)
 //    @Query("""
