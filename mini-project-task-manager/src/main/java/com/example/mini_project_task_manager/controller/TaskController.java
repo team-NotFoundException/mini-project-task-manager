@@ -12,12 +12,15 @@ import com.example.mini_project_task_manager.service.TaskService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.mini_project_task_manager.common.constants.ApiMappingPattern.Tasks.*;
@@ -46,9 +49,18 @@ public class TaskController {
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks(
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 해요.") Long projectId,
             @RequestParam(required = false) Status status,
-            @RequestParam(required = false) Priority priority
+            @RequestParam(required = false) Priority priority,
+//            @RequestParam(required = false) String author,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueFrom,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dueTo
     ) {
-        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks(projectId, status, priority);
+        ResponseDto<List<TaskResponse.TaskListResponse>> response = taskService.getAllTasks(projectId, status, priority, from, to, dueFrom, dueTo);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

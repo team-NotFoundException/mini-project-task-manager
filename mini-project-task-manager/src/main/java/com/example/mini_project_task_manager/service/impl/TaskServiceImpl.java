@@ -2,6 +2,7 @@ package com.example.mini_project_task_manager.service.impl;
 
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
+import com.example.mini_project_task_manager.common.utils.DateUtils;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
 import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
@@ -18,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -100,9 +103,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks(
-            Long projectId, Status status, Priority priority) {
+            Long projectId, Status status, Priority priority, LocalDateTime from, LocalDateTime to, LocalDate dueFrom, LocalDate dueTo) {
 
-        List<Task> tasks = taskRepository.searchTasks(projectId, status, priority);
+        LocalDateTime fromUtc = DateUtils.kstToUtc(from);
+        LocalDateTime toUtc = DateUtils.kstToUtc(to);
+
+        List<Task> tasks = taskRepository.searchTasks(projectId, status, priority, fromUtc, toUtc, dueFrom, dueTo);
         List<TaskResponse.TaskListResponse> result = tasks.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
