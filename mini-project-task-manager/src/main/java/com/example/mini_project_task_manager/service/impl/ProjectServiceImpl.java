@@ -62,7 +62,6 @@ public class ProjectServiceImpl implements ProjectService {
         return ResponseDto.setSuccess("조회 완료", result);
     }
 
-
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId) {
 
@@ -78,7 +77,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         return ResponseDto.setSuccess("조회 완료", result);
     }
-
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword) {

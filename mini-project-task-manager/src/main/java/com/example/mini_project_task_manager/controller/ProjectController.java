@@ -73,7 +73,7 @@ public class ProjectController {
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> updateProject(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1이상이어야 합니다.") Long projectId,
-            @Valid @RequestBody ProjectRequest.ProjectUpdateRequest request
+            @RequestBody ProjectRequest.ProjectUpdateRequest request
             ) {
         ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject(principal, projectId, request);
         return ResponseEntity.ok().body(response);
