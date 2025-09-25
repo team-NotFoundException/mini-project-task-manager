@@ -44,13 +44,14 @@ public class UserSignController {
         mailService.verifyEmail(token);
         return ResponseEntity.noContent().build();
     }
-    /** 비밀번호 재설정 */
+    /** 비밀번호 변경 */
     @PostMapping("/reset-password")
     public ResponseEntity<ResponseDto<Void>> resetPassword(@Valid @RequestBody MailRequest.PasswordReset req) {
         userService.resetPassword(req);
         return ResponseEntity.noContent().build();
     }
 
+    /** 아이디 찾기 */
     @PostMapping("/find-id")
     public ResponseDto<FindUsernameResponse> findUsername(@Valid @RequestBody FindUsernameRequest request) {
         return userService.findUsername(request);
