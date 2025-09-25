@@ -76,15 +76,6 @@ public class Task extends BaseTimeEntity {
         this.taskTags.add(taskTag);
         tag.getTaskTags().add(taskTag);
     }
-//
-//    public void removeTag(TaskTag taskTag){
-//        this.taskTags.remove(taskTag);
-//        if (taskTag.getTag() != null) {
-//            taskTag.getTag().getTaskTags().remove(taskTag);
-//        }
-//        taskTag.setTask(null);
-//        taskTag.setTag(null);
-//    }
 
     public static Task createTask(
             @NotNull String title, @NotNull String content, User user, Status status, Priority priority, LocalDate dueDate
@@ -114,6 +105,7 @@ public class Task extends BaseTimeEntity {
     }
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OrderBy("createdAt DESC") -- 댓글 최신순 하고싶으면 이거 사용
     private List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment) {

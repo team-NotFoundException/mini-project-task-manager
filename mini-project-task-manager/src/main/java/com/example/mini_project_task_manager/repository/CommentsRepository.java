@@ -37,4 +37,13 @@ public interface CommentsRepository extends JpaRepository<Comment, Long> {
             order by u.nickname desc
 """,nativeQuery = true)
     List<Comment> findByAuthor(@Param("author") String author);
+
+    // Task에서 comment 불러오기
+    @Query("""
+        select c
+        from Comment c
+        where c.task.id = :taskId
+        order by c.createdAt desc
+""")
+    List<Comment> findByTaskId(@Param("taskId") Long taskId);
 }

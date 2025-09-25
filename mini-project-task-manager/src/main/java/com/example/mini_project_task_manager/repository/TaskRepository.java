@@ -20,25 +20,16 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     // 전체 할일 조회 +) 상태 / 우선순위 선택여부에 따라 조회
     List<Task> searchTasks(Long projectId, Status status, Priority priority, LocalDateTime fromUtc, LocalDateTime toUtc, LocalDate dueFrom, LocalDate dueTo);
 
-//    // 전체 할일 조회(댓글 제외)
-//    @Query("""
-//        select t
-//        from Task t
-//        where t.project.id = :projectId
-//        order by t.id desc
-//    """)
-//    List<Task> findAllByProjectIdOrderByIdDesc(@Param("projectId") Long projectId);
-
-    // 할일 조회 + 댓글, 태그 까지 즉시 로딩
+    // Task + 태그 조회
     @Query("""
         select distinct t
         from Task t
-            left join fetch t.comments c
             left join fetch t.taskTags tt
             left join fetch tt.tag tag
-        where t.id = :id
-    """)
-    Optional<Task> findByIdWithCommentsAndTaskTags(@Param("projectId") Long projectId,@Param("id") Long id);
+        where t.project.id = :projectId and t.id = :id
+""")
+    Optional<Task> findByIdWithTaskTags(@Param("projectId") Long projectId,@Param("id") Long id);
+
 
     // 태그이름으로 태스크 검색
     @Query(value = """

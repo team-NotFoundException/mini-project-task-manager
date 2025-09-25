@@ -37,7 +37,7 @@ public class TaskController {
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> createTask(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 해요.") Long projectId,
-            @Valid @RequestBody TaskRequest.TaskCreateRequest dto
+            @RequestBody TaskRequest.TaskCreateRequest dto
     ) {
         ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.createTask(principal, projectId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -82,7 +82,7 @@ public class TaskController {
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId,
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId,
-            @Valid @RequestBody TaskRequest.TaskUpdateRequest dto
+            @RequestBody TaskRequest.TaskUpdateRequest dto
     ) {
         ResponseDto<TaskResponse.TaskDetailResponse> response = taskService.updateTask(principal, projectId, taskId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);

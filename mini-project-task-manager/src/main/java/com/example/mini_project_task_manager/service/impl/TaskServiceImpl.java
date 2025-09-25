@@ -7,10 +7,7 @@ import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.task.request.TaskRequest;
 import com.example.mini_project_task_manager.dto.task.response.TaskResponse;
 import com.example.mini_project_task_manager.entity.*;
-import com.example.mini_project_task_manager.repository.ProjectRepository;
-import com.example.mini_project_task_manager.repository.TagRepository;
-import com.example.mini_project_task_manager.repository.TaskRepository;
-import com.example.mini_project_task_manager.repository.UserRepository;
+import com.example.mini_project_task_manager.repository.*;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.TaskService;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,6 +30,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
     private final TagRepository tagRepository;
+    private final CommentsRepository commentsRepository;
 
     @Override
     @Transactional
@@ -70,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
             for (String tagName : dto.tagNames()) {
                 if (tagName == null || tagName.isBlank()) continue;
 
-                String trimmedName = tagName.trim();
+                String trimmedName = tagName.replaceAll("\\s+", "");
 
                 // 기존 태그에서 찾아서 있는거 쓰면 그냥 taskTag에 추가
                 Tag tag = existingTags.stream()
@@ -118,9 +116,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long projectId, Long taskId) {
-        Task task = taskRepository.findByIdWithCommentsAndTaskTags(projectId, taskId)
+        // Task + 태그 조회
+        Task task = taskRepository.findByIdWithTaskTags(projectId, taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
 
+        // 댓글 조회 후 Task에 추가
+        List<Comment> comments = commentsRepository.findByTaskId(taskId);
+        for (Comment comment : comments) {
+            task.addComment(comment); // 양방향 연관관계 유지
+        }
         return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(task));
     }
 
@@ -153,7 +157,7 @@ public class TaskServiceImpl implements TaskService {
                 ? Collections.emptySet()
                 :dto.tagNames().stream()
                 .filter(name-> name !=null && !name.isBlank())
-                .map(String::trim)
+                .map(name -> name.replaceAll("\\s+", ""))// 양옆공백/글자사이 스페이스/ tab으로인한 공백제거는 정규식만 가능
                 .collect(Collectors.toSet());
 
         for (TaskTag oldTaskTag : new HashSet<>(task.getTaskTags())){
