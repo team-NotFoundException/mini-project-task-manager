@@ -94,7 +94,7 @@ public class Task extends BaseTimeEntity {
         task.content = content;
         task.user = user;
         task.status = (status != null) ? status : Status.TODO;
-        task.priority = (priority != null) ? priority : Priority.MEDIUM;
+        task.priority = (priority != null) ? priority : Priority.LOW;
         task.dueDate = dueDate;
         return task;
     }
