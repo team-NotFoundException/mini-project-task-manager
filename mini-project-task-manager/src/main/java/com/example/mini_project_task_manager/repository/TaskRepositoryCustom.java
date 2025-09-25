@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskRepositoryCustom {
-    /** 상태/우선순위에 따른 Task 목록 조회 */
+    /** 상태/우선순위/작성일/마감기일에 따른 Task 목록 조회 */
     List<Task> searchTasks(Long projectId, Status status, Priority priority, LocalDateTime fromUtc, LocalDateTime toUtc, LocalDate dueFrom, LocalDate dueTo);
 }
