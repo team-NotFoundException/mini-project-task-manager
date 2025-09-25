@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `tasks`(
     CONSTRAINT `chk_tasks_status` CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
     CONSTRAINT `chk_tasks_priority` CHECK (priority IN ('LOW','MEDIUM','HIGH')),
     CONSTRAINT `fk_tasks_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_tasks_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT `fk_tasks_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
