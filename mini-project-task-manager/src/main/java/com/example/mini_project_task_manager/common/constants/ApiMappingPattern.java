@@ -63,8 +63,8 @@ public class ApiMappingPattern {
         private Admin () {}
         public static final String ROOT = BASE + "/admin";
         public static final String USERS = ROOT + "/users";
-        public static final String USER_ROLES = USERS + "/{userId}/roles";
-        public static final String USER_ROLE_MANAGER = USER_ROLES + "/MANAGER";
+        public static final String ADD_ROLE=  "/roles/add";
+        public static final String REMOVE_ROLE=  "/roles/remove";
     }
 
 }

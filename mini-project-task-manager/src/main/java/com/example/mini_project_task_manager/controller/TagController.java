@@ -36,7 +36,7 @@ public class TagController {
     @PostMapping(FROM_TAG)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> createTagByProject(
             @PathVariable("projectId") @Positive(message = "projId는 1 이상이어야 해요.") Long projId,
-            @Valid @RequestBody TagRequest.TagCreateRequest dto
+            @RequestBody TagRequest.TagCreateRequest dto
             ){
         ResponseDto<TagResponse.TagNameResponse> response = tagService.createTagByProject(projId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
