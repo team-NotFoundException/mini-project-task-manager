@@ -49,7 +49,7 @@ public class Tag {
 
 
     // 태그 생성
-    public static Tag create(@NotNull String tag_name){
+    public static Tag create(String tag_name){
         Tag tag = new Tag();
         tag.tagName = tag_name;
         return tag;

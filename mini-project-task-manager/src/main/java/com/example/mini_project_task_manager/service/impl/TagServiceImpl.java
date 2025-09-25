@@ -11,13 +11,15 @@ import com.example.mini_project_task_manager.repository.ProjectRepository;
 import com.example.mini_project_task_manager.repository.TagRepository;
 import com.example.mini_project_task_manager.repository.TaskRepository;
 import com.example.mini_project_task_manager.service.TagService;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.util.List;
 
@@ -27,25 +29,29 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class TagServiceImpl implements TagService {
 
-
     private final TagRepository tagRepository;
     private final ProjectRepository projectRepository;
     private final TaskRepository taskRepository;
 
     @Override
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
     @Transactional
-    public ResponseDto<TagResponse.TagNameResponse> createTagByProject(Long projId, TagRequest.@Valid TagCreateRequest dto) {
+    public ResponseDto<TagResponse.TagNameResponse> createTagByProject(Long projId, TagRequest.TagCreateRequest dto) {
         // 프로젝트에서 태그 생성
         // project의 아이디를 찾을수 없습니다 -> 프로젝트의 부재시 보내야할 메시지 필요
         Project project = projectRepository.findProjectById((projId))
                 .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없어요."));
+       String clean = (dto.tagName() == null) ? "" : dto.tagName().trim();
 
-        Tag tag = Tag.create(dto.tagName());
+       if (clean.isEmpty() || clean == null){
+            throw new IllegalArgumentException("태그는 빈공간 안됩니다.");
+        }
+
+//        Tag tag = Tag.create(dto.tagName());
+        Tag tag = Tag.create(clean);
         project.addTag(tag);
         Tag saved = tagRepository.save(tag);
-
         return ResponseDto.setSuccess("태그가 등록되었어요", TagResponse.TagNameResponse.from(saved));
-
     }
 
     @Override
@@ -77,14 +83,12 @@ public class TagServiceImpl implements TagService {
         return ResponseDto.setSuccess("검색된 프로젝트에 포함된 전체 태그 조회", result);
     }
 
-
     // 프로젝트 Id에 속한 tagId 검색
     @Override
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<TagResponse.TagNameResponse> getTagByTagId(long projectId, long tagId) {
         Long sprojectId = requirePositiveId(projectId);
         Long stagId = requirePositiveId(tagId);
-
 
         Project project = projectRepository.findProjectById(sprojectId)
                 .orElseThrow(()-> new EntityNotFoundException("해당 프로젝트를 찾을 수 없습니다."));
@@ -109,6 +113,15 @@ public class TagServiceImpl implements TagService {
     @Override
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<List<TaskResponse.TaskListResponse>> getTaskByTagName(Long projectId, String tagName) {
+        String clean = (tagName == null) ? "" : tagName.trim();
+
+        if (clean.isEmpty()){
+            throw new IllegalArgumentException("태그명은 비어 있을 수 없어요.");
+        }
+        if (clean.length() > 100){
+            throw new IllegalArgumentException("태그명은 최대 100자까지에요.");
+        }
+
         List<Task> task = taskRepository.findTaskByTagName(projectId, tagName);
         List<TaskResponse.TaskListResponse> result = task.stream()
                 .map(TaskResponse.TaskListResponse::from)
@@ -128,6 +141,9 @@ public class TagServiceImpl implements TagService {
         List<TagResponse.TagNameResponse> result = tags.stream()
                 .map(TagResponse.TagNameResponse::from)
                 .toList();
+        if (result.isEmpty()){
+            throw new EntityNotFoundException("검색된 태그가 없습니다.");
+        }
 
         return ResponseDto.setSuccess("전체 태그 조회", result);
     }
@@ -142,5 +158,11 @@ public class TagServiceImpl implements TagService {
                 .orElseThrow(()-> new EntityNotFoundException("해당 id의 태그를 찾을 수 없어요."));
 
         return ResponseDto.setSuccess("태그 조회 완료", TagResponse.TagNameResponse.from(tag));
+    }
+
+    private void validateTagName(String tagName) {
+        if (!StringUtils.hasText(tagName)) {
+            throw new IllegalArgumentException("태그명을 입력해주세요");
+        }
     }
 }
