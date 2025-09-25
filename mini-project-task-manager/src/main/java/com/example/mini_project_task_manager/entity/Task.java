@@ -58,6 +58,7 @@ public class Task extends BaseTimeEntity {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TaskTag> taskTags = new HashSet<>();
 
+    /** 작성자 */
     @NotNull
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tasks_user"))
@@ -71,7 +72,7 @@ public class Task extends BaseTimeEntity {
     /** 연관관계 편의 메서드 */
     public void addTag(Tag tag) {
         if (tag == null) return;
-        TaskTag taskTag = new TaskTag(this, tag);
+        TaskTag taskTag = new TaskTag(this,tag);
         this.taskTags.add(taskTag);
         tag.getTaskTags().add(taskTag);
     }
@@ -84,18 +85,18 @@ public class Task extends BaseTimeEntity {
         task.content = content;
         task.user = user;
         task.status = (status != null) ? status : Status.TODO;
-        task.priority = (priority != null) ? priority : Priority.MEDIUM;
+        task.priority = (priority != null) ? priority : Priority.LOW;
         task.dueDate = dueDate;
         return task;
     }
 
     /** 변경(수정) 메서드 */
-    public void changeContent(String title, String content, Status status, Priority priority, Set<TaskTag> tag){
+    public void changeContent(String title, String content, Status status, Priority priority, LocalDate dueDate){
         this.title = title;
         this.content = content;
         this.status = status;
         this.priority = priority;
-        this.taskTags = tag;
+        this.dueDate = dueDate;
     }
 
     /** Task 생성시 Project에 적용 */
@@ -104,6 +105,7 @@ public class Task extends BaseTimeEntity {
     }
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OrderBy("createdAt DESC") -- 댓글 최신순 하고싶으면 이거 사용
     private List<Comment> comments = new ArrayList<>();
 
     public void addComment(Comment comment) {

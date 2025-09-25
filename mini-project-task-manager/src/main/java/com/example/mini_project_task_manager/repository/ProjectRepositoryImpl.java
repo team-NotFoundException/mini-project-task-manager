@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.repository;
 
+import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.entity.Project;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,7 +17,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     private EntityManager em;
 
     @Override
-    public List<Project> findAllProjectsByCreatedAt(boolean sortedBy) {
+    public List<Project> findAllProjectsByCreatedAt(String sortedBy) {
 
         StringBuilder jpql = new StringBuilder(
             "SELECT DISTINCT p " +
@@ -25,19 +26,19 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
             "WHERE 1 = 1"
         );
 
-        Map<String, Object> params = new HashMap<>();
+        String clean = (sortedBy == null) ? "DESC" : sortedBy;
 
-        if (!sortedBy) {
+        if (clean.equals("ASC")) {
             jpql.append("ORDER BY p.createdAt asc");
+        } else if (clean.equals("DESC")){
+            jpql.append("ORDER BY p.createdAt desc");
+        } else if (clean.equals("UPDATE")) {
+            jpql.append("ORDER BY p.updatedAt desc");
         } else {
             jpql.append("ORDER BY p.createdAt desc");
         }
 
         TypedQuery<Project> query = em.createQuery(jpql.toString(), Project.class);
-
-        for (Map.Entry<String , Object> entry : params.entrySet()) {
-            query.setParameter(entry.getKey(), entry.getValue());
-        }
 
         List<Project> results = query.getResultList();
 

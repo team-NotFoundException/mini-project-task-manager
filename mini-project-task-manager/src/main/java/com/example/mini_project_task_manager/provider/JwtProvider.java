@@ -70,8 +70,8 @@ public class JwtProvider {
         return Jwts.builder()
                 .claim("email", email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(key, SignatureAlgorithm.ES256)
+                .setExpiration(new Date(System.currentTimeMillis() + jwtEmailExpirationMs))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -161,8 +161,4 @@ public class JwtProvider {
         return c.getExpiration().getTime() - System.currentTimeMillis();
     }
 
-
-    public long getJwtEmailExpirationMs() {
-        return jwtEmailExpirationMs;
-    }
 }

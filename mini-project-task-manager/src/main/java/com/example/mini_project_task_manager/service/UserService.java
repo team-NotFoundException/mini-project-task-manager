@@ -1,7 +1,10 @@
 package com.example.mini_project_task_manager.service;
 
+import com.example.mini_project_task_manager.dto.Auth.request.FindUsernameRequest;
 import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
+import com.example.mini_project_task_manager.dto.Auth.response.FindUsernameResponse;
 import com.example.mini_project_task_manager.dto.Auth.response.SignInResponse;
+import com.example.mini_project_task_manager.dto.Mail.MailRequest;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.user.request.UserProfileUpdateRequest;
 import com.example.mini_project_task_manager.dto.user.response.UserProfileResponse;
@@ -16,4 +19,8 @@ public interface UserService {
     ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal);
 
     ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, @Valid UserProfileUpdateRequest request);
+
+    void resetPassword(MailRequest.@Valid PasswordReset req);
+
+    ResponseDto<FindUsernameResponse> findUsername(FindUsernameRequest req);
 }

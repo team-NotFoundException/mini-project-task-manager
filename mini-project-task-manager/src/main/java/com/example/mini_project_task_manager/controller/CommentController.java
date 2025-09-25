@@ -5,6 +5,7 @@ import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
 import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
+import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.CommentService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -12,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,10 +30,11 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> createComment(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable("taskId") @Positive(message = "taskId는 1 이상이어야 합니다.") Long taskId,
-            @RequestBody CommentRequest.CommentCreateRequest dto
-            ) {
-        ResponseDto<CommentsResponse.CommentResponse> response = commentService.createComment(taskId, dto);
+            @RequestBody CommentRequest.CommentCreateRequest dto,
+            Principal principal) {
+        ResponseDto<CommentsResponse.CommentResponse> response = commentService.createComment(userPrincipal, taskId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -47,7 +51,7 @@ public class CommentController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_CONTENT)
     public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> searchCommentByKeyword (
-            @RequestParam("keyword") @NotBlank(message = "검색 키워드를 입력해주세요") String keyword
+            @RequestParam("searchKeyword") @NotBlank(message = "검색 키워드를 입력해주세요") String keyword
     ) {
         ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.searchCommentByKeyword(keyword);
         return ResponseEntity.status(HttpStatus.OK).body(response);

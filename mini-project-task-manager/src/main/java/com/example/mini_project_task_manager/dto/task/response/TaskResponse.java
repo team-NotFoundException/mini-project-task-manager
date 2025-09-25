@@ -2,6 +2,7 @@ package com.example.mini_project_task_manager.dto.task.response;
 
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
+import com.example.mini_project_task_manager.common.utils.DateUtils;
 import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
 import com.example.mini_project_task_manager.dto.tasktag.response.TaskTagResponse;
 import com.example.mini_project_task_manager.entity.Comment;
@@ -30,8 +31,8 @@ public class TaskResponse {
             Priority priority,
             Set<TaskTagResponse> tags,
             List<CommentsResponse.CommentListResponse> comments,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            String createdAtKst,
+            String updatedAtKst
     ) {
 
         public static TaskDetailResponse from(Task task) {
@@ -62,8 +63,8 @@ public class TaskResponse {
                     task.getPriority(),
                     taskTagsDtos,
                     commentDtos,
-                    task.getCreatedAt(),
-                    task.getUpdatedAt()
+                    DateUtils.toKstString(task.getCreatedAt()),
+                    DateUtils.toKstString(task.getUpdatedAt())
             );
         }
     }
@@ -74,7 +75,9 @@ public class TaskResponse {
             Long id,
             String title,
             Status status,
-            Priority priority
+            String author,
+            Priority priority,
+            String createdAtKst
     ) {
         public static TaskListResponse from(Task task) {
             if (task == null) return null;
@@ -83,7 +86,9 @@ public class TaskResponse {
                     task.getId(),
                     task.getTitle(),
                     task.getStatus(),
-                    task.getPriority()
+                    task.getUser().getNickname(),
+                    task.getPriority(),
+                    DateUtils.toKstString(task.getCreatedAt())
             );
         }
     }

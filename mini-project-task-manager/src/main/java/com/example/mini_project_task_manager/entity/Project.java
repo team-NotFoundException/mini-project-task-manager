@@ -58,8 +58,8 @@ public class Project extends BaseTimeEntity {
     }
 
     public void removeTask(Task task){
-        tasks.remove(task);
-        task.setProject(null);
+        if (task == null) return;
+        this.tasks.remove(task);
     }
 
     /** Tag 생성 */

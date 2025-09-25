@@ -5,6 +5,8 @@ CREATE DATABASE `mini-project-task-manager`
        COLLATE utf8mb4_unicode_ci;
 USE `mini-project-task-manager`;
 
+-- 디비 만들 때 이거 그대로 복사해서 쓰세요 이거 그대로 열지 마시고
+
 DROP TABLE IF EXISTS `task_tags`;
 DROP TABLE IF EXISTS `comments`;
 DROP TABLE IF EXISTS `tasks`;
@@ -17,6 +19,18 @@ DROP TABLE IF EXISTS `users`;
 
 -- 생성 순서 (부모 -> 자식)
 -- users -> roles -> user_roles -> projects -> tasks -> tags -> task_tags -> comments -> notifications
+
+insert into `roles` values('MANAGER');
+
+select * from users;
+select * from roles;
+select * from user_roles;
+select * from projects;
+select * from tasks;
+select * from tags;
+select * from task_tags;
+select * from comments;
+select * from notifications;
 
 CREATE TABLE IF NOT EXISTS `users` (
     id         		BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -38,12 +52,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '사용자';
 
-INSERT INTO `users` (username, password, nickname,email,gender) VALUES
-	('aaaaaaaa','bbbbbbbbbb','실험용A','bbbbb@naver.com','MALE');
-
-
-
-
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
     role_name	VARCHAR(30) PRIMARY KEY
@@ -52,11 +60,6 @@ CREATE TABLE IF NOT EXISTS `roles` (
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '권한';
 
-select * from `users`;
-select * from `tags`;
-
-insert into `roles` VALUE ('ADMIN');
-insert into `user_roles` VALUE (3,'ADMIN');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE IF NOT EXISTS `user_roles` (
@@ -99,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `tasks`(
     title       	VARCHAR(200) NOT NULL,
     content      	LONGTEXT NOT NULL,
     status      	VARCHAR(50) NOT NULL DEFAULT 'TODO',
-    priority    	VARCHAR(50) NOT NULL DEFAULT 'MEDIUM',
+    priority    	VARCHAR(50) NOT NULL DEFAULT 'LOW',
     due_date    	DATE NOT NULL,
     created_at  	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     updated_at  	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -107,31 +110,28 @@ CREATE TABLE IF NOT EXISTS `tasks`(
     CONSTRAINT `chk_tasks_status` CHECK (status IN ('TODO','IN_PROGRESS','DONE')),
     CONSTRAINT `chk_tasks_priority` CHECK (priority IN ('LOW','MEDIUM','HIGH')),
     CONSTRAINT `fk_tasks_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT `fk_tasks_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,
-
-    INDEX idx_tasks_project_id_status (project_id, status),
-    INDEX idx_tasks_author_id_due_date (author_id, due_date)
+    CONSTRAINT `fk_tasks_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '할일';
 
+
+
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE IF NOT EXISTS `tags`(
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    tag_name    VARCHAR(100) NOT NULL,
+    tag_name    VARCHAR(100) ,
     project_id  BIGINT NOT NULL,
     CONSTRAINT `fk_tags_project_id` FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
-    CONSTRAINT `uk_tags_tag_name` UNIQUE (tag_name)
+    CONSTRAINT `uq_tags_tag_name_project_id` UNIQUE (tag_name, project_id)
 
 ) 	ENGINE=InnoDB
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_unicode_ci
     COMMENT = '태그';
 
-
-select * from `tags`;
 
 DROP TABLE IF EXISTS `task_tags`;
 CREATE TABLE IF NOT EXISTS `task_tags` (
@@ -165,9 +165,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
 DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
     id          	BIGINT PRIMARY KEY AUTO_INCREMENT,
+	author_id    	BIGINT NOT NULL,
     title      		VARCHAR(300) NOT NULL,
     content    		TEXT NOT NULL,
-    author_id    	BIGINT NOT NULL,
     created_at   	DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     
 	CONSTRAINT `fk_notifications_author_id` FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE

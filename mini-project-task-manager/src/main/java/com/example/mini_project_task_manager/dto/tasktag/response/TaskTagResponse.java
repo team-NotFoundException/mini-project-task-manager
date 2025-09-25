@@ -13,7 +13,7 @@ public record TaskTagResponse (
         if (taskTag == null) return null;
 
         return new TaskTagResponse(
-               taskTag.getTag().getTag_name()
+               taskTag.getTag().getTagName()
         );
     }
 }

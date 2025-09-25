@@ -1,6 +1,8 @@
 package com.example.mini_project_task_manager.controller;
 
+import com.example.mini_project_task_manager.dto.Auth.request.FindUsernameRequest;
 import com.example.mini_project_task_manager.dto.Auth.request.SignRequest;
+import com.example.mini_project_task_manager.dto.Auth.response.FindUsernameResponse;
 import com.example.mini_project_task_manager.dto.Auth.response.SignInResponse;
 import com.example.mini_project_task_manager.dto.Mail.MailRequest;
 import com.example.mini_project_task_manager.dto.ResponseDto;
@@ -42,6 +44,17 @@ public class UserSignController {
         mailService.verifyEmail(token);
         return ResponseEntity.noContent().build();
     }
+    /** 비밀번호 변경 */
+    @PostMapping("/reset-password")
+    public ResponseEntity<ResponseDto<Void>> resetPassword(@Valid @RequestBody MailRequest.PasswordReset req) {
+        userService.resetPassword(req);
+        return ResponseEntity.noContent().build();
+    }
 
+    /** 아이디 찾기 */
+    @PostMapping("/find-id")
+    public ResponseDto<FindUsernameResponse> findUsername(@Valid @RequestBody FindUsernameRequest request) {
+        return userService.findUsername(request);
+    }
 
 }

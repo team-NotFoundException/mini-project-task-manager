@@ -32,8 +32,6 @@ public class ApiMappingPattern {
         private Tasks() {}
         public static final String ROOT = BASE + "/projects/{projectId}/tasks";
         public static final String BY_ID = "/{taskId}";
-        public static final String FILTER_OPTION = "/filtering";
-        public static final String TASK_TAG = "{taskId}/tags";
     }
 
     public static final class Tags{
@@ -41,7 +39,9 @@ public class ApiMappingPattern {
         public static final String ROOT = BASE + "/projects/{projectId}";
         public static final String FROM_TASK = "/tasks/{taskId}/tags";
         public static final String FROM_TAG = "tags";
-        public static final String TAG_ID = "/tags/{tagId}";
+        public static final String TASK_TAG = FROM_TASK + "/{tagId}";
+        public static final String TAG_ID = "/tagId/{tagId}";
+        public static final String TAG_NAME = "/task/{tagName}";
     }
 
     public static final class Notifications {
@@ -63,8 +63,8 @@ public class ApiMappingPattern {
         private Admin () {}
         public static final String ROOT = BASE + "/admin";
         public static final String USERS = ROOT + "/users";
-        public static final String USER_ROLES = USERS + "/{userId}/roles";
-        public static final String USER_ROLE_MANAGER = USER_ROLES + "/MANAGER";
+        public static final String ADD_ROLE=  "/roles/add";
+        public static final String REMOVE_ROLE=  "/roles/remove";
     }
 
 }

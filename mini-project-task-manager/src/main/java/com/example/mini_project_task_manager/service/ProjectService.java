@@ -1,5 +1,6 @@
 package com.example.mini_project_task_manager.service;
 
+import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.request.ProjectRequest;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface ProjectService {
     ResponseDto<ProjectResponse.ProjectDetailResponse> createProject(UserPrincipal principal, ProjectRequest.ProjectCreateRequest request);
 
-    ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAt(boolean sortedBy);
+    ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAt(String sortedBy);
 
     ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId);
 

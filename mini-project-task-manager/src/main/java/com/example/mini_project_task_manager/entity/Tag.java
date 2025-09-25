@@ -13,7 +13,12 @@ import java.util.Set;
 @Entity
 @Table(
         name = "tags",
-        uniqueConstraints = @UniqueConstraint(name = "uk_tags_tag_name", columnNames = "tag_name"))
+        uniqueConstraints = @UniqueConstraint(name = "uq_tags_tag_name_project_id", columnNames = {"tag_name", "project_id"}))
+
+/**
+ * FROM: 보민
+ * 태경님 uq 설정 잘못되있어서 같은 이름 태그가 서로 다른 프로젝트에 들어가도 들어가지질 않아요 확인해주세요
+ * */
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,8 +31,8 @@ public class Tag {
 
     /** 태그 이름 */
     @NotNull
-    @Column
-    private String tag_name;
+    @Column(name = "tag_name")
+    private String tagName;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -36,32 +41,32 @@ public class Tag {
 
     // 메서드 //
     @Builder
-    private Tag (
+    public Tag (
             @NotNull String tag_name
     ){
-        this.tag_name = tag_name;
+        this.tagName = tag_name;
     }
 
 
     // 태그 생성
-    public static Tag create(@NotNull String tag_name){
+    public static Tag create(String tag_name){
         Tag tag = new Tag();
-        tag.tag_name = tag_name;
+        tag.tagName = tag_name;
         return tag;
     }
 
 
     // tag 생성/삭제 시 project에 공유
-    void setProject(Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
     void setTag(Tag tag) {
-        this.tag_name = tag_name;
+        this.tagName = tagName;
     }
 
     // Tag : Task = N:N -> TaskTag 중간 테이블
     // TaskTag 안에 tag 필드
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tag")
     private Set<TaskTag> taskTags = new HashSet<>();
 }

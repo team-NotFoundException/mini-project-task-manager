@@ -10,8 +10,8 @@ import com.example.mini_project_task_manager.repository.UserRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // 작성자?
         @NotNull User author = userRepository.findByUsername(userPrincipal.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
+                .orElseThrow(() -> new IllegalArgumentException("권한을 찾을 수가 없어요."));
 
         Notification saved = notificationRepository.save(Notification.create(dto.title(), dto.content(), author));
         NotificationsResponse.NotificationDetailResponse data = NotificationsResponse.NotificationDetailResponse.from(saved);
@@ -79,13 +78,19 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getNotificationByKeyword(String keyword) {
-        List<Notification> notifications = notificationRepository.findByKeyWordContainingIgnoreCaseOrderByIdDesc(keyword);
+
+        if (keyword == null) throw new IllegalArgumentException("키워드는 비워져있을 수 없습니다.");
+
+        List<Notification> notifications
+                = notificationRepository.findByKeyWordContainingIgnoreCaseOrderByIdDesc(keyword);
 
         List<NotificationsResponse.NotificationListResponse> result = notifications.stream()
                 .map(NotificationsResponse.NotificationListResponse::from)
                 .toList();
 
-
+        if (result.isEmpty()) {
+            throw new IllegalArgumentException("해당 키워드에 해당하는 공지가 없습니다.");
+        }
 
         return ResponseDto.setSuccess("SUCCESS", result);
     }

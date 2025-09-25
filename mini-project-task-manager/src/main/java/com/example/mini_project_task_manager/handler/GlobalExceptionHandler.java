@@ -23,23 +23,8 @@ import java.util.Objects;
 
 
 @RestControllerAdvice
-// 전역 예외처리 되도록 설정  예외 가로채서 JSON 표준 응답을 반환해줌
-// 1. 단일 책임 원칙 (SRP) - 예외 처리를 Controller이 아닌 GEH(Global exception handler)에서 담당
-// 흐름 : controller에서 DTO를 받을 때 @Valid가 붙어 있으면 각 필드의 검증 어노테이션이 값을 검증을 한다
-// MethodArgumentNotValidException을 던진다.
-// 2. 재사용성 증가
-// - 모든 controller 에 대한 예외 처리가 한 곳에서 관리를 하기 때문
-// 3. 가독성 향상
-// - 재사용성 증가와 같은 맥락
-
 @Slf4j
-// 로깅 라이브러리 통합, 프레임워크에 얽매이지 않고 코드 작성을 가능하게 해주는 어노테이션
-
-
 public class GlobalExceptionHandler {
-    // 공통 응답 생성 유틸 //
-    // 예외 상황에서 클라이언트에게 반환할 ResponseEntity<ResponseDto>를 조립하는 유틸 메서드
-    // - ErrorCode, reason, errors 를 받아 표즌 JSON으로 변환
     private ResponseEntity<ResponseDto<Object>> fail(
             ErrorCode code, String reason, List<FieldErrorItem> errors
             // : 실제 응답을 한 곳에서 조립
@@ -121,5 +106,11 @@ public class GlobalExceptionHandler {
         log.error("Internal error", e);
         return fail(ErrorCode.INTERNAL_ERROR, null, null);
     }
+
+//    @ExceptionHandler(org.springframework.web.method.annotation.HandlerMethodValidationException.class)
+//    public ResponseEntity<ResponseDto<Object>> handleHandlerValidation(HandlerMethodValidationException e) {
+//        log.warn("Validation failed: {}", e.getMessage());
+//        return fail(ErrorCode.VALIDATION_ERROR, e.getMessage(), null);
+//    }
 
 }
