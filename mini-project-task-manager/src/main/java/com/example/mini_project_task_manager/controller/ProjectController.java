@@ -2,6 +2,7 @@ package com.example.mini_project_task_manager.controller;
 
 
 import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
+import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.request.ProjectRequest;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
@@ -24,8 +25,6 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
 
-    // gg
-
     // 1) 프로젝트 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
@@ -41,7 +40,7 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.SORTED)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAt(
-            @RequestParam("sortedBy") boolean sortedBy
+            @RequestParam("sortedBy") String sortedBy
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAt(sortedBy);
         return ResponseEntity.status(HttpStatus.OK).body(response);
