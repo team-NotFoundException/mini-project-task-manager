@@ -196,15 +196,19 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public ResponseDto<Void> deleteTask(UserPrincipal principal, Long projectId, Long taskId) {
+
+        projectRepository.findProjectById((projectId))
+                .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없어요."));
+
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
 
-        if (!task.getUser().getId().equals(principal.getId())) {
-            throw new IllegalArgumentException("잘못된 사용자의 접근입니다.");
-        }
-
         if (!task.getProject().getId().equals(projectId)) {
             throw new IllegalArgumentException("해당 Task가 프로젝트 내에 속해있지 않습니다. ");
+        }
+
+        if (!task.getUser().getId().equals(principal.getId())) {
+            throw new IllegalArgumentException("잘못된 사용자의 접근입니다.");
         }
 
         // new HashSet<> 방어적으로 복사본 만들어서 순회
@@ -233,5 +237,9 @@ public class TaskServiceImpl implements TaskService {
         project.removeTask(task);
 
         return ResponseDto.setSuccess("SUCCESS", null);
+    }
+    private Long requirePositiveId(Long id){
+        if (id == null || id <= 0) throw new IllegalArgumentException("ID는 반드시 양수여야 해요.");
+        return id;
     }
 }
