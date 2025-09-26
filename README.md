@@ -68,14 +68,16 @@
 
 sql
 코드 복사
-INSERT INTO roles (role_name) VALUES ('USER');
-INSERT INTO roles (role_name) VALUES ('MANAGER');
-INSERT INTO roles (role_name) VALUES ('ADMIN');
-애플리케이션 실행
+   ```sql
+   INSERT INTO roles (role_name) VALUES ('USER');
+   INSERT INTO roles (role_name) VALUES ('MANAGER');
+   INSERT INTO roles (role_name) VALUES ('ADMIN'); 
+   ```
+이후 애플리케이션 실행
 
 Spring Boot 실행 (IntelliJ / VS Code / Terminal 등)
 
-기본 포트: http://localhost:8080
+기본 포트: `http://localhost:8080`
 
 회원가입 후 권한 부여
 
@@ -83,84 +85,87 @@ Spring Boot 실행 (IntelliJ / VS Code / Terminal 등)
 
 필요 시 user_roles 테이블 또는 Admin API를 통해 권한 추가
 
-📡 API 명세
-Admin
-POST /api/v1/admin/roles/add → 권한 부여
+## 📡 API 명세
+1. Admin
+ - `POST /api/v1/admin/roles/add` → 권한 부여
 
-POST /api/v1/admin/roles/remove → 권한 삭제
+ - `POST /api/v1/admin/roles/remove` → 권한 삭제
 
-Auth
-POST /api/v1/auth/sign-up → 회원가입
+2. Auth
+ - `POST /api/v1/auth/sign-up` → 회원가입
 
-POST /api/v1/auth/sign-in → 로그인
+ - `POST /api/v1/auth/sign-in` → 로그인
 
-POST /api/v1/auth/find-id → 아이디 찾기
+ - `POST /api/v1/auth/find-id` → 아이디 찾기
 
-POST /api/v1/auth/reset-password → 비밀번호 재설정
+ - `POST /api/v1/auth/reset-password` → 비밀번호 재설정
 
-Users
-GET /api/users/me → 내 정보 조회
+3. Users
+ - `GET /api/users/my-profile` → 내 정보 조회
+ - `PUT /api/users/update-profile` -> 내 정보 수정
 
-Projects
-POST /api/v1/projects → 프로젝트 생성
+4. Projects
+ - `POST /api/v1/projects` → 프로젝트 생성
 
-GET /api/v1/projects/sorted?sortedBy= → 프로젝트 전체 조회
+ - `GET /api/v1/projects/sorted?sortedBy=` → 프로젝트 전체 조회
 
-GET /api/v1/projects/me/{authorId} → 내 프로젝트 조회
+ - `GET /api/v1/projects/me/{authorId}` → 내 프로젝트 조회
 
-GET /api/v1/projects/search/?keyword= → 키워드 검색
+ - `GET /api/v1/projects/search/?keyword=` → 키워드 검색
 
-PUT /api/v1/projects/:projectId → 프로젝트 수정
+ - `PUT /api/v1/projects/:projectId` → 프로젝트 수정
 
-DELETE /api/v1/projects/:projectId → 프로젝트 삭제
+ - `DELETE /api/v1/projects/:projectId` → 프로젝트 삭제
 
-Tasks
-POST /api/v1/projects/:projectId/tasks → 태스크 생성
+5. Tasks
+ - `POST /api/v1/projects/:projectId/tasks` → 태스크 생성
 
-GET /api/v1/projects/{projectId}/tasks?status=&priority=&from=&to=&dueFrom=&dueTo= → 태스크 조회 (필터링 가능)
+ - `GET /api/v1/projects/{projectId}/tasks?status=&priority=&from=&to=&dueFrom=&dueTo=` → 태스크 조회 (필터링 가능)
 
-GET /api/v1/projects/:projectId/tasks/:taskId → 태스크 단건 조회
+ - `GET /api/v1/projects/:projectId/tasks/:taskId` → 태스크 단건 조회
 
-PUT /api/v1/projects/:projectId/tasks/:taskId → 태스크 수정
+ - `PUT /api/v1/projects/:projectId/tasks/:taskId` → 태스크 수정
 
-DELETE /api/v1/projects/:projectId/tasks/:taskId → 태스크 삭제
+ - `DELETE /api/v1/projects/:projectId/tasks/:taskId` → 태스크 삭제
 
-Tags
-POST /api/v1/projects/:projectId/tags → 태그 생성 (프로젝트)
+6. Tags
+ - `POST /api/v1/projects/:projectId/tags` → 태그 생성 (프로젝트)
 
-GET /api/v1/projects/:projectId/tags → 태그 전체 조회 (프로젝트)
+ - `GET /api/v1/projects/:projectId/tags` → 태그 전체 조회 (프로젝트)
 
-GET /api/v1/projects/:projectId/tagId/:tagId → 태그 단건 조회 (프로젝트)
+ - `GET /api/v1/projects/:projectId/tagId/:tagId` → 태그 단건 조회 (프로젝트)
 
-DELETE /api/v1/projects/:projectId/tagId/:tagId → 태그 삭제 (프로젝트)
+ - `DELETE /api/v1/projects/:projectId/tagId/:tagId` → 태그 삭제 (프로젝트)
 
-GET /api/v1/projects/:projectId/tasks/:taskId/tags → 태그 전체 조회 (태스크)
+ - `GET /api/v1/projects/:projectId/tasks/:taskId/tags` → 태그 전체 조회 (태스크)
 
-GET /api/v1/projects/:projectId/tasks/by-tag/:tagName → 태그명으로 태스크 조회
+ - `GET /api/v1/projects/:projectId/tasks/by-tag/:tagName` → 태그명으로 태스크 조회
 
-GET /api/v1/projects/:projectId/tasks/:taskId/tags/:tagId → 태그 단건 조회 (태스크)
+ - `GET /api/v1/projects/:projectId/tasks/:taskId/tags/:tagId` → 태그 단건 조회 (태스크)
 
-Comments
-POST /api/v1/tasks/:taskId/comments → 댓글 작성
+7. Comments
+ - `POST /api/v1/tasks/:taskId/comments` → 댓글 작성
 
-PUT /api/v1/tasks/:taskId/comments/:commentId → 댓글 수정
+ - `PUT /api/v1/tasks/:taskId/comments/:commentId` → 댓글 수정
 
-GET /api/v1/tasks/:taskId/comments/search-content?searchKeyword= → 댓글 내용 검색
+ - `GET /api/v1/tasks/:taskId/comments/search-content?searchKeyword=` → 댓글 내용 검색
 
-GET /api/v1/tasks/:taskId/comments/search-author?author= → 댓글 작성자 검색
+ - `GET /api/v1/tasks/:taskId/comments/search-author?author=` → 댓글 작성자 검색
 
-DELETE /api/v1/tasks/:taskId/comments/:commentId → 댓글 삭제
+ - `DELETE /api/v1/tasks/:taskId/comments/:commentId` → 댓글 삭제
 
-Notifications (옵션)
-POST /api/v1/notifications → 공지 생성
+8. Notifications
+ - `POST /api/v1/notifications` → 공지 생성
 
-GET /api/v1/notifications → 공지 조회
+ - `GET /api/v1/notifications` → 공지 조회
 
-GET /api/v1/notifications/search-content?keyword= → 공지 키워드 조회
+ - `GET /api/v1/notifications/search-content?keyword=` → 공지 키워드 조회
 
-GET /api/v1/notifications/:notificationId → 공지 단건 조회
+ - `GET /api/v1/notifications/:notificationId` → 공지 단건 조회
 
-DELETE /api/v1/notifications/:notificationId → 공지 삭제
+ - `DELETE /api/v1/notifications/:notificationId` → 공지 삭제
+
+
 ### 📊 ERD 다이어그램
 
 ```mermaid
@@ -181,8 +186,8 @@ erDiagram
     }
 
     USER_ROLES {
-        BIGINT user_id FK
-        VARCHAR role_name FK
+        BIGINT user_id PK, FK
+        VARCHAR role_name PK, FK
     }
 
     PROJECTS {
@@ -209,13 +214,13 @@ erDiagram
 
     TAGS {
         BIGINT id PK
-        VARCHAR tag_name UK
+        VARCHAR tag_name
         BIGINT project_id FK
     }
 
     TASK_TAGS {
-        BIGINT task_id FK
-        BIGINT tag_id FK
+        BIGINT task_id PK, FK
+        BIGINT tag_id PK, FK
     }
 
     COMMENTS {
@@ -235,21 +240,17 @@ erDiagram
         DATETIME created_at
     }
 
-    %% 관계 정의
-
+    %% 관계 설정
+    USERS ||--o{ PROJECTS : "author_id"
+    USERS ||--o{ TASKS : "author_id"
+    USERS ||--o{ COMMENTS : "author_id"
+    USERS ||--o{ NOTIFICATIONS : "author_id"
     USERS ||--o{ USER_ROLES : "has"
     ROLES ||--o{ USER_ROLES : "has"
-
-    USERS ||--o{ PROJECTS : "creates"
     PROJECTS ||--o{ TASKS : "has"
-    USERS ||--o{ TASKS : "writes"
-
     PROJECTS ||--o{ TAGS : "has"
-    TASKS ||--o{ TASK_TAGS : "tagged"
-    TAGS ||--o{ TASK_TAGS : "tagged"
-
     TASKS ||--o{ COMMENTS : "has"
-    USERS ||--o{ COMMENTS : "writes"
+    TASKS ||--o{ TASK_TAGS : "has"
+    TAGS ||--o{ TASK_TAGS : "has"
 
-    USERS ||--o{ NOTIFICATIONS : "creates"
 
