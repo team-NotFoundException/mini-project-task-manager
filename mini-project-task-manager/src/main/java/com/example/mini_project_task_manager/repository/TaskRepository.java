@@ -21,6 +21,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
         select t
         from Task t
         where t.project.id = :projectId
+        order by t.id desc
 """)
     List<Task> findTasksByProjectId(Long projectId);
 
