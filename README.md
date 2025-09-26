@@ -185,114 +185,122 @@
 
 ## 📌 사용 방법
 
-1. **DB 생성 및 테이블 초기화**
-   ```sql
-   CREATE DATABASE `mini-project-task-manager`
-       CHARACTER SET utf8mb4
-       COLLATE utf8mb4_unicode_ci;
-   USE `mini-project-task-manager`;
-이후 제공된 query.sql을 실행하여 테이블 생성
+<div style="background-color:#f8f9fa; border-radius:10px; padding:15px; margin-bottom:20px;">
+<h4>1. DB 생성 및 테이블 초기화</h4>
+<pre>
+CREATE DATABASE `mini-project-task-manager`
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+USE `mini-project-task-manager`;
 
-초기 권한(roles) 데이터 입력
+-- query.sql 실행 후 초기 권한 데이터 입력
+INSERT INTO roles (role_name) VALUES ('USER');
+INSERT INTO roles (role_name) VALUES ('MANAGER');
+INSERT INTO roles (role_name) VALUES ('ADMIN');
+</pre>
+</div>
 
-sql
-코드 복사
-   ```sql
-   INSERT INTO roles (role_name) VALUES ('USER');
-   INSERT INTO roles (role_name) VALUES ('MANAGER');
-   INSERT INTO roles (role_name) VALUES ('ADMIN'); 
-   ```
-이후 애플리케이션 실행
+<div style="background-color:#f8f9fa; border-radius:10px; padding:15px; margin-bottom:20px;">
+<h4>2. 애플리케이션 실행</h4>
+<ul>
+  <li>Spring Boot 실행 (IntelliJ / VS Code / Terminal 등)</li>
+  <li>기본 포트: <b>http://localhost:8080</b></li>
+  <li>회원가입 후 USER 권한 자동 부여</li>
+  <li>필요 시 <code>user_roles</code> 테이블 또는 Admin API를 통해 권한 추가</li>
+</ul>
+</div>
 
-Spring Boot 실행 (IntelliJ / VS Code / Terminal 등)
-
-기본 포트: `http://localhost:8080`
-
-회원가입 후 권한 부여
-
-최초 회원가입 시 USER 권한 부여
-
-필요 시 user_roles 테이블 또는 Admin API를 통해 권한 추가
+---
 
 ## 📡 API 명세
-1. Admin
- - `POST /api/v1/admin/roles/add` → 권한 부여
 
- - `POST /api/v1/admin/roles/remove` → 권한 삭제
+<div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center;">
 
-2. Auth
- - `POST /api/v1/auth/sign-up` → 회원가입
+<div style="flex:1; min-width:300px; background-color:#e9ecef; border-radius:10px; padding:15px;">
+<h4>1. Admin</h4>
+<ul>
+  <li><code>POST /api/v1/admin/roles/add</code> → 권한 부여</li>
+  <li><code>POST /api/v1/admin/roles/remove</code> → 권한 삭제</li>
+</ul>
+</div>
 
- - `POST /api/v1/auth/sign-in` → 로그인
+<div style="flex:1; min-width:300px; background-color:#fff3cd; border-radius:10px; padding:15px;">
+<h4>2. Auth</h4>
+<ul>
+  <li><code>POST /api/v1/auth/sign-up</code> → 회원가입</li>
+  <li><code>POST /api/v1/auth/sign-in</code> → 로그인</li>
+  <li><code>POST /api/v1/auth/find-id</code> → 아이디 찾기</li>
+  <li><code>POST /api/v1/auth/reset-password</code> → 비밀번호 재설정</li>
+</ul>
+</div>
 
- - `POST /api/v1/auth/find-id` → 아이디 찾기
+<div style="flex:1; min-width:300px; background-color:#d4edda; border-radius:10px; padding:15px;">
+<h4>3. Users</h4>
+<ul>
+  <li><code>GET /api/users/my-profile</code> → 내 정보 조회</li>
+  <li><code>PUT /api/users/update-profile</code> → 내 정보 수정</li>
+</ul>
+</div>
 
- - `POST /api/v1/auth/reset-password` → 비밀번호 재설정
+<div style="flex:1; min-width:300px; background-color:#f8d7da; border-radius:10px; padding:15px;">
+<h4>4. Projects</h4>
+<ul>
+  <li><code>POST /api/v1/projects</code> → 프로젝트 생성</li>
+  <li><code>GET /api/v1/projects/sorted?sortedBy=</code> → 전체 조회</li>
+  <li><code>GET /api/v1/projects/me/{authorId}</code> → 내 프로젝트 조회</li>
+  <li><code>GET /api/v1/projects/search/?keyword=</code> → 키워드 검색</li>
+  <li><code>PUT /api/v1/projects/:projectId</code> → 프로젝트 수정</li>
+  <li><code>DELETE /api/v1/projects/:projectId</code> → 프로젝트 삭제</li>
+</ul>
+</div>
 
-3. Users
- - `GET /api/users/my-profile` → 내 정보 조회
- - `PUT /api/users/update-profile` -> 내 정보 수정
+<div style="flex:1; min-width:300px; background-color:#fce5cd; border-radius:10px; padding:15px;">
+<h4>5. Tasks</h4>
+<ul>
+  <li><code>POST /api/v1/projects/:projectId/tasks</code> → 태스크 생성</li>
+  <li><code>GET /api/v1/projects/{projectId}/tasks?...params</code> → 태스크 조회 (필터링 가능)</li>
+  <li><code>GET /api/v1/projects/:projectId/tasks/:taskId</code> → 단건 조회</li>
+  <li><code>PUT /api/v1/projects/:projectId/tasks/:taskId</code> → 수정</li>
+  <li><code>DELETE /api/v1/projects/:projectId/tasks/:taskId</code> → 삭제</li>
+</ul>
+</div>
 
-4. Projects
- - `POST /api/v1/projects` → 프로젝트 생성
+<div style="flex:1; min-width:300px; background-color:#d1ecf1; border-radius:10px; padding:15px;">
+<h4>6. Tags</h4>
+<ul>
+  <li><code>POST /api/v1/projects/:projectId/tags</code> → 태그 생성</li>
+  <li><code>GET /api/v1/projects/:projectId/tags</code> → 태그 전체 조회</li>
+  <li><code>GET /api/v1/projects/:projectId/tagId/:tagId</code> → 단건 조회</li>
+  <li><code>DELETE /api/v1/projects/:projectId/tagId/:tagId</code> → 삭제</li>
+  <li><code>GET /api/v1/projects/:projectId/tasks/:taskId/tags</code> → 태스크 태그 조회</li>
+  <li><code>GET /api/v1/projects/:projectId/tasks/by-tag/:tagName</code> → 태그명 조회</li>
+  <li><code>GET /api/v1/projects/:projectId/tasks/:taskId/tags/:tagId</code> → 단건 조회</li>
+</ul>
+</div>
 
- - `GET /api/v1/projects/sorted?sortedBy=` → 프로젝트 전체 조회
+<div style="flex:1; min-width:300px; background-color:#e2e3e5; border-radius:10px; padding:15px;">
+<h4>7. Comments</h4>
+<ul>
+  <li><code>POST /api/v1/tasks/:taskId/comments</code> → 댓글 작성</li>
+  <li><code>PUT /api/v1/tasks/:taskId/comments/:commentId</code> → 댓글 수정</li>
+  <li><code>GET /api/v1/tasks/:taskId/comments/search-content?searchKeyword=</code> → 내용 검색</li>
+  <li><code>GET /api/v1/tasks/:taskId/comments/search-author?author=</code> → 작성자 검색</li>
+  <li><code>DELETE /api/v1/tasks/:taskId/comments/:commentId</code> → 삭제</li>
+</ul>
+</div>
 
- - `GET /api/v1/projects/me/{authorId}` → 내 프로젝트 조회
+<div style="flex:1; min-width:300px; background-color:#fff3cd; border-radius:10px; padding:15px;">
+<h4>8. Notifications</h4>
+<ul>
+  <li><code>POST /api/v1/notifications</code> → 공지 생성</li>
+  <li><code>GET /api/v1/notifications</code> → 공지 조회</li>
+  <li><code>GET /api/v1/notifications/search-content?keyword=</code> → 키워드 조회</li>
+  <li><code>GET /api/v1/notifications/:notificationId</code> → 단건 조회</li>
+  <li><code>DELETE /api/v1/notifications/:notificationId</code> → 삭제</li>
+</ul>
+</div>
 
- - `GET /api/v1/projects/search/?keyword=` → 키워드 검색
-
- - `PUT /api/v1/projects/:projectId` → 프로젝트 수정
-
- - `DELETE /api/v1/projects/:projectId` → 프로젝트 삭제
-
-5. Tasks
- - `POST /api/v1/projects/:projectId/tasks` → 태스크 생성
-
- - `GET /api/v1/projects/{projectId}/tasks?status=&priority=&from=&to=&dueFrom=&dueTo=` → 태스크 조회 (필터링 가능)
-
- - `GET /api/v1/projects/:projectId/tasks/:taskId` → 태스크 단건 조회
-
- - `PUT /api/v1/projects/:projectId/tasks/:taskId` → 태스크 수정
-
- - `DELETE /api/v1/projects/:projectId/tasks/:taskId` → 태스크 삭제
-
-6. Tags
- - `POST /api/v1/projects/:projectId/tags` → 태그 생성 (프로젝트)
-
- - `GET /api/v1/projects/:projectId/tags` → 태그 전체 조회 (프로젝트)
-
- - `GET /api/v1/projects/:projectId/tagId/:tagId` → 태그 단건 조회 (프로젝트)
-
- - `DELETE /api/v1/projects/:projectId/tagId/:tagId` → 태그 삭제 (프로젝트)
-
- - `GET /api/v1/projects/:projectId/tasks/:taskId/tags` → 태그 전체 조회 (태스크)
-
- - `GET /api/v1/projects/:projectId/tasks/by-tag/:tagName` → 태그명으로 태스크 조회
-
- - `GET /api/v1/projects/:projectId/tasks/:taskId/tags/:tagId` → 태그 단건 조회 (태스크)
-
-7. Comments
- - `POST /api/v1/tasks/:taskId/comments` → 댓글 작성
-
- - `PUT /api/v1/tasks/:taskId/comments/:commentId` → 댓글 수정
-
- - `GET /api/v1/tasks/:taskId/comments/search-content?searchKeyword=` → 댓글 내용 검색
-
- - `GET /api/v1/tasks/:taskId/comments/search-author?author=` → 댓글 작성자 검색
-
- - `DELETE /api/v1/tasks/:taskId/comments/:commentId` → 댓글 삭제
-
-8. Notifications
- - `POST /api/v1/notifications` → 공지 생성
-
- - `GET /api/v1/notifications` → 공지 조회
-
- - `GET /api/v1/notifications/search-content?keyword=` → 공지 키워드 조회
-
- - `GET /api/v1/notifications/:notificationId` → 공지 단건 조회
-
- - `DELETE /api/v1/notifications/:notificationId` → 공지 삭제
+</div>
 
 
 ### 📊 ERD 다이어그램
