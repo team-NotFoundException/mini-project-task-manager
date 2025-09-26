@@ -52,12 +52,6 @@ public class TaskServiceImpl implements TaskService {
                 dto.dueDate());
 
         project.addTask(task);
-        // === 여기 까지는 Task 생성하고 project에 적용시키기
-
-
-        // Task먼저 DB에 저장해야 addTag 할 때,
-        // new TaskTag(this,tag) 할 때, taskId를 넣을 수 있음,
-        // 아니면 taskId setter 나옴 , task 번호가 없는데, addTag에 못넣음.
 
         /** 기존 프로젝트 태그 불러오기 */
         List<Tag> existingTags = tagRepository.findTagsByProjectId(projectId);
@@ -77,20 +71,10 @@ public class TaskServiceImpl implements TaskService {
                         .orElseGet(() -> {
                             Tag newTag = new Tag(trimmedName);
                             newTag.setProject(project);
+                            // 새 태그 생성시, 관련 프로젝트에도 등록, public안하니까 런타임에러
+                            // project 널일수없다고 나옴.
                             return tagRepository.save(newTag);
                         });
-
-//                // 1. DB에서 기존 Tag 찾아서 없으면 새로만들기.
-//                Tag tag = tagRepository.findByTagName(tagName.trim())
-//                        .orElseGet(() -> {
-//                            // 2. 없으면 새 Tag 생성 후 저장
-//                            Tag newTag = new Tag(tagName.trim());
-//                            newTag.setProject(project);
-//                            // 새 태그 생성시, 관련 프로젝트에도 등록, public안하니까 런타임에러
-//                            // project 널일수없다고 나옴.
-//                            return tagRepository.save(newTag);
-//                        });
-
                 // 3. Task에 Tag 추가 (TaskTag도 자동 생성)
                 task.addTag(tag);
             }
@@ -106,7 +90,24 @@ public class TaskServiceImpl implements TaskService {
         LocalDateTime fromUtc = DateUtils.kstToUtc(from);
         LocalDateTime toUtc = DateUtils.kstToUtc(to);
 
-        List<Task> tasks = taskRepository.searchTasks(projectId, status, priority, fromUtc, toUtc, dueFrom, dueTo);
+        List<Task> tasks;
+
+        // 필터링 조건이 하나라도 있으면 조건 검색
+        if (status != null || priority != null || from != null || to != null
+                || dueFrom != null || dueTo != null) {
+            tasks = taskRepository.searchTasks(projectId, status, priority, fromUtc, toUtc, dueFrom, dueTo);
+            if (tasks == null || tasks.isEmpty()) {
+                throw new EntityNotFoundException("원하는 조건에 맞는 Task를 찾을 수 없습니다.");
+            }
+        }
+
+        // 조건이 전혀 없으면 전체 조회
+        else {
+            tasks = taskRepository.findTasksByProjectId(projectId);
+            if (tasks == null || tasks.isEmpty()) {
+                throw new EntityNotFoundException("해당 projectId의 Task를 찾을 수 없습니다.");
+            }
+        }
         List<TaskResponse.TaskListResponse> result = tasks.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
@@ -142,8 +143,9 @@ public class TaskServiceImpl implements TaskService {
         userRepository.findById(principal.getId())
                 .orElseThrow(() -> new EntityNotFoundException("작성자를 찾을 수 없습니다."));
 
+        // Task 수정완료 할 때 뜨는 메세지 (도중에 프로젝트가 삭제 되었을때)
         if (!task.getProject().getId().equals(projectId)) {
-            throw new IllegalArgumentException("해당 Task가 프로젝트 내에 속해있지 않습니다. ");
+            throw new IllegalStateException("해당 Tasks는 지정된 프로젝트에 속하지 않습니다. ");
         }
 
         // 1. Task 내용 변경
@@ -153,14 +155,15 @@ public class TaskServiceImpl implements TaskService {
         // 3. 기존 TaskTag 컬렉션 불러오기
         List<Tag> existingTags = tagRepository.findTagsByProjectId(projectId);
 
-        Set<String> dtoTagNames = dto.tagNames()== null
+        Set<String> dtoTagNames = dto.tagNames() == null
                 ? Collections.emptySet()
-                :dto.tagNames().stream()
-                .filter(name-> name !=null && !name.isBlank())
-                .map(name -> name.replaceAll("\\s+", ""))// 양옆공백/글자사이 스페이스/ tab으로인한 공백제거는 정규식만 가능
+                : dto.tagNames().stream()
+                .filter(name -> name != null && !name.isBlank())
+                .map(name -> name.replaceAll("\\s+", ""))
+                // 양옆공백/글자사이 스페이스/ tab으로인한 공백제거는 정규식만 가능
                 .collect(Collectors.toSet());
 
-        for (TaskTag oldTaskTag : new HashSet<>(task.getTaskTags())){
+        for (TaskTag oldTaskTag : new HashSet<>(task.getTaskTags())) {
             // Tag에서 TaskTag 제거
             oldTaskTag.getTag().getTaskTags().remove(oldTaskTag);
         }
@@ -183,8 +186,8 @@ public class TaskServiceImpl implements TaskService {
         }
 
         // 고아 태그 삭제: 다른 Task와 연결되어 있지 않으면
-        for (Tag tag: existingTags){
-            if(tag.getTaskTags().isEmpty()){
+        for (Tag tag : existingTags) {
+            if (tag.getTaskTags().isEmpty()) {
                 tagRepository.delete(tag);
             }
         }
@@ -201,7 +204,7 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없어요."));
 
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없어요."));
 
         if (!task.getProject().getId().equals(projectId)) {
             throw new IllegalArgumentException("해당 Task가 프로젝트 내에 속해있지 않습니다. ");
@@ -213,8 +216,6 @@ public class TaskServiceImpl implements TaskService {
 
         // new HashSet<> 방어적으로 복사본 만들어서 순회
         for (TaskTag taskTag : new HashSet<>(task.getTaskTags())) {
-            // TaskTag table에서는 삭제. tags에는 남아있음
-            // taskTag 에서 Tag 불러와서. 그 태그에 연결된 TaskTag 삭제
             taskTag.getTag().getTaskTags().remove(taskTag);
         }
         taskRepository.delete(task);
@@ -226,20 +227,9 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
-//        List로 한번에 불러와서 stream 하는 방법
-//        List<Tag> orphanTags= tagRepository.findAll().stream()
-//                .filter(tag -> tag.getTaskTags().isEmpty())
-//                .toList();
-//
-//        tagRepository.deleteAll(orphanTags);
-
         Project project = task.getProject();
         project.removeTask(task);
 
         return ResponseDto.setSuccess("SUCCESS", null);
-    }
-    private Long requirePositiveId(Long id){
-        if (id == null || id <= 0) throw new IllegalArgumentException("ID는 반드시 양수여야 해요.");
-        return id;
     }
 }
