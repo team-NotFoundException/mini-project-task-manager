@@ -10,12 +10,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-// 엔티티 설계 완료
+
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRoleId implements Serializable {
-    // user가 가지고있는 권한이 여러개이다
+
     @Column(name = "user_id", nullable = false)
     private Long userId;
 

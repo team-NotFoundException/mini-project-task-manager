@@ -5,7 +5,6 @@ import com.example.mini_project_task_manager.entity.Project;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProjectResponse {
 

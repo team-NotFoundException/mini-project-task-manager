@@ -1,15 +1,11 @@
 package com.example.mini_project_task_manager.repository;
 
-import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.entity.Project;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepositoryCustom {

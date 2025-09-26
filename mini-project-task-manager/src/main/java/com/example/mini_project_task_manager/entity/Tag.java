@@ -9,17 +9,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-// 엔티티 설계 완료
+
 @Entity
 @Table(
         name = "tags",
         uniqueConstraints = @UniqueConstraint(name = "uq_tags_tag_name_project_id", columnNames = {"tag_name", "project_id"}))
-
-/**
- * FROM: 보민
- * 태경님 uq 설정 잘못되있어서 같은 이름 태그가 서로 다른 프로젝트에 들어가도 들어가지질 않아요 확인해주세요
- * */
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
@@ -39,7 +33,6 @@ public class Tag {
     @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "fk_tags_project_id"))
     private Project project;
 
-    // 메서드 //
     @Builder
     public Tag (
             @NotNull String tag_name
@@ -47,16 +40,12 @@ public class Tag {
         this.tagName = tag_name;
     }
 
-
-    // 태그 생성
     public static Tag create(String tag_name){
         Tag tag = new Tag();
         tag.tagName = tag_name;
         return tag;
     }
 
-
-    // tag 생성/삭제 시 project에 공유
     public void setProject(Project project) {
         this.project = project;
     }
@@ -65,8 +54,6 @@ public class Tag {
         this.tagName = tagName;
     }
 
-    // Tag : Task = N:N -> TaskTag 중간 테이블
-    // TaskTag 안에 tag 필드
     @OneToMany(mappedBy = "tag")
     private Set<TaskTag> taskTags = new HashSet<>();
 }

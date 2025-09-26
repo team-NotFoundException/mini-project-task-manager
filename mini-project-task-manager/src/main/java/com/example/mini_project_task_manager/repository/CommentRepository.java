@@ -9,13 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentsRepository extends JpaRepository<Comment, Long> {
-    public interface CommentListProjection {
-
-        Long getId();
-        String Content();
-        String getAuthor();
-    }
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     // keyword가 포함된 댓글 찾기
     @Query(value = """

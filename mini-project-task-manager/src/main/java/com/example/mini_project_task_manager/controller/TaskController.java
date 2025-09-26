@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.controller;
 
-
 import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
@@ -33,7 +32,6 @@ import static com.example.mini_project_task_manager.common.constants.ApiMappingP
 public class TaskController {
     private final TaskService taskService;
 
-    // Task 생성 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> createTask(
@@ -45,7 +43,6 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // Task 조회 (전체조회) +필터링[상태,우선순위,마감일,생성일]
     @PreAuthorize("hasAnyRole('USER','MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getAllTasks(
@@ -65,7 +62,6 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // Task 조회 (단건 조회) - 태그, 댓글 포함
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> getTaskById(
@@ -76,7 +72,6 @@ public class TaskController {
         return ResponseEntity.ok().body(response);
     }
 
-    // Task 수정 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping(BY_ID)
     public ResponseEntity<ResponseDto<TaskResponse.TaskDetailResponse>> updateTask(
@@ -89,7 +84,6 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // Task 삭제 - ADMIN/ MANAGER
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @DeleteMapping(BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteTask(

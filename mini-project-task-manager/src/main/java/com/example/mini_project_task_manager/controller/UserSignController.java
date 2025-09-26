@@ -43,6 +43,4 @@ public class UserSignController {
         mailService.verifyEmail(token);
         return ResponseEntity.noContent().build();
     }
-
-
 }

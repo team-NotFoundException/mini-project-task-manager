@@ -16,30 +16,22 @@ import java.util.*;
 public class JwtProvider {
 
     public static final String BEARER_PREFIX = "Bearer ";
-
     public static final String CLAIM_ROLES = "roles";
-
     private final SecretKey key;
     private final long jwtExpirationMs;
     private final long jwtEmailExpirationMs;
     private final int clockSkewSeconds;
-
     private final JwtParser parser;
 
     public JwtProvider(
-
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration}") long jwtExpirationMs,
             @Value("${jwt.email-expiration}") long jwtEmailExpirationMs,
             @Value("${jwt.clock-skew-seconds:0}") int clockSkewSeconds) {
-
-
         byte[] secretBytes = Decoders.BASE64.decode(secret);
         if (secretBytes.length < 32) {
-
             throw new IllegalArgumentException("jwt.secret은 항상 256 비트 이상을 권장합니다.");
         }
-
         this.key = Keys.hmacShaKeyFor(secretBytes);
         this.jwtExpirationMs = jwtExpirationMs;
         this.jwtEmailExpirationMs = jwtEmailExpirationMs;
@@ -53,17 +45,14 @@ public class JwtProvider {
         long now = System.currentTimeMillis();
         Date iat = new Date(now);
         Date exp = new Date(now + jwtExpirationMs);
-
         List<String> roleList = (roles == null) ? List.of() : new ArrayList<>(roles);
-
     return Jwts.builder()
-            .setSubject(username)           // 유저 이름
-            .claim(CLAIM_ROLES, roleList)          // 권한도 토큰 안에 같이 저장
+            .setSubject(username)
+            .claim(CLAIM_ROLES, roleList)
             .setIssuedAt(iat)
             .setExpiration(exp)
             .signWith(key)
             .compact();
-
     }
 
     public String generateEmailJwtToken(String email) {
@@ -79,25 +68,20 @@ public class JwtProvider {
         if (bearerToken == null || !bearerToken.startsWith(BEARER_PREFIX)) {
             throw new IllegalArgumentException("Authorization 형식이 올바르지 않습니다.");
         }
-
         return bearerToken.substring(BEARER_PREFIX.length()).trim();
     }
 
     private Claims parseClaimsInternal(String token, boolean allowClockSkewOnExpiry) {
-
         try {
             return parser.parseSignedClaims(token).getPayload();
-
         } catch (ExpiredJwtException ex) {
 
             if (allowClockSkewOnExpiry && clockSkewSeconds > 0 && ex.getClaims() != null) {
-
                 Date exp = ex.getClaims().getExpiration();
                 if (exp != null) {
                     long skewMs = clockSkewSeconds * 1000L;
                     long now = System.currentTimeMillis();
                     if (now - exp.getTime() <= skewMs) {
-
                         return ex.getClaims();
                     }
                 }
@@ -107,7 +91,6 @@ public class JwtProvider {
     }
 
     public boolean isValidToken(String tokenWithoutBearer) {
-
         try {
             parseClaimsInternal(tokenWithoutBearer, true);
             return true;
@@ -117,7 +100,6 @@ public class JwtProvider {
     }
 
     public Claims getClaims(String tokenWithoutBearer) {
-
         return parseClaimsInternal(tokenWithoutBearer, true);
     }
 
@@ -160,5 +142,4 @@ public class JwtProvider {
         Claims c = parseClaimsInternal(tokenWithoutBearer, true);
         return c.getExpiration().getTime() - System.currentTimeMillis();
     }
-
 }

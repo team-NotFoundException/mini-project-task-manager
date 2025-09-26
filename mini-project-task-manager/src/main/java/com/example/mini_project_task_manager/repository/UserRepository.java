@@ -19,7 +19,6 @@ import com.example.mini_project_task_manager.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-
   @Query("""
      SELECT u
      FROM User u
@@ -38,7 +37,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   boolean existsByNickname(String nickname);
 
   Optional<User> findByEmail(@NotBlank @Email String email);
-
 
   @NotNull Long id(Long id);
 

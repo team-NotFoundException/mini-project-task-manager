@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-// 엔티티 설계 완료
+
 @Entity
 @Table(name = "user_roles")
 @Getter
@@ -23,8 +23,6 @@ public class UserRole  {
     )
     private User user;
 
-
-
     @MapsId("roleName")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
@@ -32,17 +30,14 @@ public class UserRole  {
             nullable = false,
             referencedColumnName = "role_name",
             foreignKey = @ForeignKey(name = "fk_user_roles_role")
-
     )
     private Role role;
 
     public UserRole(User user, Role role) {
         this.user = user;
         this.role = role;
-
         Long userId = user.getId();
         RoleType roleName = role.getName();
         this.id = new UserRoleId(userId, roleName);
     }
-
 }

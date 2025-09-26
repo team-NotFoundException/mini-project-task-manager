@@ -13,14 +13,9 @@ import jakarta.validation.Valid;
 
 public interface UserService {
     void signUp(SignRequest.@Valid SingUpRequest req);
-
     ResponseDto<SignInResponse> signIn(SignRequest.@Valid SignInRequest req);
-
     ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal);
-
     ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, @Valid UserProfileUpdateRequest request);
-
     void resetPassword(MailRequest.@Valid PasswordReset req);
-
     ResponseDto<FindUsernameResponse> findUsername(FindUsernameRequest req);
 }

@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.repository;
 
-
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
 import com.example.mini_project_task_manager.entity.Task;

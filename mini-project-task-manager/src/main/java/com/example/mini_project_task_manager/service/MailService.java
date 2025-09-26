@@ -5,6 +5,5 @@ import jakarta.validation.Valid;
 
 public interface MailService {
     void sendEmail(MailRequest.@Valid SendMail req);
-
     void verifyEmail(String token);
 }

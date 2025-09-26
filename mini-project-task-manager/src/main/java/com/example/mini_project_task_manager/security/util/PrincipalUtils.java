@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.security.util;
 
-
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -15,6 +14,4 @@ public class PrincipalUtils {
             throw new AccessDeniedException("비활성화 된 계정");
         }
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.controller;
 
-
 import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.tag.request.TagRequest;
@@ -29,9 +28,8 @@ import static com.example.mini_project_task_manager.common.constants.ApiMappingP
 @RequestMapping(ApiMappingPattern.Tags.ROOT)
 @RequiredArgsConstructor
 public class TagController {
-    // Tag 생성 - 인증된 사용자만
     private final TagService tagService;
-    // PROJECT에서  태그 생성
+
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping(FROM_TAG)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> createTagByProject(
@@ -42,7 +40,6 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // ProjectId 검색후 Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(FROM_TAG)
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTagsByProjectId(
@@ -52,7 +49,6 @@ public class TagController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // Task에서 Tag 전체 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(FROM_TASK)
     public ResponseEntity<ResponseDto<List<TagResponse.TagNameResponse>>> getAllTagsByTask(
@@ -62,7 +58,6 @@ public class TagController {
     }
 
 
-    // Task에서 Tag 단건 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Tags.TASK_TAG)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> getTagById(
@@ -74,7 +69,6 @@ public class TagController {
         return ResponseEntity.ok().body(response);
     }
 
-    // Project에서 Tag 단건 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Tags.TAG_ID)
     public ResponseEntity<ResponseDto<TagResponse.TagNameResponse>> getTagByTagId(
@@ -82,11 +76,9 @@ public class TagController {
             @PathVariable ("tagId") @Positive(message = "tagId는 1 이상이어야 해요.") Long tagId
     ){
         ResponseDto<TagResponse.TagNameResponse> response = tagService.getTagByTagId(projectId, tagId);
-
         return ResponseEntity.ok().body(response);
     }
 
-    // Tag 명을 통해 Task 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping("tasks/by-tag/{tagName}")
     public ResponseEntity<ResponseDto<List<TaskResponse.TaskListResponse>>> getTaskByTagName(
@@ -94,11 +86,9 @@ public class TagController {
             @PathVariable("tagName") @NotNull String tagName
             ){
         ResponseDto<List<TaskResponse.TaskListResponse>> response = tagService.getTaskByTagName(projectId,tagName);
-
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 프로젝트에서 Tag 삭제
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @DeleteMapping( ApiMappingPattern.Tags.TAG_ID)
     public ResponseEntity<ResponseDto<TagResponse>> deleteTag(

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NotificationsResponse{
-
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record NotificationDetailResponse(
             Long id,
@@ -21,7 +20,6 @@ public class NotificationsResponse{
     ) {
         public static NotificationDetailResponse from(Notification notification) {
             if (notification == null) return null;
-
             return new NotificationDetailResponse(
                     notification.getId(),
                     notification.getTitle(),
@@ -42,7 +40,6 @@ public class NotificationsResponse{
         ) {
         public static NotificationListResponse from(Notification notification) {
             if (notification == null) return null;
-
             return new NotificationListResponse(
                     notification.getId(),
                     notification.getTitle(),
@@ -51,5 +48,4 @@ public class NotificationsResponse{
             );
         }
     }
-
 }

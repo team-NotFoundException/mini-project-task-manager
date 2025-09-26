@@ -4,7 +4,6 @@ import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.notification.request.NotificationsRequest;
 import com.example.mini_project_task_manager.dto.notification.response.NotificationsResponse;
 import com.example.mini_project_task_manager.security.UserPrincipal;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
@@ -12,14 +11,8 @@ import java.util.List;
 
 public interface NotificationService {
     ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(UserPrincipal principal, NotificationsRequest.NotificationCreateRequest dto);
-
     ResponseDto<List<NotificationsResponse.NotificationListResponse>> getAllNotifications();
-
     ResponseDto<NotificationsResponse.NotificationDetailResponse> getNotificationById(Long notiId);
-
     ResponseDto<List<NotificationsResponse.NotificationListResponse>> getNotificationByKeyword(@NotBlank(message = "검색 키워드는 비워져있을 수 없습니다.") String keyword);
-
     ResponseDto<Void> deleteNotification(UserPrincipal principal, @Positive(message = "notiId는 1 이상이어야합니다.") Long notiId);
-
-
 }

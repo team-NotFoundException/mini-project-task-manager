@@ -28,7 +28,6 @@ public class ApiMappingPattern {
         public static final String MY_PROJECT = "/me/{authorId}";
         public static final String SEARCH = "/search";
         public static final String BY_ID = "/{projectId}";
-//        public static final String PROJECT_TAG = "/{projectId}/tag";
     }
 
     public static final class Tasks {
@@ -44,7 +43,6 @@ public class ApiMappingPattern {
         public static final String FROM_TAG = "tags";
         public static final String TASK_TAG = FROM_TASK + "/{tagId}";
         public static final String TAG_ID = "/tags/{tagId}";
-//        public static final String TAG_NAME = "/task/{tagName}";
     }
 
     public static final class Notifications {
@@ -65,7 +63,6 @@ public class ApiMappingPattern {
     public static final class Admin {
         private Admin () {}
         public static final String ROOT = BASE + "/admin";
-//        public static final String USERS = ROOT + "/users";
         public static final String ADD_ROLE=  "/roles/add";
         public static final String REMOVE_ROLE=  "/roles/remove";
     }

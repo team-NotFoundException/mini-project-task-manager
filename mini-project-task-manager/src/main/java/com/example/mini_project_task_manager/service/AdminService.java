@@ -8,6 +8,5 @@ import jakarta.validation.Valid;
 
 public interface AdminService {
     ResponseDto<AdminAuthRoleResponse.AddRoleResponse> addRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid AddRoleRequest req);
-
     ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> removeRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid RemoveRoleRequest req);
 }

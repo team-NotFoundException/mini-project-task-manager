@@ -25,8 +25,6 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
 
-
-    // 댓글 생성
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> createComment(
@@ -38,7 +36,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 댓글 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> getAllComment() {
@@ -47,7 +44,6 @@ public class CommentController {
     }
 
 
-    // comment 키워드 댓글 조회
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_CONTENT)
     public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> searchCommentByKeyword (
@@ -57,7 +53,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 특정 작성자의 모든 댓글 조회
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Comments.SEARCH_AUTHOR)
     public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> getCommentsByAuthor(
@@ -67,7 +62,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 댓글 수정
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @PutMapping(ApiMappingPattern.Comments.BY_ID)
     public ResponseEntity<ResponseDto<CommentsResponse.CommentResponse>> updateComment(
@@ -79,7 +73,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 댓글 삭제
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @DeleteMapping(ApiMappingPattern.Comments.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteComment(

@@ -21,7 +21,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 """,nativeQuery = true)
     Optional<String> findTagsByTagId(@Param("projectId")Long taskId, @Param("tagId")Long tagId);
 
-
     @Query(value = """
         select tag
         from Tag tag
@@ -57,7 +56,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     order by tg.tag_name desc
 """, nativeQuery = true)
     Optional<Tag> findTaskTag(@Param("taskId")Long taskId, @Param("tagId")Long tagId);
-
 
     Long project(Project project);
 }

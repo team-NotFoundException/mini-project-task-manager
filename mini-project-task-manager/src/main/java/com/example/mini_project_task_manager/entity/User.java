@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-// 엔티티 설계 완료
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -48,17 +47,10 @@ public class User extends BaseTimeEntity {
     @Column(name = "nickname", nullable = false, length = 50)
     private String nickname;
 
-
-    // ===== Enum 작성 ==== //
-    // 태경님이 Enum 만드시면 import 할 것
-
     /** 성별 (선택, NULL 허용) */
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 20)
     private Gender gender;
-
-//    private Set<RoleType> roles = new HashSet<>();
-
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles = new HashSet<>();
@@ -72,7 +64,6 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.gender = gender;
     }
-
 
     public void changePassword(String password) {
         this.password = password;
@@ -89,7 +80,6 @@ public class User extends BaseTimeEntity {
         boolean exists = userRoles.stream().anyMatch(ur -> ur.getRole().equals(role));
         if (!exists) {
             UserRole ur = new UserRole(this, role);
-//                 userRoles.add(new UserRole(this, role));
             this.userRoles.add(ur);
         }
     }

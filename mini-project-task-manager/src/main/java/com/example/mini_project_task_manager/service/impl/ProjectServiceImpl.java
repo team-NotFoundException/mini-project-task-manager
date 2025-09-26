@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.service.impl;
 
-import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.request.ProjectRequest;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
@@ -19,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -30,77 +28,56 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public ResponseDto<ProjectResponse.ProjectDetailResponse> createProject(UserPrincipal principal, ProjectRequest.ProjectCreateRequest request) {
-
         validateTitle(request.title());
-
         User author = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
         Project project = Project.builder()
                 .title(request.title().trim())
                 .content(request.content())
                 .user(author)
                 .build();
-
         Project saved = projectRepository.save(project);
-
         ProjectResponse.ProjectDetailResponse result = ProjectResponse.ProjectDetailResponse.from(saved);
-
         return ResponseDto.setSuccess("프로젝트가 생성되었습니다.", result);
     }
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getAllProjectsOrderByCreatedAt(String sortedBy) {
         List<Project> projects = projectRepository.findAllProjectsByCreatedAt(sortedBy);
-
         List<ProjectResponse.ProjectSummaryResponse> result = projects.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
-
         if (result.isEmpty()) throw new EntityNotFoundException("프로젝트가 없습니다.");
-
         return ResponseDto.setSuccess("조회 완료", result);
     }
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByAuthorId(Long authorId) {
-
         if (authorId == null || authorId <= 0) throw new IllegalArgumentException("ID는 양수여야 합니다.");
-
         List<Project> projects = projectRepository.findProjectsByAuthorId(authorId);
-
         List<ProjectResponse.ProjectSummaryResponse> result = projects.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
-
         if (result.isEmpty()) throw new IllegalArgumentException("프로젝트가 없습니다.");
-
         return ResponseDto.setSuccess("조회 완료", result);
     }
 
     @Override
     public ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> getProjectsByKeyword(String keyword) {
-
         String clean = (keyword == null) ? "" : keyword.trim();
-
         if (clean.isEmpty()) {
             throw new IllegalArgumentException("검색 키워드는 비어 있을 수 없습니다.");
         }
-
         if (clean.length() > 10) {
             throw new IllegalArgumentException("검색 키워드는 10자 이하여야 합니다.");
         }
-
         var rows = projectRepository.searchProjectsByKeyword(clean);
-
-         List<ProjectResponse.ProjectSummaryResponse> result = rows.stream()
+        List<ProjectResponse.ProjectSummaryResponse> result = rows.stream()
                 .map(ProjectResponse.ProjectSummaryResponse::from)
                 .toList();
-
          if (result.isEmpty()) {
              throw new IllegalArgumentException("일치하는 결과가 없습니다.");
          }
-
         return ResponseDto.setSuccess("조회 완료", result);
     }
 
@@ -108,38 +85,27 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public ResponseDto<ProjectResponse.ProjectDetailResponse> updateProject(UserPrincipal principal, Long projectId, ProjectRequest.@Valid ProjectUpdateRequest request) {
         validateTitle(request.title());
-
         User author = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
         if (projectId == null || projectId <= 0) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
-
         Project project = projectRepository.findProjectById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
-
         project.setTitle(request.title().trim());
         project.setContent(request.content() == null ? "" :request.content().trim());
-
         projectRepository.flush();
         ProjectResponse.ProjectDetailResponse data = ProjectResponse.ProjectDetailResponse.from(project);
-
         return ResponseDto.setSuccess("업데이트 완료", data);
     }
 
     @Override
     @Transactional
     public ResponseDto<Void> deleteProject(UserPrincipal principal, Long projectId) {
-
         User author = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
         if (projectId == null || projectId <= 0) throw new IllegalArgumentException("프로젝트 아이디가 필요합니다.");
-
         Project project = projectRepository.findProjectById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("프로젝트를 찾을 수 없습니다."));
-
         projectRepository.delete(project);
-
         return ResponseDto.setSuccess("프로젝트가 삭제되었습니다.", null);
     }
 

@@ -33,11 +33,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-// C: 권한X -> O
-// R: USER 권한
-// U: USER 권한
-// D: USER 권한
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -52,15 +47,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void signUp(SignRequest.@Valid SingUpRequest req) {
-
         if (userRepository.existsByUsername(req.username())) {
             throw new IllegalArgumentException("이미 사용 중인 로그인 아이디 입니다.");
         }
-
         if (userRepository.existsByEmail(req.email())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일 입니다.");
         }
-
         if (userRepository.existsByNickname(req.nickname())) {
             throw new IllegalArgumentException("이미 사용 중인 닉네임 입니다.");
         }
@@ -73,33 +65,25 @@ public class UserServiceImpl implements UserService {
                 .nickname(req.nickname())
                 .gender(req.gender())
                 .build();
-
         User save = userRepository.save(user);
-
         Role defaultRole = roleRepository.findById(RoleType.USER)
                 .orElseThrow(() -> new IllegalStateException("ROLE USER is not present in roles table"));
-
         save.grantRole(defaultRole);
         userRepository.save(user);
     }
 
-
     @Override
     @Transactional
     public ResponseDto<SignInResponse> signIn(SignRequest.@Valid SignInRequest req) {
-
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.username(), req.password())
         );
         Set<String> roles = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
-
         String accessToken = jwtProvider.generateJwtToken(req.username(), roles);
-
         Claims claims = jwtProvider.getClaims(accessToken);
         long expiresAt = claims.getExpiration().getTime();
-
         SignInResponse response = new SignInResponse(
                 "Bearer",
                 accessToken,
@@ -107,7 +91,6 @@ public class UserServiceImpl implements UserService {
                 req.username(),
                 roles
         );
-
         return ResponseDto.setSuccess("로그인 성공", response);
     }
 
@@ -115,21 +98,17 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal) {
         PrincipalUtils.requiredActive(principal);
-
         User user = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() ->
                         new EntityNotFoundException
                                 ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
-
         UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getNickname(),
                 user.getGender()
-
         );
-
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
@@ -144,7 +123,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new EntityNotFoundException
                                 ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
-
         if (userRepository.existsByNicknameAndIdNot(request.nickname(), user.getId())) {
             return ResponseDto.setFailed("이미 사용 중인 닉네임입니다.");
         }
@@ -154,7 +132,6 @@ public class UserServiceImpl implements UserService {
 
         user.changeProfile(request.nickname(), request.email(), request.gender());
         userRepository.flush();
-
         UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
                 user.getId(),
                 user.getUsername(),
@@ -170,13 +147,10 @@ public class UserServiceImpl implements UserService {
     public void resetPassword(MailRequest.@Valid PasswordReset req) {
         if (!req.newPassword().equals(req.confirmPassword()))
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-
         User user = userRepository.findByEmail(req.email())
                 .orElseThrow(() -> new IllegalStateException("가입된 이메일이 아닙니다."));
         String encoded = passwordEncoder.encode(req.newPassword());
-
         user.changePassword(encoded);
-
         userRepository.save(user);
     }
 

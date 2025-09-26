@@ -70,8 +70,6 @@ public class AdminServiceImpl implements AdminService {
         );
         return ResponseDto.setSuccess("SUCCESS", data);
     }
-
-
 }
 
 

@@ -7,53 +7,48 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public class CommentsResponse {
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        public record CommentResponse(
-                Long id,
-                Long taskId,
-                String content,
-                String author,
-
-                String createdAtKst,
-                String updatedAtKst,
-
-                String createdAtUtcIso,
-                String updatedAtUtcIso
-        ) {
-            public static CommentResponse from(Comment comment) {
-                if (comment == null) return null;
-
-                return new CommentResponse(
-                        comment.getId(),
-                        comment.getTask() != null ? comment.getTask().getId() : null,
-                        comment.getComment(),
-                        comment.getUser() != null ? comment.getUser().getNickname() : null,
-                        DateUtils.toKstString(comment.getCreatedAt()),
-                        DateUtils.toKstString(comment.getUpdatedAt()),
-                        DateUtils.toUtcString(comment.getCreatedAt()),
-                        DateUtils.toUtcString(comment.getUpdatedAt())
-
-                );
-            }
-        }
-
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        public record CommentListResponse(
-                Long taskId,
-                String content,
-                String author
-        ) {
-            public static CommentListResponse from(Comment comment) {
-                if (comment == null) return null;
-
-                return new CommentListResponse(
-                        comment.getTask() != null ? comment.getTask().getId() : null,
-                        comment.getComment(),
-                        comment.getUser() != null ? comment.getUser().getNickname() : null
-                );
-            }
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CommentsResponse {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record CommentResponse(
+            Long id,
+            Long taskId,
+            String content,
+            String author,
+            String createdAtKst,
+            String updatedAtKst,
+            String createdAtUtcIso,
+            String updatedAtUtcIso
+    ) {
+        public static CommentResponse from(Comment comment) {
+            if (comment == null) return null;
+            return new CommentResponse(
+                    comment.getId(),
+                    comment.getTask() != null ? comment.getTask().getId() : null,
+                    comment.getComment(),
+                    comment.getUser() != null ? comment.getUser().getNickname() : null,
+                    DateUtils.toKstString(comment.getCreatedAt()),
+                    DateUtils.toKstString(comment.getUpdatedAt()),
+                    DateUtils.toUtcString(comment.getCreatedAt()),
+                    DateUtils.toUtcString(comment.getUpdatedAt())
+            );
         }
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record CommentListResponse(
+            Long taskId,
+            String content,
+            String author
+    ) {
+        public static CommentListResponse from(Comment comment) {
+            if (comment == null) return null;
+
+            return new CommentListResponse(
+                    comment.getTask() != null ? comment.getTask().getId() : null,
+                    comment.getComment(),
+                    comment.getUser() != null ? comment.getUser().getNickname() : null
+            );
+        }
+    }
+}

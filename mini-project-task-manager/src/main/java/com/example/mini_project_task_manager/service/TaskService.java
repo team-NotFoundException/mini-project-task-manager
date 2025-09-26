@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskService {
-
     ResponseDto<TaskResponse.TaskDetailResponse> createTask(UserPrincipal principal, @Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, TaskRequest.TaskCreateRequest dto);
     ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks(@Positive(message = "projectId는 1 이상이어야 합니다.") Long projectId, Status status, Priority priority, LocalDateTime from, LocalDateTime to, LocalDate dueFrom, LocalDate dueTo);
     ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long projectId, Long taskId);

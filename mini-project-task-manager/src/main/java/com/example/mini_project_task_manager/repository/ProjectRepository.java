@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.repository;
 
-import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
 import com.example.mini_project_task_manager.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,7 +25,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, Project
 		projects.created_at asc
     """, nativeQuery = true)
     List<Project> findProjectsByAuthorId(@Param("author_id") Long author_id);
-
 
     // 키워드 검색 (제목+개요)
     @Query(value = """

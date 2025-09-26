@@ -20,7 +20,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TaskResponse {
-
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public record TaskDetailResponse(
@@ -36,7 +35,6 @@ public class TaskResponse {
             String createdAt,
             String updatedAt
     ) {
-
         public static TaskDetailResponse from(Task task) {
             if (task == null) return null;
 
@@ -47,15 +45,12 @@ public class TaskResponse {
                     .filter(Objects::nonNull)
                     .map(CommentsResponse.CommentListResponse::from)
                     .toList();
-
             Set<TaskTag> tags
                     = task.getTaskTags() != null? task.getTaskTags() : Collections.emptySet();
-
             Set<TaskTagResponse> taskTagsDtos = tags.stream()
                     .filter(Objects::nonNull)
                     .map(TaskTagResponse::from)
                     .collect(Collectors.toSet());
-
             return new TaskDetailResponse(
                     task.getId(),
                     task.getTitle(),
@@ -85,7 +80,6 @@ public class TaskResponse {
     ) {
         public static TaskListResponse from(Task task) {
             if (task == null) return null;
-
             return new TaskListResponse(
                     task.getId(),
                     task.getTitle(),

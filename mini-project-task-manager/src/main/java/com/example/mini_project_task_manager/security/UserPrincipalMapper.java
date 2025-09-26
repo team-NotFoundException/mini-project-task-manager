@@ -38,5 +38,4 @@ public class UserPrincipalMapper {
                 .enabled(true)
                 .build();
     }
-
 }
