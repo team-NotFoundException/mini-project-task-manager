@@ -110,21 +110,32 @@ public class WebSecurityConfig {
 
                             .requestMatchers("/api/v1/auth/**").permitAll()
 
-                            .requestMatchers("/api/v1/users/me/**").authenticated()
+                            .requestMatchers("/api/v1/users/**").authenticated()
+                            .requestMatchers(HttpMethod.PUT, "/api/v1/users/update-profile").authenticated()
+                            .requestMatchers(HttpMethod.GET, "/api/v1/users/update-profile").hasAnyRole("ADMIN")
 
-                            .requestMatchers(HttpMethod.GET, "/api/v1/boards/**").hasAnyRole("USER", "MANAGER", "ADMIN")
-                            .requestMatchers(HttpMethod.POST, "/api/v1/boards/**").hasAnyRole("MANAGER", "ADMIN")
-                            .requestMatchers(HttpMethod.PUT, "/api/v1/boards/**").hasAnyRole("MANAGER", "ADMIN")
-                            .requestMatchers(HttpMethod.DELETE, "/api/v1/boards/**").hasAnyRole("ADMIN")
-                            .requestMatchers(HttpMethod.GET, "/api/v1/articles/**").permitAll()
 
-                            .requestMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasRole("ADMIN")
-                            .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/projects/me/**").authenticated()
 
-                            .requestMatchers(HttpMethod.GET, "/api/v1/stocks/**").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/api/v1/stocks/**").hasAnyRole("ADMIN", "MANAGER")
-                            .requestMatchers(HttpMethod.PUT, "/api/v1/stocks/**").hasAnyRole("ADMIN", "MANAGER")
+                            .requestMatchers(HttpMethod.POST, "/api/v1/projects/**").hasAnyRole("MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/projects/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/api/v1/projects/**").hasAnyRole( "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/api/v1/projects/**").hasAnyRole( "MANAGER", "ADMIN")
+
+                            .requestMatchers(HttpMethod.GET, "/api/v1/tasks/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/api/v1/tasks/**").hasAnyRole( "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/api/v1/tasks/**").hasAnyRole("MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/api/v1/tasks/**").hasAnyRole("MANAGER", "ADMIN")
+
+                            .requestMatchers(HttpMethod.GET, "/api/v1/notifications/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.POST, "/api/v1/notifications/**").hasRole("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/api/v1/notifications/**").hasRole("ADMIN")
+
+                            .requestMatchers(HttpMethod.POST, "/api/v1/tasks/{tasksId}/comments/**").hasAnyRole( "USER", "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/tasks/{tasksId}/comments/**").hasAnyRole( "USER", "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.PUT, "/api/v1/tasks/{tasksId}/comments/**").hasAnyRole( "USER", "MANAGER", "ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/api/v1/tasks/{tasksId}/comments/**").hasAnyRole( "USER", "MANAGER", "ADMIN")
+
                             .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 
                             .anyRequest().authenticated();
