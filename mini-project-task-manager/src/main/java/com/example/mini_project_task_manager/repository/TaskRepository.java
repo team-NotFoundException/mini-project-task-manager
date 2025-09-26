@@ -17,6 +17,14 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
+    // 프로젝트 id로 Task 조회
+    @Query("""
+        select t
+        from Task t
+        where t.project.id = :projectId
+""")
+    List<Task> findTasksByProjectId(Long projectId);
+
     // 전체 할일 조회 +) 상태 / 우선순위 선택여부에 따라 조회
     List<Task> searchTasks(Long projectId, Status status, Priority priority, LocalDateTime fromUtc, LocalDateTime toUtc, LocalDate dueFrom, LocalDate dueTo);
 
@@ -30,7 +38,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 """)
     Optional<Task> findByIdWithTaskTags(@Param("projectId") Long projectId,@Param("id") Long id);
 
-
     // 태그이름으로 태스크 검색
     @Query(value = """
         select t.*
@@ -40,6 +47,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
         where tg.tag_name = :tagName AND t.project_id =:projectId
 """, nativeQuery = true)
     List<Task> findTaskByTagName(@Param("projectId")Long projId,@Param("tagName") String tagName);
-
 }
 

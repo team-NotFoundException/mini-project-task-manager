@@ -11,6 +11,7 @@ import com.example.mini_project_task_manager.entity.TaskTag;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -29,10 +30,11 @@ public class TaskResponse {
             String author,
             Status status,
             Priority priority,
+            LocalDate dueDate,
             Set<TaskTagResponse> tags,
             List<CommentsResponse.CommentListResponse> comments,
-            String createdAtKst,
-            String updatedAtKst
+            String createdAt,
+            String updatedAt
     ) {
 
         public static TaskDetailResponse from(Task task) {
@@ -61,6 +63,7 @@ public class TaskResponse {
                     task.getUser() != null ? task.getUser().getNickname() : null,
                     task.getStatus(),
                     task.getPriority(),
+                    task.getDueDate(),
                     taskTagsDtos,
                     commentDtos,
                     DateUtils.toKstString(task.getCreatedAt()),
@@ -74,10 +77,11 @@ public class TaskResponse {
     public record TaskListResponse(
             Long id,
             String title,
-            Status status,
             String author,
+            Status status,
             Priority priority,
-            String createdAtKst
+            LocalDate dueDate,
+            String createdAt
     ) {
         public static TaskListResponse from(Task task) {
             if (task == null) return null;
@@ -85,9 +89,10 @@ public class TaskResponse {
             return new TaskListResponse(
                     task.getId(),
                     task.getTitle(),
-                    task.getStatus(),
                     task.getUser().getNickname(),
+                    task.getStatus(),
                     task.getPriority(),
+                    task.getDueDate(),
                     DateUtils.toKstString(task.getCreatedAt())
             );
         }
