@@ -1,43 +1,172 @@
-# 📌 Mini Project Task Manager
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=rounded&color=c8cbe5&height=180&text=Mini%20Project%20Task%20Manager&animation=fadeIn&fontColor=000000&fontSize=60" />
+</div>
+
+---
+
+## 🚀 프로젝트 개요
 
 팀 프로젝트 협업을 위한 **웹 기반 프로젝트 & 태스크 관리 시스템**입니다.  
-사용자는 역할(Role)에 따라 프로젝트 생성, 태스크 관리, 댓글/공지 작성 등 다양한 기능을 수행할 수 있습니다.  
-본 프로젝트는 **권한(Role) 기반 접근 제어**를 통해 안전하고 체계적인 Task Manager 환경을 제공합니다.  
+권한(Role)에 따라 기능 접근이 제어되며, 효율적이고 안전한 협업 환경을 제공합니다.
+
+---
+<h3 align="center">👑 역할별 권한</h3>
+
+<div align="center">
+
+<table>
+<tr>
+  <td align="center" bgcolor="#f8d7da" width="220" style="padding:15px; border-radius:15px;">
+    <h3>ADMIN</h3>
+    <p align="left">- 프로젝트 생성<br/>
+       - 태스크 등록/관리<br/>
+       - 댓글 및 공지 작성<br/>
+       - 권한 부여 가능
+    </p>
+  </td>
+  <td align="center" bgcolor="#fff3cd" width="220" style="padding:15px; border-radius:15px;">
+    <h3>MANAGER</h3>
+    <p align="left">
+       - 프로젝트 생성<br/>
+       - 태스크 등록/관리<br/>
+       - 댓글 작성 가능
+    </p>
+  </td>
+  <td align="center" bgcolor="#d1ecf1" width="220" style="padding:15px; border-radius:15px;">
+    <h3>USER</h3>
+    <p align="left">
+       - 프로젝트 및 태스크 조회<br/>
+       - 댓글 작성 가능<br/>
+    </p>
+  </td>
+</tr>
+</table>
+
+</div>
+
+<hr/>
+
+<h3 align="center">🛠 주요 기능</h3>
+
+<div align="center">
+
+<table>
+<tr>
+  <td align="center" bgcolor="#e2e3e5" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
+    🔐 <b>회원가입 & 로그인</b><br/>
+    JWT 기반 인증
+  </td>
+  <td align="center" bgcolor="#fce5cd" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
+    📁 <b>프로젝트 관리</b><br/>
+    프로젝트 생성 및 관리
+  </td>
+  <td align="center" bgcolor="#d4edda" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
+    ✅ <b>태스크 관리</b><br/>
+    등록, 수정, 삭제, 조회
+  </td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#f8d7da" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
+    💬 <b>댓글 & 공지 작성</b><br/>
+    팀원 간 소통
+  </td>
+  <td align="center" bgcolor="#fff3cd" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
+    🏷️ <b>태그 기반 분류</b><br/>
+    필터링 및 관리
+  </td>
+  <td align="center" bgcolor="#d1ecf1" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
+    🔑 <b>권한 기반 접근 제어</b><br/>
+    USER / MANAGER / ADMIN
+  </td>
+</tr>
+</table>
+
+</div>
+
+
 
 ---
 
-## 🚀 개요
+<h3 align="center">🛠 Tech Stacks</h3>
 
-- **ADMIN**: 프로젝트 생성, 태스크 등록/관리, 댓글 및 공지 작성, 권한 부여 가능
-- **MANAGER**: 프로젝트 생성, 태스크 등록/관리, 댓글 작성 가능  
-- **USER**: 프로젝트 및 태스크 조회, 댓글 작성 가능  
-
----
-
-## 🛠 주요 기능
-
-- 회원가입 및 로그인 (**JWT 기반 인증**)  
-- 프로젝트 생성 및 관리  
-- Task 등록, 수정, 삭제 및 조회  
-- 댓글 및 공지 작성  
-- 태그(Tag) 기반 태스크 분류  
-- 권한(Role) 기반 접근 제어 (**USER / MANAGER / ADMIN**)  
+<div align="center" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10;">
+  <img src="https://img.shields.io/badge/Github-181717?style=flat-square&logo=Github&logoColor=white" alt="Github"/>
+  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white" alt="Git"/>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white" alt="MySQL"/>
+  <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white" alt="Spring Boot"/>
+</div>
 
 ---
 
-## ⚙️ 기술 스택
+<h3 align="center">🏅 Stats</h3>
 
-### Backend
-- **Java 17**
-- **Spring Boot**
-- **Spring Security + JWT**
-- **JPA (Hibernate)**
-- **MySQL**
+<table width="100%" align = "center">
+<tr>
+  <th>팀원</th>
+  <th>GitHub Stats</th>
+  <th>Top Languages</th>
+</tr>
+
+<tr>
+  <td align="center">
+    <a href="https://github.com/Kitbomin" target="_blank" >
+      <img src="https://avatars.githubusercontent.com/u/127817110?v=4" width="100" border-radius="50%"/><br/>
+      Kitbomin
+    </a>
+  </td>
+  <td><img src="https://github-readme-stats.vercel.app/api?username=Kitbomin&custom_title=Kitbomin's%20Github%20Stat&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+  <td><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Kitbomin&layout=compact&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+</tr>
+
+<tr>
+  <td align="center">
+    <a href="https://github.com/untilthe-end" target="_blank">
+      <img src="https://avatars.githubusercontent.com/u/156649739?v=4" width="100" border-radius="50%"/><br/>
+      untilthe-end
+    </a>
+  </td>
+  <td><img src="https://github-readme-stats.vercel.app/api?username=untilthe-end&custom_title=untilthe-end's%20Github%20Stat&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+  <td><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=untilthe-end&layout=compact&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+</tr>
+
+<tr>
+  <td align="center">
+    <a href="https://github.com/ehdgn" target="_blank">
+      <img src="https://avatars.githubusercontent.com/u/181971909?v=4" width="100" border-radius="50%"/><br/>
+      ehdgn
+    </a>
+  </td>
+  <td><img src="https://github-readme-stats.vercel.app/api?username=ehdgn&custom_title=ehdgn's%20Github%20Stat&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+  <td><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=ehdgn&layout=compact&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+</tr>
+
+<tr>
+  <td align="center">
+    <a href="https://github.com/kim-se-hoon" target="_blank">
+      <img src="https://avatars.githubusercontent.com/u/219491357?v=4" width="100" border-radius="50%"><br/>
+      kim-se-hoon
+    </a>
+  </td>
+  <td><img src="https://github-readme-stats.vercel.app/api?username=kim-se-hoon&custom_title=kim-se-hoon's%20Github%20Stat&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+  <td><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=kim-se-hoon&layout=compact&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+</tr>
+
+<tr>
+  <td align="center">
+    <a href="https://github.com/AnyEveryDays" target="_blank">
+      <img src="https://avatars.githubusercontent.com/u/220152328?v=4" width="100" border-radius="50%"/><br/>
+      AnyEveryDays
+    </a>
+  </td>
+  <td><img src="https://github-readme-stats.vercel.app/api?username=AnyEveryDays&custom_title=AnyEveryDays's%20Github%20Stat&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+  <td><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=AnyEveryDays&layout=compact&bg_color=180,ffffff,&title_color=000000&text_color=000000" width="100%"/></td>
+</tr>
+</table>
+
 
 ---
 
 ## 🗄 데이터베이스 구조
-
 본 프로젝트는 **MySQL** 기반으로, 총 **9개 주요 테이블**로 구성됩니다.  
 
 - **users** – 사용자 계정 정보  
