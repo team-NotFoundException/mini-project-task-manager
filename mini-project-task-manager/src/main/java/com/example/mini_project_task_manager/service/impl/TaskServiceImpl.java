@@ -79,6 +79,9 @@ public class TaskServiceImpl implements TaskService {
         LocalDateTime toUtc = DateUtils.kstToUtc(to);
         List<Task> tasks;
 
+        projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
+
         if (status != null || priority != null || from != null || to != null
                 || dueFrom != null || dueTo != null) {
             tasks = taskRepository.searchTasks(projectId, status, priority, fromUtc, toUtc, dueFrom, dueTo);

@@ -32,8 +32,10 @@ public class TaskResponse {
             LocalDate dueDate,
             Set<TaskTagResponse> tags,
             List<CommentsResponse.CommentListResponse> comments,
-            String createdAt,
-            String updatedAt
+            String createdAtKst,
+            String updatedAtKst,
+            String createdUtcIso,
+            String updatedUtcIso
     ) {
         public static TaskDetailResponse from(Task task) {
             if (task == null) return null;
@@ -62,7 +64,9 @@ public class TaskResponse {
                     taskTagsDtos,
                     commentDtos,
                     DateUtils.toKstString(task.getCreatedAt()),
-                    DateUtils.toKstString(task.getUpdatedAt())
+                    DateUtils.toKstString(task.getUpdatedAt()),
+                    DateUtils.toUtcString(task.getCreatedAt()),
+                    DateUtils.toUtcString(task.getUpdatedAt())
             );
         }
     }
