@@ -13,6 +13,7 @@ import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.naming.AuthenticationException;
 import java.nio.file.AccessDeniedException;
@@ -112,5 +113,11 @@ public class GlobalExceptionHandler {
 //        log.warn("Validation failed: {}", e.getMessage());
 //        return fail(ErrorCode.VALIDATION_ERROR, e.getMessage(), null);
 //    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ResponseDto<Object>> handleTypeMismatch(MethodArgumentTypeMismatchException e) {
+        log.warn("Type Mismatch: {}", e.getMessage());
+        return fail(ErrorCode.BAD_REQUEST, "잘못된 타입의 값이 입력되었습니다 다시 확인해주세요", null);
+    }
 
 }

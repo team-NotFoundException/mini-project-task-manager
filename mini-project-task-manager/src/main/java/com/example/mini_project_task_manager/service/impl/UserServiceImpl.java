@@ -144,6 +144,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new EntityNotFoundException
                                 ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
+
+        if (userRepository.existsByNicknameAndIdNot(request.nickname(), user.getId())) {
+            return ResponseDto.setFailed("이미 사용 중인 닉네임입니다.");
+        }
+        if (userRepository.existsByEmailAndIdNot(request.email(), user.getId())) {
+            return ResponseDto.setFailed("이미 사용 중인 이메일입니다.");
+        }
+
         user.changeProfile(request.nickname(), request.email(), request.gender());
         userRepository.flush();
 

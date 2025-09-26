@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record UserProfileUpdateRequest (
-        @NotBlank(message = "닉네임을 입력해주세요") @Size(min = 1, max = 16)
+        @NotBlank @Size(min = 1, max = 16)
         String nickname,
         @NotBlank @Email String email,
         Gender gender

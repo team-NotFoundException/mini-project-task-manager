@@ -51,4 +51,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
           @Param("nickname") String nickname,
           @Param("email") String email
   );
+
+  boolean existsByNicknameAndIdNot(@NotBlank(message = "공백일 수 없습니다.") @Size(min = 1, max = 16) String nickname, Long id);
+
+  boolean existsByEmailAndIdNot(@NotBlank @Email String email, Long id);
 }

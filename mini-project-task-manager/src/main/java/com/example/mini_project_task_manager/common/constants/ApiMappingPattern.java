@@ -8,14 +8,17 @@ public class ApiMappingPattern {
     public static final class Auth{
         private Auth() {}
         public static final String ROOT = BASE + "/auth";
-        public static final String SIGN_UP = ROOT + "/sign-up";
-        public static final String SIGN_IN = ROOT + "/sign-in";
+        public static final String SIGN_UP =  "/sign-up";
+        public static final String SIGN_IN =  "/sign-in";
+        public static final String SEND_EMAIL =  "/send-email";
+        public static final String VERIFY =  "/verify";
     }
 
     public static final class Users {
         private Users() {}
         public static final String ROOT = BASE + "/users";
-        public static final String MY_PROFILE = ROOT + "/me";
+        public static final String MY_PROFILE =  "/my-profile";
+        public static final String UPDATE_PROFILE =  "/update-profile";
     }
 
     public static final class Projects {
@@ -25,7 +28,7 @@ public class ApiMappingPattern {
         public static final String MY_PROJECT = "/me/{authorId}";
         public static final String SEARCH = "/search";
         public static final String BY_ID = "/{projectId}";
-        public static final String PROJECT_TAG = "/{projectId}/tag";
+//        public static final String PROJECT_TAG = "/{projectId}/tag";
     }
 
     public static final class Tasks {
@@ -40,8 +43,8 @@ public class ApiMappingPattern {
         public static final String FROM_TASK = "/tasks/{taskId}/tags";
         public static final String FROM_TAG = "tags";
         public static final String TASK_TAG = FROM_TASK + "/{tagId}";
-        public static final String TAG_ID = "/tagId/{tagId}";
-        public static final String TAG_NAME = "/task/{tagName}";
+        public static final String TAG_ID = "/tags/{tagId}";
+//        public static final String TAG_NAME = "/task/{tagName}";
     }
 
     public static final class Notifications {
@@ -62,7 +65,7 @@ public class ApiMappingPattern {
     public static final class Admin {
         private Admin () {}
         public static final String ROOT = BASE + "/admin";
-        public static final String USERS = ROOT + "/users";
+//        public static final String USERS = ROOT + "/users";
         public static final String ADD_ROLE=  "/roles/add";
         public static final String REMOVE_ROLE=  "/roles/remove";
     }

@@ -1,6 +1,7 @@
 package com.example.mini_project_task_manager.controller;
 
 
+import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.user.request.UserProfileUpdateRequest;
 import com.example.mini_project_task_manager.dto.user.response.UserProfileResponse;
@@ -14,13 +15,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(ApiMappingPattern.Users.ROOT)
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/my_profile")
+    @GetMapping(ApiMappingPattern.Users.MY_PROFILE)
     public ResponseEntity<
             ResponseDto<UserProfileResponse.MyPageResponse>> getMyInfo(@AuthenticationPrincipal UserPrincipal principal
             ) {
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @PutMapping("/update-profile")
+    @PutMapping(ApiMappingPattern.Users.UPDATE_PROFILE)
     public ResponseEntity<ResponseDto<UserProfileResponse.MyPageResponse>> updateMyInfo(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody UserProfileUpdateRequest request
