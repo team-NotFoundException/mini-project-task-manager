@@ -3,6 +3,7 @@ package com.example.mini_project_task_manager.dto.task.request;
 import com.example.mini_project_task_manager.common.enums.Priority;
 import com.example.mini_project_task_manager.common.enums.Status;
 import com.example.mini_project_task_manager.entity.Tag;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,6 +24,7 @@ public class TaskRequest {
             String content,
 
             @NotNull(message = "마감기한을 작성해주세요.")
+            @FutureOrPresent(message = "마감일은 오늘 이후로 설정해야 합니다.")
             LocalDate dueDate,
 
             Priority priority,
@@ -41,6 +43,7 @@ public class TaskRequest {
             String content,
 
             @NotNull(message = "마감기한을 작성해주세요.")
+            @FutureOrPresent(message = "마감일은 오늘 이후로 설정해야 합니다.")
             LocalDate dueDate,
 
             Priority priority,

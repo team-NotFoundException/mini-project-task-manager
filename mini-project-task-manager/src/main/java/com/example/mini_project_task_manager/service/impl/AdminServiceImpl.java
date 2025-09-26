@@ -8,70 +8,68 @@ import com.example.mini_project_task_manager.entity.Role;
 import com.example.mini_project_task_manager.entity.User;
 import com.example.mini_project_task_manager.repository.RoleRepository;
 import com.example.mini_project_task_manager.repository.UserRepository;
-import com.example.mini_project_task_manager.repository.UserRoleRepository;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.AdminService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class AdminServiceImpl implements AdminService {
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-
-    @Override
-    public ResponseDto<AdminAuthRoleResponse.UpdateRolesResponse> usersRoles(
-            UserPrincipal principal, AdminAuthRoleRequest.@Valid UpdateRolesRequest req
-    ) {
-        User user = userRepository.findWithRolesByUsername(String.valueOf(req.username()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 username이 없습니다."));
-
-        user.getUserRoles().clear();
-
-        userRepository.flush();
-
-        AdminAuthRoleResponse.UpdateRolesResponse data = new AdminAuthRoleResponse.UpdateRolesResponse(
-                user.getUsername(),
-                user.getPassword(),
-                Set.copyOf(user.getRoleTypes()),
-                user.getUpdatedAt()
-        );
-
-        return ResponseDto.setSuccess("SUCCESS",data);
-
-    }
-
+    // 여러 권한 추가
     @Override
     @Transactional
-    public ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> managerRoles(
-            UserPrincipal principal, AdminAuthRoleRequest.@Valid RemoveRoleRequest req) {
-        User user = userRepository.findWithRolesByUsername(String.valueOf(req.username()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 username의 사용자가 없습니다"));
+    public ResponseDto<AdminAuthRoleResponse.AddRoleResponse> addRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid AddRoleRequest req) {
+        User user = userRepository.findByUsername(req.username())
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저의 사용자가 없습니다."));
         Role role = roleRepository.findById(req.role())
-                .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없어요."));
 
-        user.revokeRole(role);
+        user.grantRole(role);
 
         userRepository.flush();
-        if (user.getUserRoles().isEmpty()) {
-            user.grantRole(roleRepository.getReferenceById(RoleType.USER));
-        }
 
-        AdminAuthRoleResponse.RemoveRoleResponse date = new AdminAuthRoleResponse.RemoveRoleResponse(
+        AdminAuthRoleResponse.AddRoleResponse data = new AdminAuthRoleResponse.AddRoleResponse(
                 user.getUsername(),
-                user.getPassword(),
                 req.role(),
                 Set.copyOf(user.getRoleTypes()),
                 user.getUpdatedAt()
         );
-        return ResponseDto.setSuccess("SUCCESS", date);
+        return ResponseDto.setSuccess("SUCCESS", data);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto<AdminAuthRoleResponse.RemoveRoleResponse> removeRoles(UserPrincipal principal, AdminAuthRoleRequest.@Valid RemoveRoleRequest req) {
+        User user = userRepository.findByUsername(req.username())
+                .orElseThrow(() -> new EntityNotFoundException("해당 유저의 사용자가 없어요"));
+        Role role = roleRepository.findById(req.role())
+                .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없어요"));
+        user.revokeRole(role);
+
+        userRepository.flush();
+
+        if (user.getUserRoles().isEmpty()) {
+            user.grantRole(roleRepository.getReferenceById(RoleType.USER));
+        }
+
+        AdminAuthRoleResponse.RemoveRoleResponse data = new AdminAuthRoleResponse.RemoveRoleResponse(
+                user.getUsername(),
+                req.role(),
+                Set.copyOf(user.getRoleTypes()),
+                user.getUpdatedAt()
+        );
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 }
+
+

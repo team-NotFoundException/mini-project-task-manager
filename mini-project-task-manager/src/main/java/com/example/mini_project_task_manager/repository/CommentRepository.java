@@ -9,19 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentsRepository extends JpaRepository<Comment, Long> {
-    public interface CommentListProjection {
-
-        Long getId();
-        String Content();
-        String getAuthor();
-    }
+public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     // keyword가 포함된 댓글 찾기
     @Query(value = """
         select 
-            id          as commentId,
-            content
+            *
         from comments
             where content like concat('%', :searchKeyword, '%') 
             order by content desc
@@ -31,12 +24,20 @@ public interface CommentsRepository extends JpaRepository<Comment, Long> {
     // 입력한 작성자와 일치하는 작성자의 모든 댓글 가져오기
     @Query(value = """
         select 
-            content     as content,
-            author_name as authorName
+            c.*
         from comments c left join users u
-            on c.authorId = u.userId 
-            where auth like concat('%', :author, '%')
-            order by author desc
+            on c.author_id = u.id 
+            where u.nickname like concat('%', :author, '%')
+            order by u.nickname desc
 """,nativeQuery = true)
     List<Comment> findByAuthor(@Param("author") String author);
+
+    // Task에서 comment 불러오기
+    @Query("""
+        select c
+        from Comment c
+        where c.task.id = :taskId
+        order by c.createdAt desc
+""")
+    List<Comment> findByTaskId(@Param("taskId") Long taskId);
 }

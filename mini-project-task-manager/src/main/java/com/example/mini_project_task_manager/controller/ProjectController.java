@@ -2,13 +2,13 @@ package com.example.mini_project_task_manager.controller;
 
 
 import com.example.mini_project_task_manager.common.constants.ApiMappingPattern;
+import com.example.mini_project_task_manager.common.enums.Sorted;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.project.request.ProjectRequest;
 import com.example.mini_project_task_manager.dto.project.response.ProjectResponse;
 import com.example.mini_project_task_manager.security.UserPrincipal;
 import com.example.mini_project_task_manager.service.ProjectService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,6 @@ import java.util.List;
 public class ProjectController {
     private final ProjectService projectService;
 
-    // 1) 프로젝트 생성
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> createProject(
@@ -36,17 +35,15 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // 2) 프로젝트 조회 (전체 조회 - 내림차순/오름차순)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.SORTED)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAt(
-            @RequestParam("sortedBy") boolean sortedBy
+            @RequestParam("sortedBy") String sortedBy
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAt(sortedBy);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 3) 프로젝트 조회 (작성자 id로 조회)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.MY_PROJECT)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByAuthorId(
@@ -56,30 +53,26 @@ public class ProjectController {
         return ResponseEntity.ok().body(response);
     }
 
-
-    // 4) 프로젝트 검색 (키워드로 검색)
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.SEARCH)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getProjectsByKeyword(
-            @RequestParam("keyword") @NotBlank(message = "검색 키워드를 입력해주세요.") String keyword
+            @RequestParam("keyword") String keyword
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getProjectsByKeyword(keyword);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // 5) 프로젝트 수정
     @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
     @PutMapping(ApiMappingPattern.Projects.BY_ID)
     public ResponseEntity<ResponseDto<ProjectResponse.ProjectDetailResponse>> updateProject(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable("projectId") @Positive(message = "projectId는 1이상이어야 합니다.") Long projectId,
-            @Valid @RequestBody ProjectRequest.ProjectUpdateRequest request
+            @RequestBody ProjectRequest.ProjectUpdateRequest request
             ) {
         ResponseDto<ProjectResponse.ProjectDetailResponse> response = projectService.updateProject(principal, projectId, request);
         return ResponseEntity.ok().body(response);
     }
 
-    // 6) 프로젝트 삭제
     @PreAuthorize(("hasAnyRole('MANAGER', 'ADMIN')"))
     @DeleteMapping(ApiMappingPattern.Projects.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteProject(

@@ -4,7 +4,6 @@ import com.example.mini_project_task_manager.common.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-// 엔티티 설계 완료
 @Entity
 @Table(name = "roles")
 @Getter
@@ -13,7 +12,6 @@ public class Role {
     @Id @Enumerated(EnumType.STRING)
     @Column(name = "role_name", length = 30, nullable = false)
     private RoleType name;
-
     public Role(RoleType name) {
         this.name = name;
     }

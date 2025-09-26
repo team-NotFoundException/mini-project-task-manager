@@ -14,13 +14,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-// 엔티티 설계 완료
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
-            @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
-            @UniqueConstraint(name = "uq_users_email", columnNames = "email"),
-            @UniqueConstraint(name = "uq_users_nickname", columnNames = "nickname")
+                @UniqueConstraint(name = "uq_users_username", columnNames = "username"),
+                @UniqueConstraint(name = "uq_users_email", columnNames = "email"),
+                @UniqueConstraint(name = "uq_users_nickname", columnNames = "nickname")
         }
 )
 @Getter
@@ -48,17 +47,10 @@ public class User extends BaseTimeEntity {
     @Column(name = "nickname", nullable = false, length = 50)
     private String nickname;
 
-
-    // ===== Enum 작성 ==== //
-    // 태경님이 Enum 만드시면 import 할 것
-
     /** 성별 (선택, NULL 허용) */
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", length = 20)
     private Gender gender;
-
-//    private Set<RoleType> roles = new HashSet<>();
-
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles = new HashSet<>();
@@ -73,25 +65,25 @@ public class User extends BaseTimeEntity {
         this.gender = gender;
     }
 
-
     public void changePassword(String password) {
         this.password = password;
     }
 
-    public void changeProfile(String nickname, Gender gender) {
+    public void changeProfile(String nickname,String email, Gender gender) {
         this.nickname = nickname;
+        this.email = email;
         this.gender = gender;
     }
 
-        /** 권한 부여/회수 편의 메서드 */
-         public void grantRole (Role role) {
-             boolean exists = userRoles.stream().allMatch(ur -> ur.getRole().equals(role));
-             if (!exists) {
-
-                 userRoles.add(new UserRole(this, role));
-             }
-         }
-         public void revokeRole(Role role) {
+    /** 권한 부여/회수 편의 메서드 */
+    public void grantRole (Role role) {
+        boolean exists = userRoles.stream().anyMatch(ur -> ur.getRole().equals(role));
+        if (!exists) {
+            UserRole ur = new UserRole(this, role);
+            this.userRoles.add(ur);
+        }
+    }
+    public void revokeRole(Role role) {
         userRoles.removeIf(userRole -> userRole.getRole().equals(role));
     }
     public Set<RoleType> getRoleTypes() {

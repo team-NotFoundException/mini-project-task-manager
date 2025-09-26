@@ -11,9 +11,8 @@ public record TaskTagResponse (
 ){
     public static TaskTagResponse from(TaskTag taskTag) {
         if (taskTag == null) return null;
-
         return new TaskTagResponse(
-               taskTag.getTag().getTag_name()
+               taskTag.getTag().getTagName()
         );
     }
 }

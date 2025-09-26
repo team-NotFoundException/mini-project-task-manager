@@ -7,12 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-/**
- * == 복합키 (task_tags PK) ==
- * : task_id + tag_name
- * */
 
-// 엔티티 설계 완료
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,7 +18,6 @@ public class TaskTagId implements Serializable {
 
     @Column(name = "tag_id", length = 30, nullable = false)
     private Long tagId;
-
     public TaskTagId(Long taskId, Long tagId) {
         this.taskId = taskId;
         this.tagId = tagId;

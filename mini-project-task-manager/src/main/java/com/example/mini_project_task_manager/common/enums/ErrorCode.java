@@ -1,6 +1,5 @@
 package com.example.mini_project_task_manager.common.enums;
 
-
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {

@@ -12,7 +12,6 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
@@ -21,7 +20,6 @@ public class MailServiceImpl implements MailService {
     @Value("${spring.mail.username}")
     private String senderEmail;
     private final JwtProvider jwtProvider;
-
 
     private MimeMessage createEmail(String email, String token) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -52,14 +50,11 @@ public class MailServiceImpl implements MailService {
             System.out.println("이메일 전송 실패: " + e.getMessage());
             throw new RuntimeException("이메일 전송 실패", e);
         }
-
     }
-
 
     @Override
     public void verifyEmail(String token) {
         String email = jwtProvider.getEmailFromJwt(token);
         System.out.println("이메일 인증이 완료되었습니다. 이메일: " + email);
     }
-
 }

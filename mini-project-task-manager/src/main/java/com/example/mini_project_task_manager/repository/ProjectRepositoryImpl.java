@@ -5,10 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
@@ -16,29 +13,28 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     private EntityManager em;
 
     @Override
-    public List<Project> findAllProjectsByCreatedAt(boolean sortedBy) {
+    public List<Project> findAllProjectsByCreatedAt(String sortedBy) {
 
         StringBuilder jpql = new StringBuilder(
-            "SELECT DISTINCT p.id, p.title, u.nickname, p.createdAt" +
-            "FROM Project p" +
-                    "LEFT JOIN p.user u" +
-                    "ON p.user.id = u.id" +
+            "SELECT DISTINCT p " +
+            "FROM Project p " +
+                    "JOIN FETCH p.user u " +
             "WHERE 1 = 1"
         );
 
-        Map<String, Object> params = new HashMap<>();
+        String clean = (sortedBy == null) ? "DESC" : sortedBy;
 
-        if (!sortedBy) {
+        if (clean.equals("ASC")) {
             jpql.append("ORDER BY p.createdAt asc");
+        } else if (clean.equals("DESC")){
+            jpql.append("ORDER BY p.createdAt desc");
+        } else if (clean.equals("UPDATE")) {
+            jpql.append("ORDER BY p.updatedAt desc");
         } else {
             jpql.append("ORDER BY p.createdAt desc");
         }
 
         TypedQuery<Project> query = em.createQuery(jpql.toString(), Project.class);
-
-        for (Map.Entry<String , Object> entry : params.entrySet()) {
-            query.setParameter(entry.getKey(), entry.getValue());
-        }
 
         List<Project> results = query.getResultList();
 
