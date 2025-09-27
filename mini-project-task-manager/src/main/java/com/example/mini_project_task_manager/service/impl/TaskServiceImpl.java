@@ -56,7 +56,7 @@ public class TaskServiceImpl implements TaskService {
         if (dto.tagNames() != null && !dto.tagNames().isEmpty()) {
             for (String tagName : dto.tagNames()) {
                 if (tagName == null || tagName.isBlank()) continue;
-                String trimmedName = tagName.replaceAll("\\s+", "");
+                String trimmedName = tagName.replaceAll("\\s", "");
                 Tag tag = existingTags.stream()
                         .filter(t -> t.getTagName().equals(trimmedName))
                         .findFirst()
