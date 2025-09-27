@@ -82,6 +82,11 @@ public class TaskServiceImpl implements TaskService {
         projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
 
+        tasks = taskRepository.findTasksByProjectId(projectId);
+        if (tasks == null || tasks.isEmpty()){
+            throw new EntityNotFoundException("해당 projectId의 Task를 찾을 수 없습니다.");
+        }
+
         if (status != null || priority != null || from != null || to != null
                 || dueFrom != null || dueTo != null) {
             tasks = taskRepository.searchTasks(projectId, status, priority, fromUtc, toUtc, dueFrom, dueTo);
@@ -89,12 +94,7 @@ public class TaskServiceImpl implements TaskService {
                 throw new EntityNotFoundException("원하는 조건에 맞는 Task를 찾을 수 없습니다.");
             }
         }
-        else {
-            tasks = taskRepository.findTasksByProjectId(projectId);
-            if (tasks == null || tasks.isEmpty()) {
-                throw new EntityNotFoundException("해당 projectId의 Task를 찾을 수 없습니다.");
-            }
-        }
+
         List<TaskResponse.TaskListResponse> result = tasks.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
@@ -132,7 +132,7 @@ public class TaskServiceImpl implements TaskService {
                 ? Collections.emptySet()
                 : dto.tagNames().stream()
                 .filter(name -> name != null && !name.isBlank())
-                .map(name -> name.replaceAll("\\s+", ""))
+                .map(name -> name.replaceAll("\\s", ""))
                 .collect(Collectors.toSet());
 
         for (TaskTag oldTaskTag : new HashSet<>(task.getTaskTags())) {
