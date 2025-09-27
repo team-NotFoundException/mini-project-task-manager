@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=rounded&color=c8cbe5&height=180&text=Mini%20Project%20Task%20Manager&animation=fadeIn&fontColor=000000&fontSize=60" />
+  <img src="https://capsule-render.vercel.app/api?type=rounded&color=c8cbe5&height=170&text=Mini%20Project%20Task%20Manager&animation=fadeIn&fontColor=000000&fontSize=60" />
 </div>
 
 ---
@@ -16,28 +16,24 @@
 
 <table>
 <tr>
-  <td align="center" bgcolor="#f8d7da" width="220" style="padding:15px; border-radius:15px;">
-    <h3>ADMIN</h3>
-    <p align="left">- 프로젝트 생성<br/>
-       - 태스크 등록/관리<br/>
-       - 댓글 및 공지 작성<br/>
-       - 권한 부여 가능
-    </p>
+  <td width="220" valign="top" align="left">
+    <h3 align="center">ADMIN</h3>
+    &emsp;&emsp;- 프로젝트 생성<br/>
+    &emsp;&emsp;- 태스크 등록/관리<br/>
+    &emsp;&emsp;- 댓글 및 공지 작성<br/>
+    &emsp;&emsp;- 권한 부여
   </td>
-  <td align="center" bgcolor="#fff3cd" width="220" style="padding:15px; border-radius:15px;">
-    <h3>MANAGER</h3>
-    <p align="left">
-       - 프로젝트 생성<br/>
-       - 태스크 등록/관리<br/>
-       - 댓글 작성 가능
-    </p>
+  <td width="220" valign="top" align="left">
+    <h3 align="center">MANAGER</h3>
+    &emsp;&emsp;- 프로젝트 생성<br/>
+    &emsp;&emsp;- 태스크 등록/관리<br/>
+    &emsp;&emsp;- 댓글 작성
   </td>
-  <td align="center" bgcolor="#d1ecf1" width="220" style="padding:15px; border-radius:15px;">
-    <h3>USER</h3>
-    <p align="left">
-       - 프로젝트 및 태스크 조회<br/>
-       - 댓글 작성 가능<br/>
-    </p>
+  <td width="220" valign="top" align="left">
+    <h3 align="center">USER</h3>
+    &emsp;&emsp;- 프로젝트 조회<br/>
+    &emsp;&emsp;- 태스크 조회<br/>
+    &emsp;&emsp;- 댓글 작성<br/>
   </td>
 </tr>
 </table>
@@ -76,7 +72,7 @@
   </td>
   <td align="center" bgcolor="#d1ecf1" width="220" style="padding:15; border-radius:15; box-shadow: 2 2 5 (0,0,0,0.1);">
     🔑 <b>권한 기반 접근 제어</b><br/>
-    USER / MANAGER / ADMIN
+    USER&nbsp;/&nbsp;MANAGER&nbsp;/&nbsp;ADMIN
   </td>
 </tr>
 </table>
