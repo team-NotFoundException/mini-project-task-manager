@@ -53,24 +53,28 @@ public class CommentServiceImpl implements CommentService {
             return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요");
         }
 
+        List<CommentsResponse.CommentListResponse> data = null;
+
         List<Comment> comments
                 = commentsRepository.findByCommentKeyword(keyword);
 
-        List<CommentsResponse.CommentListResponse> result = comments.stream()
+        data = comments.stream()
                 .map(CommentsResponse.CommentListResponse::from).toList();
 
-        return ResponseDto.setSuccess("SUCCESS", result);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     public ResponseDto<List<CommentsResponse.CommentListResponse>> getCommentsByAuthor(String author) {
+        List<CommentsResponse.CommentListResponse> data = null;
+
         List<Comment> comments
                 = commentsRepository.findByAuthor(author);
 
-        List<CommentsResponse.CommentListResponse> result = comments.stream()
+        data = comments.stream()
                 .map(CommentsResponse.CommentListResponse::from).toList();
 
-        return ResponseDto.setSuccess("SUCCESS", result);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
