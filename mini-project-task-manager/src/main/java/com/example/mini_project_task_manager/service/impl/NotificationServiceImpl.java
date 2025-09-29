@@ -49,12 +49,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getAllNotifications() {
-        List<NotificationsResponse.NotificationListResponse> notifications
-                = notificationRepository.findAll().stream()
+        List<NotificationsResponse.NotificationListResponse> data = null;
+
+        data = notificationRepository.findAll().stream()
                 .map(NotificationsResponse.NotificationListResponse::from)
                 .toList();
 
-        return ResponseDto.setSuccess("SUCCESS", notifications);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
@@ -75,17 +76,18 @@ public class NotificationServiceImpl implements NotificationService {
     public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getNotificationByKeyword(String keyword) {
         if (keyword == null) throw new IllegalArgumentException("키워드는 비워져있을 수 없습니다.");
 
+        List<NotificationsResponse.NotificationListResponse> data = null;
         List<Notification> notifications
                 = notificationRepository.findByKeyWordContainingIgnoreCaseOrderByIdDesc(keyword);
 
-        List<NotificationsResponse.NotificationListResponse> result = notifications.stream()
+        data = notifications.stream()
                 .map(NotificationsResponse.NotificationListResponse::from)
                 .toList();
 
-        if (result.isEmpty()) {
+        if (data.isEmpty()) {
             throw new IllegalArgumentException("해당 키워드에 해당하는 공지가 없습니다.");
         }
-        return ResponseDto.setSuccess("SUCCESS", result);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
