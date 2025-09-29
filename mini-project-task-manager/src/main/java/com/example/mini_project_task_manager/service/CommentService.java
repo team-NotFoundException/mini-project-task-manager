@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CommentService {
     ResponseDto<CommentsResponse.CommentResponse> createComment(UserPrincipal userPrincipal, @Positive(message = "taskId는 1 이상이어야합니당") Long taskId, CommentRequest.CommentCreateRequest dto);
-    ResponseDto<List<CommentsResponse.CommentListResponse>> getAllComment();
+
     ResponseDto<List<CommentsResponse.CommentListResponse>> searchCommentByKeyword(String searchKeyword);
     ResponseDto<List<CommentsResponse.CommentListResponse>> getCommentsByAuthor(String author);
     ResponseDto<CommentsResponse.CommentResponse> updateComment(@Positive(message = "taskId는 1 이상이어야합니당") Long taskId,  Long commentId, CommentRequest.@Valid CommentUpdateRequest dto);
