@@ -35,11 +35,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public ResponseDto<TaskResponse.TaskDetailResponse> createTask(
-            UserPrincipal principal, Long projectId, TaskRequest.@Valid TaskCreateRequest dto) {
+            UserPrincipal principal, Long projectId, TaskRequest.@Valid TaskCreateRequest dto
+    ) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
         User user = userRepository.findById(principal.getId())
                 .orElseThrow(() -> new EntityNotFoundException("로그인 사용자를 찾을 수 없습니다."));
+
         Task task = Task.createTask(
                 dto.title().trim(),
                 dto.content().trim(),
@@ -56,6 +58,7 @@ public class TaskServiceImpl implements TaskService {
         if (dto.tagNames() != null && !dto.tagNames().isEmpty()) {
             for (String tagName : dto.tagNames()) {
                 if (tagName == null || tagName.isBlank()) continue;
+
                 String trimmedName = tagName.replaceAll("\\s", "");
                 Tag tag = existingTags.stream()
                         .filter(t -> t.getTagName().equals(trimmedName))
@@ -69,23 +72,44 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         Task saved = taskRepository.save(task);
-        return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(saved));
+        TaskResponse.TaskDetailResponse data = TaskResponse.TaskDetailResponse.from(saved);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
-    public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks(
-            Long projectId, Status status, Priority priority, LocalDateTime from, LocalDateTime to, LocalDate dueFrom, LocalDate dueTo) {
-        LocalDateTime fromUtc = DateUtils.kstToUtc(from);
-        LocalDateTime toUtc = DateUtils.kstToUtc(to);
-        List<Task> tasks;
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks(Long projectId) {
 
         projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
 
-        tasks = taskRepository.findTasksByProjectId(projectId);
-        if (tasks == null || tasks.isEmpty()){
+        List<Task> tasks = taskRepository.findTasksByProjectId(projectId);
+        if (tasks == null || tasks.isEmpty()) {
             throw new EntityNotFoundException("해당 projectId의 Task를 찾을 수 없습니다.");
         }
+
+        List<TaskResponse.TaskListResponse> data = tasks.stream()
+                .map(TaskResponse.TaskListResponse::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", data);
+    }
+
+    @Override
+    public ResponseDto<List<TaskResponse.TaskListResponse>> getTasksByFiltering(
+            Long projectId, Status status,
+            Priority priority,
+            LocalDateTime from,
+            LocalDateTime to,
+            LocalDate dueFrom,
+            LocalDate dueTo
+    ) {
+        LocalDateTime fromUtc = DateUtils.kstToUtc(from);
+        LocalDateTime toUtc = DateUtils.kstToUtc(to);
+
+        projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
+
+        List<Task> tasks = taskRepository.findTasksByProjectId(projectId);
 
         if (status != null || priority != null || from != null || to != null
                 || dueFrom != null || dueTo != null) {
@@ -95,36 +119,45 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
-        List<TaskResponse.TaskListResponse> result = tasks.stream()
+        List<TaskResponse.TaskListResponse> data = tasks.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
-        return ResponseDto.setSuccess("SUCCESS", result);
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long projectId, Long taskId) {
         Task task = taskRepository.findByIdWithTaskTags(projectId, taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
+
         List<Comment> comments = commentsRepository.findByTaskId(taskId);
+
         for (Comment comment : comments) {
             task.addComment(comment);
         }
-        return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(task));
+
+        TaskResponse.TaskDetailResponse data = TaskResponse.TaskDetailResponse.from(task);
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     @Transactional
     public ResponseDto<TaskResponse.TaskDetailResponse> updateTask(
-            UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto) {
+            UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto
+    ) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
         userRepository.findById(principal.getId())
                 .orElseThrow(() -> new EntityNotFoundException("작성자를 찾을 수 없습니다."));
+
         if (!task.getProject().getId().equals(projectId)) {
             throw new IllegalStateException("해당 Tasks는 지정된 프로젝트에 속하지 않습니다. ");
         }
+
         task.changeContent(dto.title(), dto.content(), dto.status(), dto.priority(), dto.dueDate());
         project.addTask(task);
         List<Tag> existingTags = tagRepository.findTagsByProjectId(projectId);
@@ -158,7 +191,9 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         Task saved = taskRepository.save(task);
-        return ResponseDto.setSuccess("SUCCESS", TaskResponse.TaskDetailResponse.from(saved));
+        TaskResponse.TaskDetailResponse data = TaskResponse.TaskDetailResponse.from(saved);
+
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
