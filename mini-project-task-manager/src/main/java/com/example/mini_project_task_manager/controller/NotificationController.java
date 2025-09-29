@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class NotificationController {
     private final NotificationService notificationService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<NotificationsResponse.NotificationDetailResponse>> createNotification(
             @AuthenticationPrincipal UserPrincipal principal,
@@ -31,12 +33,14 @@ public class NotificationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     @GetMapping
     public ResponseEntity<ResponseDto<List<NotificationsResponse.NotificationListResponse>>> getAllNotifications() {
         ResponseDto<List<NotificationsResponse.NotificationListResponse>> response = notificationService.getAllNotifications();
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     @GetMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<NotificationsResponse.NotificationDetailResponse>> getNotificationById(
             @PathVariable Long notificationId
@@ -45,6 +49,7 @@ public class NotificationController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
     @GetMapping(ApiMappingPattern.Notifications.SEARCH_CONTENT)
     public ResponseEntity<ResponseDto<List<NotificationsResponse.NotificationListResponse>>> getNotificationByKeyword(
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비워져있을 수 없어요.") String keyword
@@ -53,6 +58,7 @@ public class NotificationController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(ApiMappingPattern.Notifications.BY_ID)
     public ResponseEntity<ResponseDto<Void>> deleteNotification(
             @AuthenticationPrincipal UserPrincipal principal,

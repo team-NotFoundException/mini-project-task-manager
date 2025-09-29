@@ -36,12 +36,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
-    @GetMapping
-    public ResponseEntity<ResponseDto<List<CommentsResponse.CommentListResponse>>> getAllComment() {
-        ResponseDto<List<CommentsResponse.CommentListResponse>> response = commentService.getAllComment();
-        return ResponseEntity.ok(response);
-    }
 
 
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")

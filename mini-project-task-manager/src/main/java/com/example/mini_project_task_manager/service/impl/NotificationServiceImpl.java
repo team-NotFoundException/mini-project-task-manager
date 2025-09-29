@@ -28,7 +28,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseDto<NotificationsResponse.NotificationDetailResponse> NotificationcreateResponse(
             UserPrincipal userPrincipal,
             NotificationsRequest.NotificationCreateRequest dto) {
@@ -50,19 +49,24 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getAllNotifications() {
-        List<NotificationsResponse.NotificationListResponse> data = null;
-        data = notificationRepository.findAll().stream()
+        List<NotificationsResponse.NotificationListResponse> notifications
+                = notificationRepository.findAll().stream()
                 .map(NotificationsResponse.NotificationListResponse::from)
                 .toList();
-        return ResponseDto.setSuccess("SUCCESS", data);
+
+        return ResponseDto.setSuccess("SUCCESS", notifications);
     }
 
     @Override
     public ResponseDto<NotificationsResponse.NotificationDetailResponse> getNotificationById(Long notificationId) {
         NotificationsResponse.NotificationDetailResponse data = null;
+
         if (notificationId == null) throw new IllegalArgumentException("공지를 불러올 수 없어요.");
-        Notification notification = notificationRepository.findById(notificationId)
+
+        Notification notification
+                = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("공지를 찾을 수 없어요."));
+
         data = NotificationsResponse.NotificationDetailResponse.from(notification);
         return ResponseDto.setSuccess("SUCCESS", data);
     }
@@ -70,11 +74,14 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public ResponseDto<List<NotificationsResponse.NotificationListResponse>> getNotificationByKeyword(String keyword) {
         if (keyword == null) throw new IllegalArgumentException("키워드는 비워져있을 수 없습니다.");
+
         List<Notification> notifications
                 = notificationRepository.findByKeyWordContainingIgnoreCaseOrderByIdDesc(keyword);
+
         List<NotificationsResponse.NotificationListResponse> result = notifications.stream()
                 .map(NotificationsResponse.NotificationListResponse::from)
                 .toList();
+
         if (result.isEmpty()) {
             throw new IllegalArgumentException("해당 키워드에 해당하는 공지가 없습니다.");
         }
@@ -83,11 +90,12 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseDto<Void> deleteNotification(UserPrincipal principal, Long notificationId) {
-        Notification notification = notificationRepository.findById(notificationId)
+        Notification notification
+                = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 공지가 없습니다."));
         notificationRepository.delete(notification);
+
         return ResponseDto.setSuccess("SUCCESS", null);
     }
 }

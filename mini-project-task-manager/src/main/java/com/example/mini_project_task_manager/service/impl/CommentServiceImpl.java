@@ -3,6 +3,7 @@ package com.example.mini_project_task_manager.service.impl;
 import com.example.mini_project_task_manager.dto.ResponseDto;
 import com.example.mini_project_task_manager.dto.comment.request.CommentRequest;
 import com.example.mini_project_task_manager.dto.comment.response.CommentsResponse;
+import com.example.mini_project_task_manager.dto.notification.response.NotificationsResponse;
 import com.example.mini_project_task_manager.entity.Comment;
 import com.example.mini_project_task_manager.entity.Task;
 import com.example.mini_project_task_manager.entity.User;
@@ -33,31 +34,29 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없습니다."));
+
         Comment comment = Comment.create(dto.comment(), author, task);
         Comment saved = commentsRepository.save((comment));
+
         task.addComment(comment);
         return ResponseDto.setSuccess("SUCCESS", CommentsResponse.CommentResponse.from(saved));
     }
 
     @Override
-    public ResponseDto<List<CommentsResponse.CommentListResponse>> getAllComment() {
-        List<CommentsResponse.CommentListResponse> data = null;
-        data = commentsRepository.findAll().stream()
-                .map(CommentsResponse.CommentListResponse::from)
-                .toList();
-        return ResponseDto.setSuccess("SUCCESS", data);
-    }
-
-    @Override
     public ResponseDto<List<CommentsResponse.CommentListResponse>> searchCommentByKeyword(String searchKeyword) {
-        searchKeyword = (searchKeyword == null)? "" : searchKeyword.trim();
-        if (searchKeyword.isEmpty()) {
+        String keyword = (searchKeyword == null) ? "" : searchKeyword.trim();
+
+        if (keyword.isEmpty()) {
             throw new IllegalArgumentException("검색 키워드가 비워져있다니");
-        } else if (searchKeyword.length() > 50) {
+
+        } else if (keyword.length() > 50) {
             return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요");
         }
-        var rows = commentsRepository.findByCommentKeyword(searchKeyword);
-        List<CommentsResponse.CommentListResponse> result = rows.stream()
+
+        List<Comment> comments
+                = commentsRepository.findByCommentKeyword(keyword);
+
+        List<CommentsResponse.CommentListResponse> result = comments.stream()
                 .map(CommentsResponse.CommentListResponse::from).toList();
 
         return ResponseDto.setSuccess("SUCCESS", result);
@@ -65,9 +64,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponseDto<List<CommentsResponse.CommentListResponse>> getCommentsByAuthor(String author) {
-        List<Comment> comments = commentsRepository.findByAuthor(author);
+        List<Comment> comments
+                = commentsRepository.findByAuthor(author);
+
         List<CommentsResponse.CommentListResponse> result = comments.stream()
                 .map(CommentsResponse.CommentListResponse::from).toList();
+
         return ResponseDto.setSuccess("SUCCESS", result);
     }
 
@@ -89,6 +91,7 @@ public class CommentServiceImpl implements CommentService {
     public ResponseDto<Void> deleteComment(Long taskId, Long commentId) {
         Comment comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 댓글을 찾을 수 없어요"));
+
         Task task = comment.getTask();
         task.removeComment(comment);
 
