@@ -23,9 +23,9 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     @Query(value = """
         select tag
-        from Tag tag
+        from Tags tag
         where tag.project.id = :projectId
-""")
+""",nativeQuery = true)
     List<Tag> findTagsByProjectId(@Param("projectId") Long projectId);
 
     // 프로젝트에 속해있는 모든 태그명 검색
