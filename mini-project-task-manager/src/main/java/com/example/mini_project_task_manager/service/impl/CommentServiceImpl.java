@@ -47,10 +47,10 @@ public class CommentServiceImpl implements CommentService {
         String keyword = (searchKeyword == null) ? "" : searchKeyword.trim();
 
         if (keyword.isEmpty()) {
-            throw new IllegalArgumentException("검색 키워드가 비워져있다니");
+            throw new IllegalArgumentException("검색 키워드가 비워져있어요.");
 
         } else if (keyword.length() > 50) {
-            return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요");
+            return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요.");
         }
 
         List<CommentsResponse.CommentListResponse> data = null;
