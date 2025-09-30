@@ -19,14 +19,13 @@ import com.example.mini_project_task_manager.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-  @Query("""
-     SELECT u
-     FROM User u
-       LEFT JOIN FETCH u.userRoles ur
-       LEFT JOIN FETCH ur.role
-     WHERE u.username = :username
-
-  """)
+  @Query(value = """
+    SELECT u.*
+    FROM users u
+      LEFT JOIN user_roles ur ON u.id = ur.user_id
+      LEFT JOIN roles r ON ur.role_id = r.id
+    WHERE u.username = :username
+""", nativeQuery = true)
   Optional<User> findWithRolesByUsername(@Param("username") String username);
 
   @EntityGraph(attributePaths = "userRoles")
@@ -40,11 +39,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @NotNull Long id(Long id);
 
-  @Query("""
+  @Query(value = """
     SELECT u.username
-    FROM User u
-    WHERE u.nickname = :nickname and u.email = :email
-""")
+    FROM users u
+    WHERE u.nickname = :nickname
+      AND u.email = :email
+""", nativeQuery = true)
   Optional<FindUsernameResponse> findIdByNicknameAndEmail(
           @Param("nickname") String nickname,
           @Param("email") String email
