@@ -23,10 +23,8 @@ public class MailConfig {
 
     @Bean
     // javaMailSender을 Bean 생성 할때 없으면 Spring Boot 안에 있는 자체 내의 코드 가 사용되어 작동은 되지만 우리가 실질적으로 사용하기에는 수동으로 지정해줘야한다
-    // (EX: build.gradle (Spring Web Email 기능 구현 스타터implementation 'org.springframework.boot:spring-boot-starter-mail'))
+    // EX: build.gradle (Spring Web Email 기능 구현 스타터implementation 'org.springframework.boot:spring-boot-starter-mail')
     public JavaMailSender javaMailSender() {
-
-
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);

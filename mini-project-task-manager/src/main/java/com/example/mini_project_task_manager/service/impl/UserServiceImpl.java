@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         User save = userRepository.save(user);
         Role defaultRole = roleRepository.findById(RoleType.USER)
-                .orElseThrow(() -> new IllegalStateException("ROLE USER is not present in roles table"));
+                .orElseThrow(() -> new IllegalStateException("역할 테이블에 역할 사용자가 없습니다."));
         save.grantRole(defaultRole);
         userRepository.save(user);
     }
@@ -75,49 +75,52 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto<SignInResponse> signIn(SignRequest.@Valid SignInRequest req) {
+        SignInResponse data = null;
+
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.username(), req.password())
         );
+
         Set<String> roles = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
+
         String accessToken = jwtProvider.generateJwtToken(req.username(), roles);
         Claims claims = jwtProvider.getClaims(accessToken);
         long expiresAt = claims.getExpiration().getTime();
-        SignInResponse response = new SignInResponse(
+
+        data = new SignInResponse(
                 "Bearer",
                 accessToken,
                 expiresAt,
                 req.username(),
                 roles
         );
-        return ResponseDto.setSuccess("로그인 성공", response);
+
+        return ResponseDto.setSuccess("로그인 성공", data);
     }
 
     @Override
     @Transactional
     public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal) {
+        UserProfileResponse.MyPageResponse data = null;
         PrincipalUtils.requiredActive(principal);
         User user = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() ->
                         new EntityNotFoundException
                                 ("해당 username의 사용자가 없습니다: " + principal.getUsername()));
-        UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getNickname(),
-                user.getGender()
-        );
+
+        data = UserProfileResponse.MyPageResponse.from(user);
+
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     @Transactional
     public ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo
-            (UserPrincipal principal, UserProfileUpdateRequest request
-            ) {
-        PrincipalUtils.requiredActive(principal);
+            (UserPrincipal principal, UserProfileUpdateRequest request) {
+        UserProfileResponse.MyPageResponse data = null;
+                PrincipalUtils.requiredActive(principal);
 
         User user = userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() ->
@@ -132,13 +135,7 @@ public class UserServiceImpl implements UserService {
 
         user.changeProfile(request.nickname(), request.email(), request.gender());
         userRepository.flush();
-        UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getNickname(),
-                user.getGender()
-        );
+       data = UserProfileResponse.MyPageResponse.from(user);
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
