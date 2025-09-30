@@ -37,6 +37,8 @@ public class TaskServiceImpl implements TaskService {
     public ResponseDto<TaskResponse.TaskDetailResponse> createTask(
             UserPrincipal principal, Long projectId, TaskRequest.@Valid TaskCreateRequest dto
     ) {
+        TaskResponse.TaskDetailResponse data = null;
+
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
         User user = userRepository.findById(principal.getId())
@@ -59,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
             for (String tagName : dto.tagNames()) {
                 if (tagName == null || tagName.isBlank()) continue;
 
-                String trimmedName = tagName.replaceAll("\\s", "");
+                String trimmedName = tagName.trim();
                 Tag tag = existingTags.stream()
                         .filter(t -> t.getTagName().equals(trimmedName))
                         .findFirst()
@@ -72,12 +74,13 @@ public class TaskServiceImpl implements TaskService {
             }
         }
         Task saved = taskRepository.save(task);
-        TaskResponse.TaskDetailResponse data = TaskResponse.TaskDetailResponse.from(saved);
+        data = TaskResponse.TaskDetailResponse.from(saved);
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     public ResponseDto<List<TaskResponse.TaskListResponse>> getAllTasks(Long projectId) {
+        List<TaskResponse.TaskListResponse> data = null;
 
         projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
@@ -87,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
             throw new EntityNotFoundException("해당 projectId의 Task를 찾을 수 없습니다.");
         }
 
-        List<TaskResponse.TaskListResponse> data = tasks.stream()
+        data = tasks.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
 
@@ -103,6 +106,7 @@ public class TaskServiceImpl implements TaskService {
             LocalDate dueFrom,
             LocalDate dueTo
     ) {
+        List<TaskResponse.TaskListResponse> data = null;
         LocalDateTime fromUtc = DateUtils.kstToUtc(from);
         LocalDateTime toUtc = DateUtils.kstToUtc(to);
 
@@ -119,7 +123,7 @@ public class TaskServiceImpl implements TaskService {
             }
         }
 
-        List<TaskResponse.TaskListResponse> data = tasks.stream()
+        data = tasks.stream()
                 .map(TaskResponse.TaskListResponse::from)
                 .toList();
 
@@ -128,6 +132,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseDto<TaskResponse.TaskDetailResponse> getTaskById(Long projectId, Long taskId) {
+        TaskResponse.TaskDetailResponse data = null;
+
+        projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
+
         Task task = taskRepository.findByIdWithTaskTags(projectId, taskId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 Task를 찾을 수 없습니다."));
 
@@ -137,8 +146,7 @@ public class TaskServiceImpl implements TaskService {
             task.addComment(comment);
         }
 
-        TaskResponse.TaskDetailResponse data = TaskResponse.TaskDetailResponse.from(task);
-
+        data = TaskResponse.TaskDetailResponse.from(task);
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
@@ -147,6 +155,8 @@ public class TaskServiceImpl implements TaskService {
     public ResponseDto<TaskResponse.TaskDetailResponse> updateTask(
             UserPrincipal principal, Long projectId, Long taskId, TaskRequest.@Valid TaskUpdateRequest dto
     ) {
+        TaskResponse.TaskDetailResponse data = null;
+
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 project를 찾을 수 없습니다."));
         Task task = taskRepository.findById(taskId)
@@ -165,7 +175,7 @@ public class TaskServiceImpl implements TaskService {
                 ? Collections.emptySet()
                 : dto.tagNames().stream()
                 .filter(name -> name != null && !name.isBlank())
-                .map(name -> name.replaceAll("\\s", ""))
+                .map(String::trim)
                 .collect(Collectors.toSet());
 
         for (TaskTag oldTaskTag : new HashSet<>(task.getTaskTags())) {
@@ -190,9 +200,9 @@ public class TaskServiceImpl implements TaskService {
                 tagRepository.delete(tag);
             }
         }
-        Task saved = taskRepository.save(task);
-        TaskResponse.TaskDetailResponse data = TaskResponse.TaskDetailResponse.from(saved);
 
+        Task saved = taskRepository.save(task);
+        data = TaskResponse.TaskDetailResponse.from(saved);
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
@@ -212,16 +222,26 @@ public class TaskServiceImpl implements TaskService {
         for (TaskTag taskTag : new HashSet<>(task.getTaskTags())) {
             taskTag.getTag().getTaskTags().remove(taskTag);
         }
+
+        Set<Tag> relatedTags = task.getTaskTags().stream()
+                .map(TaskTag::getTag)
+                .collect(Collectors.toSet());
+
+        for (TaskTag taskTag : new HashSet<>(task.getTaskTags())) {
+            task.getTaskTags().remove(taskTag);
+            taskTag.getTag().getTaskTags().remove(taskTag);
+        }
+
         taskRepository.delete(task);
 
-        for (TaskTag taskTag2 : new HashSet<>(task.getTaskTags())) {
-            if (taskTag2.getTag().getTaskTags().isEmpty()) {
-                tagRepository.delete(taskTag2.getTag());
-            }
-        }
         Project project = task.getProject();
         project.removeTask(task);
 
+        for (Tag tag : relatedTags) {
+            if (tag.getTaskTags().isEmpty()) {
+                tagRepository.delete(tag);
+            }
+        }
         return ResponseDto.setSuccess("SUCCESS", null);
     }
 }
