@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void signUp(SignRequest.@Valid SingUpRequest req) {
+    public void signUp(@Valid SignRequest.SingUpRequest req) {
         if (userRepository.existsByUsername(req.username())) {
             throw new IllegalArgumentException("이미 사용 중인 로그인 아이디 입니다.");
         }

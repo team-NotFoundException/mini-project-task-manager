@@ -12,6 +12,8 @@ public class ApiMappingPattern {
         public static final String SIGN_IN =  "/sign-in";
         public static final String SEND_EMAIL =  "/send-email";
         public static final String VERIFY =  "/verify";
+        public static final String FIND_PASSWORD = "/reset-password";
+        public static final String FIND_USERNAME = "/find-username";
     }
 
     public static final class Users {
