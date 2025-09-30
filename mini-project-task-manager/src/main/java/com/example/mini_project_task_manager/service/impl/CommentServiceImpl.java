@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
         User author = userRepository.findByUsername(userPrincipal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
         Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("해당 id의 task를 찾을 수 없어요."));
 
         Comment comment = Comment.create(dto.comment(), author, task);
         Comment saved = commentsRepository.save((comment));

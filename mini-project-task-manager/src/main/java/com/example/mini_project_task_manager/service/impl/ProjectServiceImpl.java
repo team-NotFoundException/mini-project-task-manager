@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
         validateTitle(request.title());
 
         User author = userRepository.findByUsername(principal.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("권한을 찾을 수가 없어요."));
+                .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
 
         Project project = Project.builder()
                 .title(request.title().trim())
@@ -106,7 +106,7 @@ public class ProjectServiceImpl implements ProjectService {
         validateTitle(request.title());
 
         User author = userRepository.findByUsername(principal.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
 
         if (projectId == null) throw new IllegalArgumentException("프로젝트를 불러올 수 없어요.");
 
@@ -128,12 +128,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional
     public ResponseDto<Void> deleteProject(UserPrincipal principal, Long projectId) {
         User author = userRepository.findByUsername(principal.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
 
         if (projectId == null) throw new IllegalArgumentException("프로젝트를 불러올 수 없어요.");
 
         Project project = projectRepository.findProjectById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 id의 프로젝트가 없어요."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 프로젝트를 찾을 수 없어요."));
         projectRepository.delete(project);
 
         return ResponseDto.setSuccess("SUCCESS", null);
@@ -141,7 +141,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private void validateTitle(String title) {
         if (!StringUtils.hasText(title)) {
-            throw new IllegalArgumentException("제목은 빌 수 없어요.");
+            throw new IllegalArgumentException("제목은 비어있을 수 없어요.");
         }
     }
 }
