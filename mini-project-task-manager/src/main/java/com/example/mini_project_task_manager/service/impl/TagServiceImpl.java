@@ -39,9 +39,10 @@ public class TagServiceImpl implements TagService {
     public ResponseDto<TagResponse.TagNameResponse> createTagByProject(
            Long projId, TagRequest.TagCreateRequest dto) {
 
+        TagResponse.TagNameResponse data = null;
         Project project = projectRepository.findProjectById((projId))
                 .orElseThrow(() -> new EntityNotFoundException("해당 프로젝트를 찾을 수 없어요."));
-       String clean = (dto.tagName() == null) ? "" : dto.tagName().trim();
+        String clean = (dto.tagName() == null) ? "" : dto.tagName().trim();
 
        if (clean.isEmpty() || clean == null){
             throw new IllegalArgumentException("태그는 빈공간 안됩니다.");
@@ -50,7 +51,8 @@ public class TagServiceImpl implements TagService {
        Tag tag = Tag.create(clean);
        project.addTag(tag);
        Tag saved = tagRepository.save(tag);
-       return ResponseDto.setSuccess("태그가 등록되었어요", TagResponse.TagNameResponse.from(saved));
+       data = TagResponse.TagNameResponse.from(saved)
+       return ResponseDto.setSuccess("태그가 등록되었어요", data);
     }
 
     @Override
@@ -142,10 +144,13 @@ public class TagServiceImpl implements TagService {
     @PreAuthorize("hasAnyRole('MANAGER','ADMIN','USER')")
     public ResponseDto<TagResponse.TagNameResponse> getTaskTag(
             Long taskId, Long tagId) {
+        TagResponse.TagNameResponse data = null;
         Tag tag = tagRepository.findTaskTag(taskId, tagId)
                 .orElseThrow(()-> new EntityNotFoundException("해당 id의 태그를 찾을 수 없어요."));
 
-        return ResponseDto.setSuccess("태그 조회 완료", TagResponse.TagNameResponse.from(tag));
+        data = TagResponse.TagNameResponse.from(tag);
+
+        return ResponseDto.setSuccess("태그 조회 완료", data);
     }
 
 }
