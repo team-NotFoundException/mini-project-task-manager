@@ -30,6 +30,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public ResponseDto<CommentsResponse.CommentResponse> createComment(UserPrincipal userPrincipal, Long taskId, CommentRequest.CommentCreateRequest dto) {
+        CommentsResponse.CommentResponse data = null;
+
         User author = userRepository.findByUsername(userPrincipal.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("AUTHOR NOT FOUND"));
         Task task = taskRepository.findById(taskId)
@@ -37,45 +39,50 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = Comment.create(dto.comment(), author, task);
         Comment saved = commentsRepository.save((comment));
-
+        data = CommentsResponse.CommentResponse.from(saved);
         task.addComment(comment);
-        return ResponseDto.setSuccess("SUCCESS", CommentsResponse.CommentResponse.from(saved));
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     public ResponseDto<List<CommentsResponse.CommentListResponse>> searchCommentByKeyword(String searchKeyword) {
+        List<CommentsResponse.CommentListResponse> data = null;
+
         String keyword = (searchKeyword == null) ? "" : searchKeyword.trim();
 
         if (keyword.isEmpty()) {
-            throw new IllegalArgumentException("검색 키워드가 비워져있다니");
+            throw new IllegalArgumentException("검색 키워드가 비워져있어요.");
 
         } else if (keyword.length() > 50) {
-            return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요");
+            return ResponseDto.setFailed("키워드는 50자 이내로 작성해주세요.");
         }
 
         List<Comment> comments
                 = commentsRepository.findByCommentKeyword(keyword);
 
-        List<CommentsResponse.CommentListResponse> result = comments.stream()
+        data = comments.stream()
                 .map(CommentsResponse.CommentListResponse::from).toList();
 
-        return ResponseDto.setSuccess("SUCCESS", result);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     public ResponseDto<List<CommentsResponse.CommentListResponse>> getCommentsByAuthor(String author) {
+        List<CommentsResponse.CommentListResponse> data = null;
+
         List<Comment> comments
                 = commentsRepository.findByAuthor(author);
 
-        List<CommentsResponse.CommentListResponse> result = comments.stream()
+        data = comments.stream()
                 .map(CommentsResponse.CommentListResponse::from).toList();
 
-        return ResponseDto.setSuccess("SUCCESS", result);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override
     @Transactional
     public ResponseDto<CommentsResponse.CommentResponse> updateComment(Long taskId, Long commentId, CommentRequest.CommentUpdateRequest dto) {
+        CommentsResponse.CommentResponse data = null;
         Comment comment = commentsRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 댓글을 찾을 수 없어요"));
 
@@ -83,7 +90,8 @@ public class CommentServiceImpl implements CommentService {
             throw new IllegalArgumentException("해당 댓글이 Task 안에 포함되어있지 않아요");
         }
         comment.changeContent(dto.comment());
-        return ResponseDto.setSuccess("SUCCESS", CommentsResponse.CommentResponse.from(comment));
+        data = CommentsResponse.CommentResponse.from(comment);
+        return ResponseDto.setSuccess("SUCCESS", data);
     }
 
     @Override

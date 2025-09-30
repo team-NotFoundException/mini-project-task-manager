@@ -38,7 +38,7 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping(ApiMappingPattern.Projects.SORTED)
     public ResponseEntity<ResponseDto<List<ProjectResponse.ProjectSummaryResponse>>> getAllProjectsOrderByCreatedAt(
-            @RequestParam("sortedBy") String sortedBy
+            @RequestParam("sortedBy") Sorted sortedBy
     ) {
         ResponseDto<List<ProjectResponse.ProjectSummaryResponse>> response = projectService.getAllProjectsOrderByCreatedAt(sortedBy);
         return ResponseEntity.status(HttpStatus.OK).body(response);
