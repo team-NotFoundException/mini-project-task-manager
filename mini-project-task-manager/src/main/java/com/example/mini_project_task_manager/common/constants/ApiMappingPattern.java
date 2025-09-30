@@ -36,6 +36,7 @@ public class ApiMappingPattern {
         private Tasks() {}
         public static final String ROOT = BASE + "/projects/{projectId}/tasks";
         public static final String BY_ID = "/{taskId}";
+        public static final String FILTER_OPTION = "/filtering";
     }
 
     public static final class Tags{

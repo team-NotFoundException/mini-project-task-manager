@@ -6,13 +6,14 @@ import com.example.mini_project_task_manager.entity.Task;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Repository
 public class TaskRepositoryImpl implements TaskRepositoryCustom{
 
     @PersistenceContext
@@ -40,11 +41,6 @@ public class TaskRepositoryImpl implements TaskRepositoryCustom{
             jpql.append(" and t.priority = :priority");
             params.put("priority", priority);
         }
-
-//        if (author != null) {
-//            jpql.append(" and lower(u.username) LIKE lower(:author)");
-//            params.put("author", "%" + author + "%");
-//        }
 
         if(from != null) {
             jpql.append(" and t.createdAt >= :from");
