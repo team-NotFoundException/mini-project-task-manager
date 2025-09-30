@@ -51,7 +51,7 @@ public class TagServiceImpl implements TagService {
        Tag tag = Tag.create(clean);
        project.addTag(tag);
        Tag saved = tagRepository.save(tag);
-       data = TagResponse.TagNameResponse.from(saved)
+       data = TagResponse.TagNameResponse.from(saved);
        return ResponseDto.setSuccess("태그가 등록되었어요", data);
     }
 
