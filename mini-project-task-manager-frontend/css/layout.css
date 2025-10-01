@@ -1,124 +1,270 @@
+:root {
+  --team-bg: #FFF8E8;
+  --team-bg-muted: #F7EED3;
+  --team-accent: #AAB396;
+  --team-primary: #674636;
+  --card: #F7EED3;
+
+  --text: #1b0c02;
+  --muted: #46372e;
+
+  --danger: #dc2626;
+  --outline: #674636;
+  --shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  --radius: 16px;
+  --container: 1120px;
+}
+
 /* 공통 */
 body {
   margin: 0;
   font-family: sans-serif;
   background: #fafafa;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .container {
   display: flex;
-  height: 100vh;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
 
-/* ===== 사이드바(menu) ===== */
 /* 사이드바 */
 .sidebar {
-  background: #674636 ;
+  background: var(--team-primary); /* 진한 색 */
   color: white;
   display: flex;
-  width: 13%;
-  min-width: 150px;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
+  width: 13%;
+  min-width: 150px;
+  padding: 60px 0;
+  align-items: center;
+  overflow: hidden;
 }
 
-.sidebar .logo {
-  font-size: medium;
-  font-weight: bold;
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  width: 100%;
   margin-bottom: 30px;
+  flex-shrink: 0;
 }
 
 .logo img {
-  width: 120px;
+  max-width: 140px;
   height: auto;
   display: block;
+  margin: 0 auto;
 }
 
+/* 메뉴 */
+.sidebar .menu {
+  width: 100%;
+  margin-top: -120px;
+}
+
+/* 메뉴 a 태그 기본 상태 */
 .sidebar .menu a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 0;
+  border: none;
+  background-color: var(--team-primary); /* 기본 배경 = 사이드바 배경 */
+  color: var(--team-bg); /* 밝은 글자색 */
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* hover */
+.sidebar .menu a:hover {
+  background-color: var(--team-bg); /* 밝은 배경 */
+  color: var(--team-primary); /* 진한 글자 */
+}
+
+/* focus (클릭 또는 탭) */
+.sidebar .menu a:focus {
+  background-color: var(--team-bg); /* hover와 동일 유지 */
+  color: var(--team-primary);
+  outline: none; /* 아웃라인 제거 */
+}
+
+.sidebar .logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 10px;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+.sidebar .title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  padding: 0 10px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  
+}
+
+.sidebar .title img {
+  width: 35px;
+  height: 35px;
+}
+
+.sidebar .project {
+  margin-top: 10px;
+}
+
+
+/* etc 영역 */
+.sidebar .etc {
+  width: 100%;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+/* Settings 버튼 */
+.sidebar .etc button.btn {
+  width: 100%;
+  height: 60px;
+  border-radius: 0;
+  background-color: var(--team-bg);
+  border: 1px solid var(--team-primary);
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--team-primary);
+  cursor: pointer;
+  margin: 10px 0;
+  border: none;
+}
+
+/* Settings hover/focus */
+.sidebar .etc button.btn:hover,
+.sidebar .etc button.btn:focus {
+  background-color: var(--team-bg-muted);
+  color: var(--team-primary);
+  outline: none;
+}
+
+/* 로그아웃 버튼 */
+.sidebar .etc a.logout-btn {
+  height: 60px;
+  line-height: 60px;
+  border-radius: 0;
+  background-color: var(--team-bg);
+  border: 1px solid var(--team-primary);
+  color: var(--team-primary);
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
   display: block;
-  color: white;
-  padding: 10px 0;
   text-decoration: none;
+  border: none;
 }
 
-.sidebar .menu a.active {
-  background: #674636;
-  color: white;
-  border-radius: 8px;
-  padding-left: 10px;
+/* 로그아웃 hover/focus */
+.sidebar .etc a.logout-btn:hover,
+.sidebar .etc a.logout-btn:focus {
+  background-color: var(--team-bg-muted);
+  color: var(--team-primary);
+  outline: none;
 }
 
-.sidebar .logout {
-  margin-top: auto;
+/* main-area */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  overflow-y: auto;
+  position: relative;
 }
 
-.sidebar .logout a {
-  color: white;
-  text-decoration: none;
+/* header */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  z-index: 10;
+  transition: backdrop-filter 0.3s ease;
+  gap: 20px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  height: 60px;
+}
+
+/* 스크롤 시 블러 */
+header.blurred {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom-color: #ccc;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--team-primary);
+  flex-shrink: 0;
 }
 
 /* 검색창 */
-/* 자신 있으신 분이 아래로 내려주세요 */
 #search {
+  flex-grow: 1;
+  max-width: 400px;
+  height: 36px;
+  padding: 5px 15px 5px 40px;
+  font-size: 1rem;
+  border: 1px solid var(--team-accent);
+  border-radius: 10px;
   background-image: url(./돋보기.png);
   background-repeat: no-repeat;
-  background-position: bottom 5px center;
-  background-size: 15px 15px;
-  margin: 10px 0;
-  width: 100%;
-  height: 30px;
-  padding: 5px 10px;
-  margin-bottom: 15px;
+  background-position: 10px center;
+  background-size: 20px 20px;
+  outline: none;
+  box-sizing: border-box;
+  color: #333;
 }
 
-/* 버튼 */
-/* 자신있으신 분들이 이쁘게 만들어주시구 */
-.btn {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
-  height: 70px;
-  padding: 5px 10px;
-  border-radius: 10px;
-  background-color: #FFF8E8;
-  border: 1px solid #674636;
-  cursor: pointer;
-  margin: 10px 0;
-  font-size: large;
-  font-weight: bold;
-}
-.btn:hover {
-  background-color: #F7EED3;
+#search:focus {
+  border-color: var(--team-primary);
 }
 
-.project {
-  margin-top: 30px;
-}
-
-.etc {
-  margin-top: auto; /* 맨 아래로 밀기 */
-}
-
-/* ===== 메인 콘텐츠 ===== */
-/* 메인 컨텐츠 */
+/* 콘텐츠 */
 .content {
-  padding: 30px;
+  padding: 20px 30px;
+  flex: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
 }
 
-.content h2 {
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-}
-
+/* 댓글 카드 */
 .comment-card {
   background: white;
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .comment-header {
@@ -136,6 +282,7 @@ body {
   margin-top: 10px;
 }
 
+/* 댓글 태그 */
 .comment-body .tag {
   background: #eee;
   border-radius: 15px;
@@ -143,4 +290,17 @@ body {
   font-size: 0.8rem;
   margin-bottom: 5px;
   display: inline-block;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  outline: none;
+}
+
+/* 태그 hover/focus */
+.comment-body .tag:hover,
+.comment-body .tag:focus {
+  background-color: var(--team-bg-muted);
+  color: var(--team-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px #67463633; /* optional */
 }
