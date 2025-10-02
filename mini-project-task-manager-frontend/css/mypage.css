@@ -1,3 +1,21 @@
+:root {
+  --team-bg: #FFF8E8;
+  --team-bg-muted: #F7EED3;
+  --team-accent: #AAB396;
+  --team-primary: #674636;
+  --card: #F7EED3;
+
+  --text: #1b0c02;
+  --muted: #46372e;
+
+  --danger: #dc2626;
+  --outline: #674636;
+  --shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  --radius: 16px;
+  --container: 1120px;
+}
+
 * {
   margin: 0;
   padding: 0;
