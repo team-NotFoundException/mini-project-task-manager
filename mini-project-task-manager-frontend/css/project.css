@@ -1,0 +1,240 @@
+:root {
+  --team-bg: #FFF8E8;
+  --team-bg-muted: #F7EED3;
+  --team-accent: #AAB396;
+  --team-primary: #674636;
+  --card: #F7EED3;
+
+  --text: #1b0c02;
+  --muted: #46372e;
+
+  --danger: #dc2626;
+  --outline: #674636;
+  --shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  --radius: 16px;
+  --container: 1120px;
+}
+
+
+/* === 프로젝트 리스트 페이지 === */
+
+/* == 공지사항 == */
+.notification {
+  width: 90%;
+  text-align: center;
+  background: var(--team-bg);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* == 정렬 버튼 == */
+.sort {
+  padding: 10px;
+  width: 100%;
+}
+
+/* 최신순 */
+.recent {
+  width: 100px;
+  min-width: 100px;
+  border: 0px;
+  padding: 5px;
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.recent:hover {
+  box-shadow: 0 0 0 2px #67463633;
+}
+
+
+/* 업데이트순 */
+.update {
+  width: 100px;
+  min-width: 100px;
+  border: 0px;
+  padding: 5px;
+  border-radius: var(--radius);
+}
+
+.update:hover {
+
+  box-shadow: 0 0 0 2px #67463633;
+}
+
+/* == 프로젝트 카드 == */
+
+.project-card {
+  width: 90%;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.project-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.project-body .updated {
+  font-size: small;
+  color: lightgray;
+}
+
+#status {
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  color: gray;
+  width: 30px;
+  height: 30px;
+  box-shadow: none;
+  font-weight: 100;
+  text-align: center;
+}
+
+#status:hover {
+  background-color: rgba(250, 250, 250, 0.8);
+}
+
+.author {
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* === 프로젝트 생성 페이지 === */
+
+.big-title {
+  margin: 0;
+  font-size: 1.0rem;
+  color: var(--team-primary);
+  flex-shrink: 0;
+}
+
+.create-title  {
+  width: 90%;
+  background: white;
+  padding: 10px 10px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.create-content  {
+  width: 90%;
+  background: white;
+  padding: 10px 10px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+#text {
+  width: 90%;
+  padding: 10px;
+  min-height: 40px;
+  border: 1px solid var(--team-accent);
+  border-radius: 10px;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden; /* 스크롤 제거 */
+  line-height: 1.4;
+}
+
+.create-button {
+  width: 90%;
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+
+
+/* === 빈화면  + Add Project/Task == */
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 30%;
+  font-size: 150%;
+  font-weight: bold;
+  color: lightgray;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.empty:hover {
+  background-color: rgb(250, 250, 250);
+  color: #1b0c02;
+}
+
+.empty:active {
+  background-color: rgb(240, 240, 240);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.project-menu {
+  display: none;
+  position: absolute;
+  top: 25%;
+  right: 14%;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 4px 0;
+  list-style: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* alpha는 0~1 */
+  min-width: 100px;
+  font-size: 14px;
+}
+
+summary {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+details[open] .project-menu {
+  display: block ;
+}
+
+/* 메뉴 항목 스타일 */
+.project-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.project-menu li:hover {
+  background: #f3f4f6;
+}
+
+/* (선택) 열렸을 때 버튼 스타일 변경 */
+details[open] #status {
+  background-color: #f8fafc;
+}
