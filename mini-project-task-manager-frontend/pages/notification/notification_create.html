@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>공지 디테일</title>
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/notification.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- 사이드바 -->
+      <aside class="sidebar">
+        <div class="logo">
+          <img src="/assets/img_source/image.png" alt="사이트 로고" />
+          <div class="title">
+            <img src="/assets/img_source/image.png" alt="dlalwl" />
+            <h4>ABC (ADMIN)</h4>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <div class="project">
+            <a href="#">🏠 홈</a>
+            <a href="#" class="btn">🖥️ 프로젝트</a>
+            <a href="#" class="btn">🛎️ 테스크</a>
+            <a href="#" class="btn">👤 마이페이지</a>
+            <a href="#" class="btn">🛎️ 공지</a>
+          </div>
+        </nav>
+        <div class="etc">
+          <button class="btn" id="settings">🚪 Settings</button>
+          <a href="#" class="btn logout-btn">🚪 로그아웃</a>
+        </div>
+      </aside>
+
+      <!-- 메인 영역 -->
+      <div class="main-area">
+        <header>
+          <h1>Notification</h1>
+          <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="검색어를 입력하세요"
+          /><button>검색</button>
+        </header>
+
+        <main class="content">
+          <!-- 해당 란에 본인 도메인 제작하시면 됩니다 -->
+
+          <!-- 아래부터는 card 컨테이너입니다 필요하신 분들 쓰시구요 -->
+
+          <div class="notification-title-card">
+            <div class="notification-header">
+              <span>제목 수정</span>
+            </div>
+            <p class="title" id="create">
+              <input name="content" id="update" placeholder="해당 아이디의 내용"></input>
+              <button class="save" type="submit">저장</button>
+            </p>
+
+            <div class="notification-body"></div>
+          </div>
+
+          <div class="notification-summation-card">
+            <span>개요 수정</span>
+            <p class="notification-content" id="create">
+              <textarea name="content" id="update">해당 아이디의 내용</textarea>
+              <button class="save" type="submit">저장</button>
+            </p>
+
+            <div class="notification-body"></div>
+          </div>
+
+          <div class="notification-content-card">
+            <span>내용 수정</span>
+            <p class="notification-content" id="create">
+              <textarea name="content" id="update">해당 아이디의 내용</textarea>
+              <button class="save" type="submit">저장</button>
+            </p>
+
+            <div class="notification-body"></div>
+          </div>
+        </main>
+
+        <footer>
+          <button type="submit">삭제</button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="/js/notification.js"></script>
+  </body>
+</html>
