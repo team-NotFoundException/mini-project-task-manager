@@ -66,12 +66,151 @@
   color: gray;
 }
 
-.notification-header .status {
-  color: green;
-}
 
 .notification-body {
   margin-top: 10px;
 }
 
 
+.content .notification-title-card {
+  background: white;
+  padding: 10px 10px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.content .notification-summation-card {
+  background: white;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.content .notification-content-card {
+  background: white;
+  border-radius: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+.notification-content {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+
+/* Hover 시 */
+button.save:hover {
+  background-color: var(--team-accent);
+  color: var(--text);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+/* Active(클릭 중) 시 */
+button.save:active {
+  background-color: var(--team-primary);
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 비활성화 상태 */
+button.save:disabled {
+  background-color: #ccc;
+  color: #777;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+
+#fix {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+}
+
+#fix button {
+  display: flex;
+  align-content: flex-end;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  margin: 10px;
+}
+
+#fix button:hover {
+  background: var(--team-bg-muted);
+  color: var(--team-primary);
+}
+
+
+#create {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+}
+
+#create button {
+  display: flex;
+  align-content: flex-end;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  margin: 10px;
+}
+
+#create button:hover {
+  background: var(--team-bg-muted);
+  color: var(--team-primary);
+}
+
+#update {
+  width: 90%;
+  min-height: 40px;
+  border: 1px solid var(--team-accent);
+  border-radius: 10px;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden; /* 스크롤 제거 */
+  line-height: 1.4;
+}
+
+footer {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  z-index: 10;
+  transition: backdrop-filter 0.3s ease;
+  gap: 20px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  height: 60px;
+}
+
+footer button{
+  display: flex;
+
+}
+
+footer button:hover {
+  background: var(--team-bg-muted);
+  color: var(--team-primary);
+}
