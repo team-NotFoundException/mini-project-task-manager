@@ -65,6 +65,25 @@ body {
   margin: 0 auto;
 }
 
+/* 사이트 로고에 id="logo" 추가  */
+#logo {
+  width: 100px;
+  border-radius: 2px;
+  margin-top: -30px;
+}
+
+/* dlalwl에 id="profile" 추가 */
+#profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* <h4 class="nickname">ABC(ADMIN)<h4> title div 밖으로 빼기*/
+.nickname {
+  margin-top: -30px;
+}
+
 /* 메뉴 */
 .sidebar .menu {
   width: 100%;
@@ -273,7 +292,7 @@ header h1 {
   font-size: 1rem;
   border: 1px solid var(--team-accent);
   border-radius: 10px;
-  background-image: url(./돋보기.png);
+  background-image: url(../assets/img_source/돋보기.png);
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;
@@ -293,6 +312,7 @@ header h1 {
   overflow-y: auto;
   box-sizing: border-box;
   color: #333;
+  width: 90%;
 }
 
 /* 댓글 카드 */

@@ -4,34 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>기본</title>
-    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="../../css/layout.css" >
+    <link rel="stylesheet" href="../../css/project.css">
   </head>
   <body>
     <div class="container">
       <!-- 사이드바 -->
       <aside class="sidebar">
         <div class="logo">
-          <img src="/assets/img_source/image.png" alt="사이트 로고" />
+          <img src="../../assets/img_source/image.png" alt="사이트 로고" id="logo">
           <div class="title">
-            <img src="/assets/img_source/image.png" alt="dlalwl">
-            <h4>ABC (ADMIN) </h4>
+            <img src="../../assets/img_source/프로필.png" alt="dlalwl" id="profile">
           </div>
+          <h4 class="nickname">ABC (ADMIN) </h4>
         </div>
 
         
         <nav class="menu">
-          
-
           <div class="project">
             <a href="#">🏠 홈</a>
             <a href="#" class="btn">🖥️ 프로젝트</a>
-            <!-- <a href="#" class="btn">🛎️ 테스크</a> -->
             <a href="#" class="btn">👤 마이페이지</a>
-            <a href="#" class="btn">🛎️ 대충무언가</a>
+            <a href="#" class="btn">🛎️ 공지</a>
           </div>
         </nav>
         <div class="etc">
-          <button class="btn" id="settings">🚪 Settings</button>
+          <button class="btn" id="settings">🚪 환경설정</button>
           <a href="#" class="btn logout-btn">🚪 로그아웃</a>
         </div>
       </aside>
@@ -39,7 +37,7 @@
       <!-- 메인 영역 -->
       <div class="main-area">
         <header>
-          <h1>My Page</h1>
+          <h1>Project</h1>
           <input
             type="text"
             id="search"
@@ -52,18 +50,8 @@
         <main class="content">
           <!-- 해당 란에 본인 도메인 제작하시면 됩니다 -->
 
-          <!-- 아래부터는 card 컨테이너입니다 필요하신 분들 쓰시구요 -->
-          <div class="comment-card">
-            <div class="comment-header">
-              <span>2025-10-01</span>
-              <span class="status">댓글</span>
-            </div> 
-            <p class="title">안녕하세요</p>
-            <div class="comment-body">
-              <span class="tag">#반갑습니다</span>
-              <span class="tag">#안녕하세요</span>
-            </div>
-          </div>
+          <button class="empty">+ Add Project</button>
+
         </main>
 
         <footer><!-- 필요 시 추가 --></footer>
