@@ -12,17 +12,14 @@
       <!-- 사이드바 -->
       <aside class="sidebar">
         <div class="logo">
-          <img src="../../image.png" alt="사이트 로고" />
+          <img src="../../assets/img_source/image.png" alt="사이트 로고" />
           <div class="title">
-            <img src="../../image.png" alt="dlalwl">
-            <h4>ABC (ADMIN) </h4>
+            <img src="../../assets/img_source/image.png" alt="dlalwl" />
+            <h4>ABC (ADMIN)</h4>
           </div>
         </div>
 
-        
         <nav class="menu">
-          
-
           <div class="project">
             <a href="#">🏠 홈</a>
             <a href="#" class="btn">🖥️ 프로젝트</a>
@@ -38,6 +35,7 @@
       </aside>
 
       <!-- 메인 영역 -->
+
       <div class="main-area">
         <header>
           <h1>Project</h1>
@@ -47,75 +45,125 @@
             name="search"
             placeholder="검색어를 입력하세요"
           />
+          <button>검색</button>
         </header>
 
         <main class="content">
-          <!-- 해당 란에 본인 도메인 제작하시면 됩니다 -->
-        <!-- 일단 나도 comment-card 형식을 떼와서 task detail로 따로 만들어서 쓰자 -->
-        task 명  (중간에 작성시간 되면 넣기) 오른쪽에 점 3개 메뉴 선택
-        <details class="dropdown">
-          <summary id="status">
-            <span></span>
-            <span></span>
-            <span></span>
-          </summary>
-          <ul class="taskmenu">
-            <li>TASK 생성</li>
-            <li>수정</li>
-            <li>삭제</li>
-          </ul>
-        </details>
-      
+          <!-- 좌측: task 영역 -->
+          <div class="content-left">
+            <div class="task">
+              <div class="task-header">
+                <h1>task 명</h1>
+                <details class="dropdown">
+                  <summary id="status">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </summary>
+                  <ul class="taskmenu">
+                    <li>TASK 생성</li>
+                    <li>수정</li>
+                    <li>삭제</li>
+                  </ul>
+                </details>
+              </div>
 
+              <div class="task-card">
+                <div class="task-header"></div>
+                <p class="title">
+                  task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시task 본문내용 표시task 본문내용 표시task
+                  본문내용 표시task 본문내용 표시task 본문내용 표시task 본문내용
+                  표시task 본문내용 표시
+                </p>
+                <div class="task-body"></div>
+              </div>
 
-        <br>
-        
-        task 본문내용
-        <div class="task-card">
-            <div class="comment-header">
-              <span>2025-10-01</span>
-              <span class="status">댓글</span>
-            </div>
-            <p class="title">안녕하세요</p>
-            <div class="comment-body">
-              <span class="tag">#반갑습니다</span>
-              <span class="tag">#안녕하세요</span>
+              <div class="task-card">
+                <div class="task-header">
+                  <span>2025-10-01</span>
+                </div>
+                <p class="title">tag 목록(list)표시</p>
+                <div class="task-body">
+                  <span class="tag">priorty</span>
+                  <span class="tag">status</span>
+                </div>
+              </div>
             </div>
           </div>
-        
-        <br> 태그       태그 중요도 priorty
-        <br> 태그내용    태그 상태 status
-        
 
-        <br> 코맨트
+          <!-- 우측: comment 영역 -->
 
+          <div class="content-right">
+            <div class="comment">
+              <!-- 검색 영역 -->
+              <div class="search-area">
+                <div class="search-box">
+                  <input type="text" placeholder="키워드를 입력하세요" />
+                  <button>검색</button>
+                </div>
+                <div class="search-box">
+                  <input type="text" placeholder="작성자를 입력하세요" />
+                  <button>검색</button>
+                </div>
+              </div>
 
+              <!-- 댓글 작성 카드 -->
+              <div class="comment-create-card">
+                <div class="comment-header">
+                  <span>${username}</span>
+                  <span class="date">date</span>
+                  <button>전송</button>
+                </div>
+                <p class="comment">
+                  <input type="text" id="create" />
+                </p>
+              </div>
 
+              <!-- 댓글 카드 반복 -->
+              <div class="comment-card">
+                <div class="comment-header">
+                  <p>${username}</p>
+                  <span class="date"> date </span>
+                  <span class="status">
+                    <button>수정</button>
+                  </span>
+                </div>
+                <p class="comment">댓글내용드으으으으으을1</p>
+              </div>
 
+              <div class="comment-card">
+                <div class="comment-header">
+                  <p>${username}</p>
+                  <span class="date"> date </span>
+                  <span class="status">
+                    <button>수정</button>
+                  </span>
+                </div>
+                <p class="comment">댓글내용드으으으으으을2</p>
+              </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <!-- 아래부터는 card 컨테이너입니다 필요하신 분들 쓰시구요 -->
-          <div class="comment-card">
-            <div class="comment-header">
-              <span>2025-10-01</span>
-              <span class="status">댓글</span>
-            </div>
-            <p class="title">안녕하세요</p>
-            <div class="comment-body">
-              <span class="tag">#반갑습니다</span>
-              <span class="tag">#안녕하세요</span>
+              <div class="comment-update-card">
+                <div class="comment-header">
+                  <span>${username}</span>
+                  <span class="date">date</span>
+                  <button>확인</button>
+                </div>
+                <p class="comment">
+                  <input type="text" id="create" />
+                </p>
+              </div>
             </div>
           </div>
         </main>
