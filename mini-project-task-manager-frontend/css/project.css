@@ -197,10 +197,15 @@
   background-color: rgb(240, 240, 240);
 }
 
+.dropdown {
+  position: relative;
+}
 
 .project-menu {
   display: none;
-  position: relative;
+  position: absolute;
+  top: 25%;
+  right: 14%;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 3px;
@@ -213,6 +218,7 @@
 
 summary {
   list-style-type: none;
+  cursor: pointer;
 }
 
 details[open] .project-menu {
