@@ -1,0 +1,38 @@
+/* ! 중요도 */
+.todo, .status{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: small;
+  color:white;
+  justify-content: center;
+  font-weight: 500;
+}
+.todo li,.status li{
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 5px;
+  padding: 3px 6px;
+}
+.todo-low{
+  background-color: rgba(44, 228, 84, 0.521);
+}
+.todo-medium{
+  background-color: #facc15;
+}
+.todo-high{
+  background-color: red;
+}
+
+/* ! 진행도 */
+.status-todo{
+  background-color: #9ca3af;
+}
+.status-inprogress{
+  background-color: #3b82f6;
+}
+.status-done{
+  background-color: #22c55e;
+}
