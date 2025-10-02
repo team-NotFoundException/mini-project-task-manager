@@ -1,0 +1,113 @@
+/* 콘텐츠 */
+.content {
+  padding: 20px 30px;
+  flex: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
+}
+
+
+/* 검색영역 전체 */
+.search-area {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* 두 검색박스 간격 */
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px; /* 카드와 맞추려면 같은 폭을 지정 */
+}
+
+/* 각 검색박스 */
+.search-box {
+  display: flex;
+  flex: 1;               /* 두 개가 동일한 너비 */
+  gap: 5px;
+}
+
+/* input과 button 크기 줄이기 */
+.search-box input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.search-box button {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+/* 카드와 같은 폭으로 맞추기 */
+.comment-card,
+.comment-create-card,
+.comment-update-card,
+.search-area {
+  width: 100%;
+  max-width: 600px; /* 원하는 카드 폭 */
+  box-sizing: border-box;
+}
+
+/* 댓글 카드 */
+.comment-card {
+  background: white;
+  width: 90%;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+
+.comment-body {
+  display: flex;
+  margin-top: 10px;
+}
+
+
+.comment-create-card {
+  background: white;
+  width: 90%;
+  height: 10%;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comment-update-card {
+  background: white;
+  width: 90%;
+  height: 10%;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+
+#create {
+  min-height: 40px;
+  border: 1px solid var(--team-accent);
+  border-radius: 10px;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden; /* 스크롤 제거 */
+  line-height: 1.4;
+}
+
+.comment-create-card .comment-header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  align-content: center;
+}
+
