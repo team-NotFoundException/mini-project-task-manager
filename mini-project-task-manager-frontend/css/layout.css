@@ -50,11 +50,12 @@ body {
 
 .logo {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 120px;
+  height: 150px;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   flex-shrink: 0;
 }
 
@@ -113,12 +114,12 @@ body {
 
 .sidebar .title {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 15px;
   padding: 0 10px;
-  margin-top: 0;
-  margin-bottom: 15px;
+  margin-top: -50px;
+  margin-bottom: 10px;
   
 }
 
@@ -236,7 +237,7 @@ header h1 {
   font-size: 1rem;
   border: 1px solid var(--team-accent);
   border-radius: 10px;
-  background-image: url(./돋보기.png);
+  background-image: url(../assets/img_source/돋보기.png);
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 20px 20px;
