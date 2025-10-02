@@ -139,6 +139,43 @@ body {
   margin-bottom: 20px;
 }
 
+/* 공용 버튼 기본값 */
+button {
+  background-color: var(--team-primary); /* 기본 배경 */
+  color: var(--team-bg); /* 글자색 */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px; /* 모서리 둥글게 */
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Hover 시 */
+button:hover {
+  background: var(--team-bg-muted);
+  color: var(--team-primary);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+/* Active(클릭 중) 시 */
+button:active {
+  background-color: var(--team-primary);
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1)
+}
+
+/* 비활성화 상태 */
+button:disabled {
+  background-color: #ccc;
+  color: #777;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 /* Settings 버튼 */
 .sidebar .etc button.btn {
   width: 100%;
