@@ -107,3 +107,23 @@ body.login-page {
   text-decoration: none;
 }
 
+/* 로그인 박스 안의 링크 버튼 스타일 */
+.login-container .link .link-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 5px;
+  background: var(--team-accent);
+  color: var(--team-bg);
+  text-decoration: none;
+  border-radius: var(--radius);
+  border: none;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+/* 마우스 오버 시 */
+.login-container .link .link-button:hover {
+  background: var(--team-bg);
+  color: var(--team-accent);
+  border: 1px solid var(--team-accent);
+}
