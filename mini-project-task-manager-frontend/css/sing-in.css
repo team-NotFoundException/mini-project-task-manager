@@ -121,7 +121,7 @@ body.login-page {
   transition: 0.2s;
 }
 
-/* 마우스 오버 시 */
+/* 마우스 호버 시 */
 .login-container .link .link-button:hover {
   background: var(--team-bg);
   color: var(--team-accent);
