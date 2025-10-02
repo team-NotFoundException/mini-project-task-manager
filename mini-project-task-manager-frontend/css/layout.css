@@ -256,6 +256,7 @@ header h1 {
   overflow-y: auto;
   box-sizing: border-box;
   color: #333;
+  width: 90%;
 }
 
 /* 댓글 카드 */
