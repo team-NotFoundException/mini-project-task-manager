@@ -1,0 +1,77 @@
+:root {
+  --team-bg: #FFF8E8;
+  --team-bg-muted: #F7EED3;
+  --team-accent: #AAB396;
+  --team-primary: #674636;
+  --card: #F7EED3;
+
+  --text: #1b0c02;
+  --muted: #46372e;
+
+  --danger: #dc2626;
+  --outline: #674636;
+  --shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  --radius: 16px;
+  --container: 1120px;
+}
+
+
+/* 검색창 */
+#search {
+  flex-grow: 1;
+  max-width: 400px;
+  height: 36px;
+  padding: 5px 15px 5px 40px;
+  font-size: 1rem;
+  border: 1px solid var(--team-accent);
+  border-radius: 10px;
+  background-image: url(./돋보기.png);
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 20px 20px;
+  outline: none;
+  box-sizing: border-box;
+  color: #333;
+}
+
+#search:focus {
+  border-color: var(--team-primary);
+}
+
+/* 콘텐츠 */
+.content {
+  padding: 20px 30px;
+  flex: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* 공지 카드 */
+.notification-card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.notification-header .status {
+  color: green;
+}
+
+.notification-body {
+  margin-top: 10px;
+}
+
+
