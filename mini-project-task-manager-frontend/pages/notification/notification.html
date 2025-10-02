@@ -25,7 +25,7 @@
             <a href="#" class="btn">🖥️ 프로젝트</a>
             <a href="#" class="btn">🛎️ 테스크</a>
             <a href="#" class="btn">👤 마이페이지</a>
-            <a href="#" class="btn">🛎️ 공지</a>
+            <a href="#" class="btn">🛎️ 대충무언가</a>
           </div>
         </nav>
         <div class="etc">
@@ -43,7 +43,7 @@
             id="search"
             name="search"
             placeholder="검색어를 입력하세요"
-          /><button>검색</button>
+          />
         </header>
 
         <main class="content">
@@ -51,81 +51,78 @@
 
           <!-- 아래부터는 card 컨테이너입니다 필요하신 분들 쓰시구요 -->
 
-          <div class="notification-card" role="button" >
-            
+          <div class="notification-card" role="button" tabindex="0">
             <div class="notification-header">
               <span>게시날짜 및 수정날짜</span>
             </div>
             <h3 class="title">공지 1</h3>
             <p class="summation">개요 기능 만들어서 추가</p>
-            <div class="notification-body">
-              
-            </div>
-          </div>
-          <div class="notification-card" role="button" >
-            
-            <div class="notification-header">
-              <span>게시날짜 및 수정날짜</span>
-            </div>
-            <h3 class="title">공지 2</h3>
-            <p class="summation">개요 기능 만들어서 추가</p>
-            <div class="notification-body">
-              
-            </div>
-          </div>
-          <div class="notification-card" role="button" >
-            
-            <div class="notification-header">
-              <span>게시날짜 및 수정날짜</span>
-            </div>
-            <h3 class="title">공지 3</h3>
-            <p class="summation">개요 기능 만들어서 추가</p>
-            <div class="notification-body">
-              
-            </div>
-          </div>
-          <div class="notification-card" role="button" >
-            
-            <div class="notification-header">
-              <span>게시날짜 및 수정날짜</span>
-            </div>
-            <h3 class="title">공지 4</h3>
-            <p class="summation">개요 기능 만들어서 추가</p>
-            <div class="notification-body">
-              
-            </div>
-          </div>
-          <div class="notification-card" role="button" >
-            
-            <div class="notification-header">
-              <span>게시날짜 및 수정날짜</span>
-            </div>
-            <h3 class="title">공지 5</h3>
-            <p class="summation">개요 기능 만들어서 추가</p>
-            <div class="notification-body">
-              
-            </div>
-          </div>
-          <div class="notification-card" role="button" >
-            
-            <div class="notification-header">
-              <span>게시날짜 및 수정날짜</span>
-            </div>
-            <h3 class="title">공지 6</h3>
-            <p class="summation">개요 기능 만들어서 추가</p>
-            <div class="notification-body">
-              
-            </div>
+            <div class="notification-body"></div>
           </div>
 
-          
+          <div class="notification-card">
+            <div class="notification-header">
+              <span>"게시날짜 및 수정날짜"</span>
+            </div>
+            <p class="title">공지 2</p>
+            <p class="summation">개요 기능 만들어서 추가</p>
+            <div class="notification-body"></div>
+          </div>
+
+          <div class="notification-card">
+            <div class="notification-header">
+              <span>"게시날짜 및 수정날짜"</span>
+            </div>
+            <p class="title">공지 3</p>
+            <p class="summation">개요 기능 만들어서 추가</p>
+            <div class="notification-body"></div>
+          </div>
+
+          <div class="notification-card">
+            <div class="notification-header">
+              <span>"게시날짜 및 수정날짜"</span>
+            </div>
+            <p class="title">공지 4</p>
+            <p class="summation">개요 기능 만들어서 추가</p>
+            <div class="notification-body"></div>
+          </div>
+
+          <div class="notification-card">
+            <div class="notification-header">
+              <span>"게시날짜 및 수정날짜"</span>
+            </div>
+            <p class="title">공지 5</p>
+            <p class="summation">개요 기능 만들어서 추가</p>
+            <div class="notification-body"></div>
+          </div>
+
+          <div class="notification-card">
+            <div class="notification-header">
+              <span>"게시날짜 및 수정날짜"</span>
+            </div>
+            <p class="title">공지 6</p>
+            <p class="summation">개요 기능 만들어서 추가</p>
+            <div class="notification-body"></div>
+          </div>
         </main>
 
         <footer><!-- 필요 시 추가 --></footer>
       </div>
     </div>
 
-    <script src="/js/notification.js"></script>
+    
+    <script>
+      // 헤더 스크롤 감지해서 블러 처리
+      const mainArea = document.querySelector(".main-area");
+      const header = document.querySelector("header");
+
+      mainArea.addEventListener("scroll", () => {
+        if (mainArea.scrollTop > 0) {
+          header.classList.add("blurred");
+        } else {
+          header.classList.remove("blurred");
+        }
+      });
     </script>
   </body>
 </html>

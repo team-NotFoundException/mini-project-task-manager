@@ -1,23 +1,28 @@
 <!-- login.html -->
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>로그인</title>
-  <link rel="stylesheet" href="/mini-project-task-manager-frontend/css/sing-in.css">
-  
-</head>
-<body class="login-page">
-  <div class="login-container">
-    <h2>로그인</h2>
-    <form action="layout.html" method="post">
-      <input type="text" name="username" placeholder="아이디" required>
-      <input type="password" name="password" placeholder="비밀번호" required>
-      <button type="submit">로그인</button>
-    </form>
-    <div class="link">
-      <a href="signup.html" class="button-link">회원가입</a> |
-      <a href="find-id.html" class="button-link">아이디 찾기</a>
+  <head>
+    <meta charset="UTF-8" />
+    <title>로그인</title>
+    <link rel="stylesheet" href="/css/sing-in.css" />
+  </head>
+  <body class="login-page">
+    <div class="login-container">
+      <h2>로그인</h2>
+      <form action="layout.html" method="post">
+        <input type="text" name="username" placeholder="아이디" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="비밀번호"
+          required
+        />
+        <button type="submit">로그인</button>
+      </form>
+      <div class="link">
+        <a href="/pages/sing-up/sing-up.html" class="button-link">회원가입</a> |
+        <a href="find-id.html" class="button-link">아이디 찾기</a>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
+</html>

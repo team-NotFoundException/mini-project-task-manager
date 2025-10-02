@@ -41,7 +41,7 @@ document.querySelectorAll("textarea").forEach((textarea) => {
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
 
-    const parent = textarea.closest("#create");
+    const parent = textarea.closest("#");
     if (parent) {
       parent.style.height = "auto";
     }
