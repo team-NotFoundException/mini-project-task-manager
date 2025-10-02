@@ -1,0 +1,166 @@
+:root {
+  --team-bg: #FFF8E8;
+  --team-bg-muted: #F7EED3;
+  --team-accent: #AAB396;
+  --team-primary: #674636;
+  --card: #F7EED3;
+
+  --text: #1b0c02;
+  --muted: #46372e;
+
+  --danger: #dc2626;
+  --outline: #674636;
+  --shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  --radius: 16px;
+  --container: 1120px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  background: #f9f9f9;
+  color: #333;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 260px;
+  min-height: 100vh;
+}
+
+/* 사이드바 */
+.sidebar {
+  background: #674636 ;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.sidebar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.logo img {
+  width: 120px;
+  height: auto;
+  display: block;
+}
+
+.sidebar .menu a {
+  display: block;
+  color: white;
+  padding: 10px 0;
+  text-decoration: none;
+}
+
+.sidebar .menu a.active {
+  background: #674636;
+  color: white;
+  border-radius: 8px;
+  padding-left: 10px;
+}
+
+.sidebar .logout {
+  margin-top: auto;
+}
+
+.sidebar .logout a {
+  color: white;
+  text-decoration: none;
+}
+
+/* 메인 컨텐츠 */
+.content {
+  padding: 30px;
+}
+
+.content h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.comment-card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.comment-header .status {
+  color: green;
+}
+
+.comment-body {
+  margin-top: 10px;
+}
+
+.comment-body .tag {
+  background: #eee;
+  border-radius: 15px;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* 프로필 패널 */
+.profile {
+  background: white;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+}
+
+.profile .avatar {
+  width: 80px;
+  height: 80px;
+  background: #ddd;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+.profile .username {
+  text-align: center;
+  font-weight: bold;
+}
+
+.profile .verify {
+  text-align: center;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.profile .section {
+  margin-bottom: 20px;
+}
+
+.profile .section h4 {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.profile .section a {
+  display: block;
+  color: #555;
+  text-decoration: none;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
