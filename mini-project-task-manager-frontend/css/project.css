@@ -23,10 +23,18 @@
 }
 
 #logo {
-  border-radius: var(--radius);
+  width: 100px;
+  border-radius: 2px;
+  margin-top: -30px;
 }
 
-/* 공지사항 */
+.nickname {
+  margin-top: -30px;
+}
+
+/* === 프로젝트 리스트 페이지 === */
+
+/* == 공지사항 == */
 .notification {
   background: var(--team-bg);
   border-radius: 10px;
@@ -35,22 +43,14 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* 정렬 버튼 */
+/* == 정렬 버튼 == */
 .sort {
   padding: 10px;
   width: 100%;
 }
 
+/* 최신순 */
 .recent {
-  width: 100px;
-  min-width: 100px;
-  background-color: var(--card);
-  border: 0px;
-  padding: 5px;
-  border-radius: var(--radius);
-}
-
-.update {
   width: 100px;
   min-width: 100px;
   background-color: var(--card);
@@ -64,12 +64,22 @@
   box-shadow: 0 0 0 2px #67463633;
 }
 
+/* 업데이트순 */
+.update {
+  width: 100px;
+  min-width: 100px;
+  background-color: var(--card);
+  border: 0px;
+  padding: 5px;
+  border-radius: var(--radius);
+}
+
 .update:hover {
   background-color: var(--team-bg-muted);
   box-shadow: 0 0 0 2px #67463633;
 }
 
-/* 프로젝트 카드 */
+/* == 프로젝트 카드 == */
 
 .project-card {
   background: white;
@@ -118,26 +128,54 @@
   display: inline-block;
 }
 
+/* === 프로젝트 생성 페이지 === */
 
-/* 프로젝트 생성 화면 */
-.create {
+.big-title {
+  margin: 0;
+  font-size: 1.0rem;
+  color: var(--team-primary);
+  flex-shrink: 0;
+}
+
+.create-title  {
   width: 90%;
-  height: 80%;
-  background: var(--card);
+  background: white;
+  padding: 10px 10px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
   border-radius: 10px;
-  padding: 15px;
-  margin: 15px auto;
+  margin-bottom: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.create .title {
-  background-color: #1b0c02;
-  display: flex;
-  justify-content: center;
+.create-content  {
+  width: 90%;
+  background: white;
+  padding: 10px 10px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: #333;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.create .content {
-  background-color: #dc2626;
+#text {
+  width: 90%;
+  padding: 10px;
+  min-height: 40px;
+  border: 1px solid var(--team-accent);
+  border-radius: 10px;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden; /* 스크롤 제거 */
+  line-height: 1.4;
+}
+
+.create-button {
+  width: 90%;
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  gap: 10px;
 }

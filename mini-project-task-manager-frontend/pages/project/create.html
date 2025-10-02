@@ -12,17 +12,13 @@
       <!-- 사이드바 -->
       <aside class="sidebar">
         <div class="logo">
+          <img src="../../assets/img_source/image.png" alt="사이트 로고" id="logo">
           <div class="title">
-            <img src="../../assets/img_source/프로필.png" alt="이미지" id="profile">
-            <h4>닉네임</h4>
+            <img src="../../assets/img_source/프로필.png" alt="dlalwl" id="profile">
           </div>
-          <img src="../../image.png" alt="사이트 로고" id="logo">
+          <h4 class="nickname">ABC (ADMIN) </h4>
         </div>
-
-        
         <nav class="menu">
-          
-
           <div class="project">
             <a href="#">🏠 홈</a>
             <a href="#" class="btn">🖥️ 프로젝트</a>
@@ -46,30 +42,32 @@
             name="search"
             placeholder="검색어를 입력하세요"
           />
+          <button>검색</button>
         </header>
 
         <main class="content">
           <!-- 해당 란에 본인 도메인 제작하시면 됩니다 -->
-
-          <div class="create">
-            <div class="title">
-              <input
-                type="text"
-                id="title-c"
-                name="title-c"
-                placeholder="제목을 입력하세요"
-                >
-            </div>
-            <div class="content">
-              <input
-                type="text"
-                id="content-c"
-                name="content-c"
-                placeholder="내용을 입력하세요"
-                >
-            </div>
+          <div class="big-title">
+            <h1>프로젝트 생성</h1>
           </div>
-          
+          <div class="create-title">
+              <span>제목</span>
+            <p class="" id="fix">
+              <textarea name="title" id="text" placeholder="제목을 입력해주세요."></textarea>
+            </p>
+          </div>
+
+          <div class="create-content">
+            <span>개요</span>
+            <p class="notification-content" id="fix">
+              <textarea name="content" id="text" placeholder="개요를 입력해주세요."></textarea>
+            </p>
+          </div>
+
+          <div class="create-button">
+            <button>취소</button>
+            <button>생성</button>
+          </div>
         </main>
 
         <footer><!-- 필요 시 추가 --></footer>

@@ -50,12 +50,11 @@ body {
 
 .logo {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 150px;
+  height: 120px;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   flex-shrink: 0;
 }
 
@@ -64,6 +63,25 @@ body {
   height: auto;
   display: block;
   margin: 0 auto;
+}
+
+/* 사이트 로고에 id="logo" 추가  */
+#logo {
+  width: 100px;
+  border-radius: 2px;
+  margin-top: -30px;
+}
+
+/* dlalwl에 id="profile" 추가 */
+#profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* <h4 class="nickname">ABC(ADMIN)<h4> title div 밖으로 빼기*/
+.nickname {
+  margin-top: -30px;
 }
 
 /* 메뉴 */
@@ -114,12 +132,12 @@ body {
 
 .sidebar .title {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 15px;
   padding: 0 10px;
-  margin-top: -50px;
-  margin-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 15px;
   
 }
 
