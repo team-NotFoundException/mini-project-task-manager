@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>기본</title>
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/comment.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- 사이드바 -->
+      <aside class="sidebar">
+        <div class="logo">
+          <img src="/assets/img_source/image.png" alt="사이트 로고" />
+          <div class="title">
+            <img src="/assets/img_source/image.png" alt="dlalwl" />
+            <h4>ABC (ADMIN)</h4>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <div class="project">
+            <a href="#">🏠 홈</a>
+            <a href="#" class="btn">🖥️ 프로젝트</a>
+            <a href="#" class="btn">🛎️ 테스크</a>
+            <a href="#" class="btn">👤 마이페이지</a>
+            <a href="#" class="btn">🛎️ 대충무언가</a>
+          </div>
+        </nav>
+        <div class="etc">
+          <button class="btn" id="settings">🚪 Settings</button>
+          <a href="#" class="btn logout-btn">🚪 로그아웃</a>
+        </div>
+      </aside>
+
+      <!-- 메인 영역 -->
+      <div class="main-area">
+        <header>
+          <h1>My Page</h1>
+          <input
+            type="text"
+            id="search"
+            name="search"
+            placeholder="검색어를 입력하세요"
+          />
+          <button>검색</button>
+        </header>
+
+        <main>
+          <div class="content">
+            <div class="search-area">
+              <div class="search-box">
+                <input type="text" placeholder="키워드를 입력하세요" />
+                <button>검색</button>
+              </div>
+
+              <div class="search-box">
+                <input type="text" placeholder="작성자를 입력하세요" />
+                <button>검색</button>
+              </div>
+            </div>
+            <!-- 해당 란에 본인 도메인 제작하시면 됩니다 -->
+
+            <!-- 아래부터는 card 컨테이너입니다 필요하신 분들 쓰시구요 -->
+
+            <div class="comment-create-card">
+              <div class="comment-header">
+                <sapn>${username}</sapn>
+                <span class="date">date</span>
+                <button>전송</button>
+              </div>
+              <p class="comment">
+                <input type="text" id="create" />
+              </p>
+            </div>
+            <div class="comment-body"></div>
+
+            <div class="comment-card">
+              <div class="comment-header">
+                <p>${username}</p>
+                <span class="date"> date </span>
+                <span class="status">
+                  <button>수정</button>
+                </span>
+              </div>
+              <p class="comment">댓글내용드으으으으으을</p>
+              <div class="comment-body"></div>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-header">
+                <p>${username}</p>
+                <span class="date"> date </span>
+                <span class="status">
+                  <button>수정</button>
+                </span>
+              </div>
+              <p class="comment">댓글내용드으으으으으을</p>
+              <div class="comment-body"></div>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-header">
+                <p>${username}</p>
+                <span class="date"> date </span>
+                <span class="status">
+                  <button>수정</button>
+                </span>
+              </div>
+              <p class="comment">댓글내용드으으으으으을</p>
+              <div class="comment-body"></div>
+            </div>
+
+            <div class="comment-card">
+              <div class="comment-header">
+                <p>${username}</p>
+                <span class="date"> date </span>
+                <span class="status">
+                  <button>수정</button>
+                </span>
+              </div>
+              <p class="comment">댓글내용드으으으으으을</p>
+              <div class="comment-body"></div>
+            </div>
+
+            <div class="comment-update-card">
+              <div class="comment-header">
+                <sapn>${username}</sapn>
+                <span class="date">date</span>
+                <button>확인</button>
+              </div>
+              <p class="comment">
+                <input type="text" id="create" />
+              </p>
+            </div>
+            <div class="comment-body"></div>
+          </div>
+        </main>
+        <footer><!-- 필요 시 추가 --></footer>
+      </div>
+    </div>
+
+    <script>
+      // 헤더 스크롤 감지해서 블러 처리
+      const mainArea = document.querySelector(".main-area");
+      const header = document.querySelector("header");
+
+      mainArea.addEventListener("scroll", () => {
+        if (mainArea.scrollTop > 0) {
+          header.classList.add("blurred");
+        } else {
+          header.classList.remove("blurred");
+        }
+      });
+    </script>
+  </body>
+</html>
