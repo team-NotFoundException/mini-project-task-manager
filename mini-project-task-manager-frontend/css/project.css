@@ -16,26 +16,13 @@
   --container: 1120px;
 }
 
-#profile {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-#logo {
-  width: 100px;
-  border-radius: 2px;
-  margin-top: -30px;
-}
-
-.nickname {
-  margin-top: -30px;
-}
 
 /* === 프로젝트 리스트 페이지 === */
 
 /* == 공지사항 == */
 .notification {
+  width: 90%;
+  text-align: center;
   background: var(--team-bg);
   border-radius: 10px;
   padding: 15px;
@@ -53,35 +40,35 @@
 .recent {
   width: 100px;
   min-width: 100px;
-  background-color: var(--card);
   border: 0px;
   padding: 5px;
   border-radius: var(--radius);
+  text-align: center;
 }
 
 .recent:hover {
-  background-color: var(--team-bg-muted);
   box-shadow: 0 0 0 2px #67463633;
 }
+
 
 /* 업데이트순 */
 .update {
   width: 100px;
   min-width: 100px;
-  background-color: var(--card);
   border: 0px;
   padding: 5px;
   border-radius: var(--radius);
 }
 
 .update:hover {
-  background-color: var(--team-bg-muted);
+
   box-shadow: 0 0 0 2px #67463633;
 }
 
 /* == 프로젝트 카드 == */
 
 .project-card {
+  width: 90%;
   background: white;
   border-radius: 10px;
   padding: 15px;
@@ -115,6 +102,9 @@
   color: gray;
   width: 30px;
   height: 30px;
+  box-shadow: none;
+  font-weight: 100;
+  text-align: center;
 }
 
 #status:hover {
@@ -178,4 +168,67 @@
   display: flex;
   justify-content: end;
   gap: 10px;
+}
+
+
+/* === 빈화면  + Add Project/Task == */
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 30%;
+  font-size: 150%;
+  font-weight: bold;
+  color: lightgray;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.empty:hover {
+  background-color: rgb(250, 250, 250);
+  color: #1b0c02;
+}
+
+.empty:active {
+  background-color: rgb(240, 240, 240);
+}
+
+
+.project-menu {
+  display: none;
+  position: relative;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 4px 0;
+  list-style: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15); /* alpha는 0~1 */
+  min-width: 100px;
+  font-size: 14px;
+}
+
+summary {
+  list-style-type: none;
+}
+
+details[open] .project-menu {
+  display: block ;
+}
+
+/* 메뉴 항목 스타일 */
+.project-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.project-menu li:hover {
+  background: #f3f4f6;
+}
+
+/* (선택) 열렸을 때 버튼 스타일 변경 */
+details[open] #status {
+  background-color: #f8fafc;
 }
