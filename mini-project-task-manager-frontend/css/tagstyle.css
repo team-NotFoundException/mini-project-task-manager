@@ -17,7 +17,7 @@
   padding: 3px 6px;
 }
 
-#todo-low{
+.todo-low{
   background-color: rgba(44, 228, 84, 0.521);
 }
 .todo-medium{
