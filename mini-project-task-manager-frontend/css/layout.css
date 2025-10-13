@@ -20,7 +20,7 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background: var(--team-bg);
+  background-color: #fffaf3;
   height: 100vh;
   display: flex;
   flex-direction: column;
