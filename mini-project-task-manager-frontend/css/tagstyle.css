@@ -191,7 +191,7 @@ details[open] #status {
   color: #333;
 }
 
-.content{
+.content-task{
   display: flex;
   flex-wrap: wrap;
   justify-content: center; 
