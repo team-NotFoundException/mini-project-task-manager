@@ -191,7 +191,7 @@ details[open] #status {
   color: #333;
 }
 
-.content{
+/* .content{
   display: flex;
   flex-wrap: wrap;
   justify-content: center; 
@@ -201,7 +201,7 @@ details[open] #status {
   margin: 0 auto;
   padding: 20px 0;
   box-sizing: border-box;
-}
+} */
 
 .content-left{
   flex: 1;
